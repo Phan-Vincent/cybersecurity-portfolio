@@ -13,3 +13,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.swp
+
+# internal QA artifact, scratch
+QA-REPORT.md
+_all_files.txt
