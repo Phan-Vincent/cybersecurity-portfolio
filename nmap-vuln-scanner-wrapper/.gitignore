@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Real scan outputs (never commit actual scan data)
+scan-report.json
+scan-report.md
+*.xml
+!demo_data/*.xml
+
+# pytest
+.pytest_cache/

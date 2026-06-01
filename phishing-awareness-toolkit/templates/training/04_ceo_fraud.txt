@@ -1,0 +1,47 @@
+# ============================================================
+# TRAINING USE ONLY — AUTHORIZED SECURITY AWARENESS SIMULATION
+# ============================================================
+# This is a SYNTHETIC phishing email template for authorized internal
+# security training. All names, data, and scenarios are fictional.
+# DO NOT send this to real individuals without explicit consent.
+# ============================================================
+
+From: James Whitfield <james.whitfield@example-corp.co>
+To: sarah.martinez@example-corp.com
+Subject: CONFIDENTIAL — Wire Transfer Authorization Needed (Q2 Acquisition)
+Date: Mon, 01 Jun 2026 11:47:33 -0400
+
+---
+
+Sarah,
+
+I need your help with something sensitive and **time-critical**.
+
+We are in the final stages of acquiring NexaData Systems — this is the deal I've been working on for 8 months. The NDA is still active, so **do not discuss this with anyone**, including the finance team. I need this handled quietly to avoid leaks that could derail the acquisition.
+
+**Wire transfer details:**
+- Amount: $347,500.00
+- Recipient: NexaData Holdings LLC
+- Bank: Silicon Valley Bridge Bank
+- Account: 4400-8899-2211-6677
+- SWIFT: SVBBUS66
+- Reference: "NexaData Q2 Deposit — Confidential"
+
+**Why I'm emailing you directly:**
+The CFO is in back-to-back board meetings until 4 PM and asked me to route this through you as an "operational expense" to keep it off the M&A ledger until closing. I know this is irregular, but the seller's counsel has a hard deadline of **2:30 PM today** or they walk.
+
+**Please initiate the wire and confirm via reply to this email only.** Do not CC anyone. Do not mention NexaData in any internal systems until I clear it.
+
+I've attached the signed engagement letter for your records (password: `Nexa2026!`).
+
+This is a career-defining deal for all of us. Let's close it.
+
+James
+
+James Whitfield
+Chief Executive Officer
+Example Corp
+Mobile: (555) 012-8877
+
+---
+*Sent from my iPhone. Please excuse any brevity.*

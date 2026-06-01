@@ -1,0 +1,129 @@
+# OpenClaw Home Lab — Monitoring Rules
+# Defines alert conditions for the healthcheck.py monitor.
+# Severity: info < warning < critical
+
+rules:
+  - id: disk-usage-critical
+    name: "Disk Usage Critical"
+    metric: disk.used_pct
+    condition: ">="
+    threshold: 95.0
+    severity: critical
+    cooldown_minutes: 60
+    channels:
+      - discord_bot_status
+      - telegram
+    action: "Run log-rotate.sh immediately. Review ~/Library/Logs/openclaw/."
+
+  - id: disk-usage-warning
+    name: "Disk Usage Warning"
+    metric: disk.used_pct
+    condition: ">="
+    threshold: 90.0
+    severity: warning
+    cooldown_minutes: 240
+    channels:
+      - discord_bot_status
+    action: "Plan cleanup. Review large files with 'du -sh ~/Library/Logs/openclaw/*'."
+
+  - id: memory-usage-critical
+    name: "Memory Usage Critical"
+    metric: memory.used_pct
+    condition: ">="
+    threshold: 95.0
+    severity: critical
+    cooldown_minutes: 30
+    channels:
+      - discord_bot_status
+      - telegram
+    action: "Kill hung subagents. Reduce concurrent agent limit."
+
+  - id: memory-usage-warning
+    name: "Memory Usage Warning"
+    metric: memory.used_pct
+    condition: ">="
+    threshold: 85.0
+    severity: warning
+    cooldown_minutes: 120
+    channels:
+      - discord_bot_status
+    action: "Monitor for sustained high usage. Consider restarting gateway."
+
+  - id: gateway-down
+    name: "OpenClaw Gateway Not Listening"
+    metric: gateway.listening
+    condition: "=="
+    threshold: false
+    severity: critical
+    cooldown_minutes: 5
+    channels:
+      - discord_bot_status
+      - telegram
+    action: "Check if openclaw gateway process is running. Restart if needed."
+
+  - id: cron-failures
+    name: "Recent Cron Job Failures"
+    metric: recent_errors.count
+    condition: ">="
+    threshold: 3
+    severity: warning
+    cooldown_minutes: 60
+    channels:
+      - discord_bot_status
+    action: "Review gateway.log for error patterns. Check for gateway restarts."
+
+  - id: secrets-audit-findings
+    name: "Secrets Audit Findings"
+    metric: secrets_audit.severity_counts.critical
+    condition: ">="
+    threshold: 1
+    severity: critical
+    cooldown_minutes: 0
+    channels:
+      - discord_bot_status
+      - telegram
+    action: "Immediately rotate exposed credentials. Review commit history for leaked secrets."
+
+  - id: api-rate-limit
+    name: "CoinGecko Rate Limit"
+    metric: crypto.api.429_count
+    condition: ">="
+    threshold: 1
+    severity: info
+    cooldown_minutes: 30
+    channels:
+      - discord_crypto_watch
+    action: "Backoff for 30 minutes. Check if monitor interval is too aggressive."
+
+  - id: backup-overdue
+    name: "Git Backup Overdue"
+    metric: backup.last_success_hours
+    condition: ">="
+    threshold: 48
+    severity: warning
+    cooldown_minutes: 720
+    channels:
+      - discord_bot_status
+    action: "Run backup.sh manually. Check network and SSH key."
+
+  - id: health-export-stale
+    name: "Health Export Stale"
+    metric: health.last_export_days
+    condition: ">="
+    threshold: 14
+    severity: info
+    cooldown_minutes: 10080
+    channels:
+      - discord_bot_status
+    action: "Export Apple Health data and run parse script."
+
+  - id: subagent-completion-missed
+    name: "Subagent Completion Events Dropped"
+    metric: subagent.missed_completions
+    condition: ">="
+    threshold: 1
+    severity: warning
+    cooldown_minutes: 60
+    channels:
+      - discord_bot_status
+    action: "Check gateway.log for restart events. Verify self-wake cron is active."

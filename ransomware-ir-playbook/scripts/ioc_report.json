@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "tool": "check_iocs.py",
+    "version": "1.0.0",
+    "generated_at": "2026-06-01T01:55:40.085128",
+    "author": "Vincent Phan (CPhT, CSUSB-bound IT/Cybersecurity student)",
+    "disclaimer": "Synthetic IOCs for portfolio. No real threat intelligence.",
+    "overall_confidence": 0.0,
+    "risk_level": "NONE",
+    "total_matches": 0,
+    "exact_matches": 0
+  },
+  "matches": []
+}

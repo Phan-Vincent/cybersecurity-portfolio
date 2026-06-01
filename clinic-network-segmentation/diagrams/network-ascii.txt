@@ -1,0 +1,135 @@
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              SMALL CLINIC NETWORK                                   │
+│                              Defense-in-Depth Design                                │
+│                           (Synthetic Data — No Real PHI)                            │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+                                   ┌──────────────┐
+                                   │   Internet   │
+                                   │  (Untrusted) │
+                                   └──────┬───────┘
+                                          │
+                                   ┌──────▼───────┐
+                                   │  OPNsense /  │
+                                   │  pfSense FW  │
+                                   │  10.254.0.1  │
+                                   │  IDS/IPS +   │
+                                   │  DHCP Server │
+                                   └──────┬───────┘
+                                          │
+                              ┌───────────┴───────────┐
+                              │                       │
+                       ┌──────▼───────┐      ┌───────▼────────┐
+                       │   DMZ VLAN   │      │  Management    │
+                       │  254 (10.254 │      │  VLAN 100       │
+                       │  .0.0/24)    │      │  (10.100.0.0   │
+                       │              │      │  /24)           │
+                       │  • Web Proxy │      │                 │
+                       │  • DNS       │      │  • Switch Mgmt  │
+                       │  • eRx GW    │      │  • Firewall Mgmt│
+                       └──────┬───────┘      │  • AP Mgmt      │
+                              │              └─────────────────┘
+                              │
+                       ┌──────▼───────┐
+                       │  L3 Switch   │
+                       │  (Core)      │
+                       │  Inter-VLAN  │
+                       │  Router + ACL│
+                       │  Port Sec    │
+                       └──────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+ ┌──────▼──────┐      ┌──────▼──────┐      ┌──────▼──────┐
+ │  VLAN 10    │      │  VLAN 20    │      │  VLAN 30    │
+ │  Admin/IT   │      │  Clinical   │      │  Medical IoT│
+ │  10.10.0.0  │      │  /PHI       │      │  10.30.0.0  │
+ │  /24        │      │  10.20.0.0  │      │  /24        │
+ │             │      │  /24        │      │             │
+ │  • Admin PC │      │             │      │  • Monitor  │
+ │  • Jump Host│      │  • EHR WS 1 │      │  • Pump     │
+ │  • IT WS    │      │  • EHR WS 2 │      │  • Imaging  │
+ │             │      │  • Lab PC   │      │  • Gateway  │
+ │  [802.1X]   │      │  • EHR Srv  │      │             │
+ │  [Cert Auth]│      │             │      │  [No GW to  │
+ │             │      │  [No Internet│      │   Internet] │
+ │  ───────────│      │   Direct]   │      │             │
+ │  Denied to  │      │  [802.1X]   │      │  ───────────│
+ │  VLAN 20    │      │             │      │  Gateway to │
+ └─────────────┘      │  ───────────│      │  VLAN 20    │
+                      │  Denied to  │      │  Only       │
+                      │  VLAN 10/30 │      └─────────────┘
+                      │  (Except    │
+                      │   EHR Srv)  │
+                      └─────────────┘
+
+                              │
+                       ┌──────▼──────┐
+                       │  VLAN 40    │
+                       │  Guest WiFi │
+                       │  10.40.0.0  │
+                       │  /24        │
+                       │             │
+                       │  • Patient  │
+                       │    Phones   │
+                       │  • Visitors │
+                       │             │
+                       │  [Captive   │
+                       │   Portal]   │
+                       │  [Client    │
+                       │   Isolation]│
+                       │  [No RFC    │
+                       │   1918]     │
+                       └─────────────┘
+
+                              │
+                       ┌──────▼──────┐
+                       │  VLAN 50    │
+                       │  Security / │
+                       │  Logs       │
+                       │  10.50.0.0  │
+                       │  /24        │
+                       │             │
+                       │  • SIEM     │
+                       │  • NIDS     │
+                       │  • Syslog   │
+                       │             │
+                       │  [Mirror/   │
+                       │   SPAN]     │
+                       │  [No Out-   │
+                       │   bound]    │
+                       └─────────────┘
+
+
+LEGEND
+======
+  [802.1X]      = Port-based Network Access Control (certificate + user creds)
+  [No Internet] = No default gateway to WAN; proxy-only if needed
+  [Mirror/SPAN] = Switch port mirroring copies all VLAN traffic to NIDS
+  [No RFC 1918] = Firewall drops all traffic to 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+  [Gateway]     = IoT devices talk ONLY to their gateway; gateway sanitizes and forwards
+  [Deny to X]   = Explicit firewall rule preventing access to segment X
+
+
+FLOW EXAMPLES
+=============
+
+1. Clinician accesses EHR:
+   EHR WS (VLAN 20) ──443 TLS──► EHR Server (VLAN 20)        ✓ Allowed
+
+2. EHR WS tries to reach Admin PC:
+   EHR WS (VLAN 20) ──ANY──► Admin PC (VLAN 10)             ✗ Denied + Logged
+
+3. IoT pump sends telemetry:
+   Pump (VLAN 30) ──443──► IoT Gateway (VLAN 30) ──443──► EHR Server (VLAN 20)
+   ✓ Allowed (gateway-mediated, no direct IoT→EHR)
+
+4. Guest tries to scan internal network:
+   Guest Phone (VLAN 40) ──ANY──► 10.20.0.10                 ✗ Denied + Logged
+
+5. Admin manages switch:
+   Admin PC (VLAN 10) ──22/443──► Switch Mgmt (VLAN 100)    ✓ Allowed
+
+6. SIEM receives logs:
+   All VLANs ──Syslog/Beats──► SIEM (VLAN 50)               ✓ Allowed (inbound)
+   SIEM (VLAN 50) ──ANY──► Internet or other VLAN          ✗ Denied (no outbound)

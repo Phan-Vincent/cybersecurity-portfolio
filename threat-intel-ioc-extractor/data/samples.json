@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Ransomware Gang Targets Regional Hospital Networks",
+    "summary": "A suspected APT group has been observed deploying ransomware against healthcare providers. C2 traffic was seen to 192.0.2.1 and the domain evil.example.com. File hashes d41d8cd98f00b204e9800998ecf8427e and aabbccddeeff00112233445566778899aabbccdd were identified on compromised endpoints. The attack leverages CVE-2024-1234.",
+    "link": "https://example.com/threat-intel/article-1",
+    "published": "2024-06-15T09:00:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "New Phishing Campaign Uses Fake Pharmacy Portals",
+    "summary": "Attackers are registering lookalike domains such as fake-pharmacy.example.net to steal credentials. The landing page communicates to 203.0.113.5. SHA256 hash 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef matches the malicious payload delivered to victims.",
+    "link": "https://example.com/threat-intel/article-2",
+    "published": "2024-06-14T14:30:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "Malware Dropper Observed in Europe",
+    "summary": "A new dropper family has been spotted distributing Cobalt Strike beacons. Indicators include the IP 198.51.100.22 and the command-and-control domain c2-badactor.example.org. MD5 hash 5f4dcc3b5aa765d61d8327deb882cf99 was seen in early samples. CVE-2023-9999 is the exploited vulnerability.",
+    "link": "https://example.com/threat-intel/article-3",
+    "published": "2024-06-13T11:00:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "Insider Threat Simulation: Lateral Movement Detected",
+    "summary": "During a red-team exercise, lateral movement was simulated from 10.0.0.5 to 172.16.0.10 using PsExec. These internal IPs are noted for review. No external C2 was observed in this phase. The test hash e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 is a known test artifact.",
+    "link": "https://example.com/threat-intel/article-4",
+    "published": "2024-06-12T08:00:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "Supply Chain Attack on Medical Device Vendor",
+    "summary": "A medical device software update mechanism was compromised. The update server at update.malicious-device.example.com served a backdoored firmware image. SHA1 hash da39a3ee5e6b4b0d3255bfef95601890afd80709 matches the known-good baseline; the malicious variant has SHA1 7c6a180b36896a0a8c02787eeafb0e4c4b8f4e75.",
+    "link": "https://example.com/threat-intel/article-5",
+    "published": "2024-06-11T16:00:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "IPv6 C2 Infrastructure Spotted",
+    "summary": "Researchers identified an IPv6-only C2 server at 2001:0db8:85a3:0000:0000:8a2e:0370:7334. The associated malware sample has SHA256 abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefab. No CVE has been assigned yet.",
+    "link": "https://example.com/threat-intel/article-6",
+    "published": "2024-06-10T10:00:00Z",
+    "source": "samples"
+  },
+  {
+    "title": "Old Vulnerability Resurfaces in Healthcare IoT",
+    "summary": "Legacy healthcare IoT devices are being targeted via CVE-1999-0001, a decades-old vulnerability still present in unpatched firmware. Attackers are scanning for these devices from 198.51.100.77 and serving exploit kits from iot-exploit.example.com.",
+    "link": "https://example.com/threat-intel/article-7",
+    "published": "2024-06-09T07:00:00Z",
+    "source": "samples"
+  }
+]

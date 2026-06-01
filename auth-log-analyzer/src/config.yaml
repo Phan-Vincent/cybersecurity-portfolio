@@ -1,0 +1,48 @@
+# Detection Rule Configuration
+# Adjust thresholds without touching Python code.
+
+rules:
+  brute_force_ssh:
+    enabled: true
+    # Window in minutes
+    time_window_minutes: 5
+    # Minimum failed attempts to trigger
+    threshold: 5
+    # Only evaluate sshd entries
+    service: sshd
+
+  impossible_travel:
+    enabled: true
+    # Minimum plausible transit speed: 800 km/h (commercial jet)
+    max_speed_kmh: 800
+    # Time gap between events must exceed this (minutes) to even evaluate
+    min_time_gap_minutes: 10
+
+  privilege_escalation:
+    enabled: true
+    # Flag if sudo/su failures exceed this count before a success
+    failure_threshold: 3
+    # Also flag unexpected uid=0 activity outside known admin list
+    known_admins:
+      - root
+      - admin
+      - vphan
+
+  off_hours_admin:
+    enabled: true
+    # Business hours (inclusive)
+    business_hours:
+      start: 8
+      end: 18
+    # Days considered workdays (Monday=0 in Python weekday())
+    workdays: [0, 1, 2, 3, 4]
+    # Trigger on these usernames
+    watched_users:
+      - root
+      - admin
+
+output:
+  # Default output directory (relative to repo root)
+  report_dir: reports
+  # Pretty-print JSON
+  pretty_json: true

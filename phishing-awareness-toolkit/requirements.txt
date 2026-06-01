@@ -1,0 +1,5 @@
+# Phishing Simulation & Awareness Toolkit
+# See README.md for full documentation
+
+# Testing
+pytest>=7.0.0

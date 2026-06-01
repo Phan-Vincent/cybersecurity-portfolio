@@ -1,0 +1,85 @@
+[
+  {
+    "PolicyName": "AdminPowerUserPolicy",
+    "Arn": "arn:aws:iam::123456789012:policy/AdminPowerUserPolicy",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "*",
+          "Resource": "*"
+        }
+      ]
+    }
+  },
+  {
+    "PolicyName": "S3FullAccessCustom",
+    "Arn": "arn:aws:iam::123456789012:policy/S3FullAccessCustom",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "s3:*",
+          "Resource": "*"
+        }
+      ]
+    }
+  },
+  {
+    "PolicyName": "DynamoDBScopedRead",
+    "Arn": "arn:aws:iam::123456789012:policy/DynamoDBScopedRead",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:GetItem",
+            "dynamodb:Query",
+            "dynamodb:Scan"
+          ],
+          "Resource": "arn:aws:dynamodb:us-west-2:123456789012:table/PatientRecords"
+        }
+      ]
+    }
+  },
+  {
+    "PolicyName": "EC2AndS3Broad",
+    "Arn": "arn:aws:iam::123456789012:policy/EC2AndS3Broad",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "ec2:*",
+          "Resource": "*"
+        },
+        {
+          "Effect": "Allow",
+          "Action": "s3:*",
+          "Resource": "*"
+        }
+      ]
+    }
+  },
+  {
+    "PolicyName": "LeastPrivilegeLambda",
+    "Arn": "arn:aws:iam::123456789012:policy/LeastPrivilegeLambda",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+          ],
+          "Resource": "arn:aws:logs:us-west-2:123456789012:log-group:/aws/lambda/my-function:*"
+        }
+      ]
+    }
+  }
+]

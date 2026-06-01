@@ -1,0 +1,52 @@
+# ============================================================
+# TRAINING USE ONLY — AUTHORIZED SECURITY AWARENESS SIMULATION
+# ============================================================
+# This is a SYNTHETIC phishing email template for authorized internal
+# security training. All names, data, and scenarios are fictional.
+# DO NOT send this to real individuals without explicit consent.
+# ============================================================
+
+From: Apex Consulting Group <billing@apex-consulting-group.biz>
+To: accounts-payable@example-corp.com
+Subject: OVERDUE: Invoice #INV-2026-4419 — Payment Required to Avoid Collections
+Date: Mon, 01 Jun 2026 08:22:15 -0400
+
+---
+
+ATTENTION: Accounts Payable Department
+
+**Invoice Status: 47 DAYS OVERDUE**
+
+Our records indicate that Invoice #INV-2026-4419 remains unpaid. This invoice was originally sent on April 15, 2026, with Net-30 terms. Despite two previous reminders, we have not received payment or a dispute notice.
+
+**Invoice Details:**
+| Item | Description | Amount |
+|------|-------------|--------|
+| Q1-2026 | Cloud infrastructure audit and remediation | $18,450.00 |
+| Late Fee | 2.5% per month × 1.5 months | $692.00 |
+| **TOTAL DUE** | | **$19,142.00** |
+
+**Payment must be received by 5:00 PM EST today** to avoid the following actions:
+- Referral to corporate collections agency (Dun & Bradstreet reported)
+- 15% additional penalty per week overdue
+- Suspension of all active consulting agreements
+- Legal review for breach of contract
+
+**Pay Now →** [Secure Payment Portal](https://apex-consulting-invoices.secure-pay.io/checkout?inv=INV-2026-4419&token=3f8a1c9e)
+
+**Wire Transfer (alternative):**
+Bank: First Regional Bank
+Account: 8844-2211-9900-7733
+Routing: 021-000-089
+Reference: INV-2026-4419
+
+We value our partnership and hope to resolve this promptly. However, our board has mandated stricter collection procedures effective this quarter.
+
+Sincerely,
+Derek Holloway
+Senior Billing Operations Manager
+Apex Consulting Group
+Direct: (555) 018-3344
+
+---
+*This email contains confidential financial information. Do not forward.*

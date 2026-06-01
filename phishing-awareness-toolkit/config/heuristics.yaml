@@ -1,0 +1,72 @@
+###############################################################################
+# heuristics.yaml — Phishing Analyzer Configuration
+# ================================================
+# Each section controls the scoring weights for a specific analysis category.
+# Scores are additive within a category and clamped to max_score.
+#
+# IMPORTANT: These values are tuned for *detection sensitivity*, not false-
+# positive rate.  In a production SOC environment you would calibrate them
+# against labelled datasets (e.g. Enron + Cofense + APWG feeds).
+###############################################################################
+
+headers:
+  # Ceiling for the header category (0–25 by default).
+  max_score: 25.0
+
+  # SPF-related scoring
+  spf_fail: 4.0          # SPF hard-fail or soft-fail in Authentication-Results
+  dkim_fail: 3.5         # DKIM signature verification failed
+  dmarc_fail: 5.0        # DMARC policy evaluation failed
+  no_auth: 2.0           # Neither DKIM nor SPF results present at all
+  missing_auth_results: 2.5  # Entire Authentication-Results header absent
+
+  # Sender-identity mismatches — classic redirect-to-attacker technique.
+  reply_to_mismatch: 4.0
+  return_path_mismatch: 2.0
+
+  # Sender-domain heuristics
+  free_mailer_sender: 2.0    # gmail/yahoo/etc sending "official" notice
+  random_subdomain: 3.0      # DGA-style random-looking subdomain
+
+  # Routing anomalies
+  many_hops: 1.5             # >5 Received headers (may indicate relay obfuscation)
+  private_ip_in_received: 2.5  # Private RFC-1918 IP in a Received hop (spoofed or misconfigured)
+
+  # Content-structure
+  subject_keyword: 1.0       # invoice, payment, action required, Re:, Fwd:
+  html_only: 1.5             # HTML without a plain-text alternative (hides payload from filters)
+
+urls:
+  # Ceiling for the URL category (0–40 by default).  URLs carry the highest
+  # weight because they are the decisive payload-delivery mechanism in most
+  # phishing campaigns.
+  max_score: 40.0
+
+  ip_based_url: 5.0          # http://192.168.1.1/login — no legitimate brand does this
+  url_shortener: 3.5         # bit.ly, tinyurl, t.co — hides final destination
+  suspicious_tld: 3.0        # .tk, .ml, .top, .zip, .mov, etc. (high abuse rates)
+  http_not_https: 1.0        # Unencrypted link — weak signal but worth noting
+  homoglyph: 5.0             # Visually-confusable Unicode in domain (e.g. аmazon.com with Cyrillic 'а')
+  lookalike_domain: 4.0      # Levenshtein distance to known brand within threshold
+  deep_subdomain: 1.5        # ≥4 subdomain levels (e.g. login.secure.bank.example.com)
+  at_symbol_in_url: 2.0      # http://legit.com@evil.com/path  (deprecated syntax, still abused)
+  nonstandard_port: 1.5      # Port other than 80 / 443
+  data_uri: 4.0              # data:text/html,... inline phishing page
+
+urgency:
+  # Ceiling for urgency-language category (0–35 by default).
+  max_score: 35.0
+
+  # The predefined regex patterns have inline weights in phishing_analyzer.py.
+  # These two settings control *secondary* heuristics:
+  all_caps: 2.0               # >3 ALL-CAPS words (shouting = social pressure)
+  excessive_punctuation: 1.5  # >2 instances of repeated !!! or ???
+
+composite:
+  # Hard score floor — useful if you want to force a minimum suspicion level
+  # for all untrusted inbound mail (e.g. external-domain mailboxes).
+  hard_floor: 0.0
+
+  # Hard score ceiling — prevents a perfect storm of weak signals from
+  # artificially maxing out the score.
+  hard_ceiling: 100.0

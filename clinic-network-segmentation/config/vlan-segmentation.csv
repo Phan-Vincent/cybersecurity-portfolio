@@ -1,0 +1,9 @@
+vlan_id,vlan_name,purpose,subnet,mask,cidr,security_level,802.1x,internet_access,notes
+10,Admin,Admin / IT workstations,10.10.0.0,255.255.255.0,24,High,Yes,Proxy-only,No direct PHI access; jump host required for vendor support
+20,Clinical,Clinical workstations / EHR / PHI,10.20.0.0,255.255.255.0,24,Critical,Yes,No,EHR server + lab interface; no default gateway to WAN
+30,Medical_IoT,Medical devices / IoT,10.30.0.0,255.255.255.0,24,Restricted,MAC-only,No,Gateway-only model; no direct internet or cross-VLAN
+40,Guest,Patient / visitor WiFi,10.40.0.0,255.255.255.0,24,Untrusted,No,Yes,Captive portal + client isolation + rate limit 10 Mbps
+50,Security,SIEM / NIDS / Logging,10.50.0.0,255.255.255.0,24,Critical,No,No,Ingest-only; no outbound connections; SPAN to NIDS
+100,Management,Switch / firewall / AP management,10.100.0.0,255.255.255.0,24,High,No,No,Out-of-band; SSH/HTTPS only; source-restricted to VLAN 10
+254,DMZ,DMZ / web proxy / eRx gateway,10.254.0.0,255.255.255.0,24,Medium,No,Yes,Controlled bridge between internet and clinical; TLS inspection
+999,Quarantine,Rogue / unauthenticated devices,192.168.255.0,255.255.255.0,24,None,No,No,802.1X fallback VLAN; no internet; no internal access

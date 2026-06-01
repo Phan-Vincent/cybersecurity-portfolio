@@ -1,0 +1,360 @@
+[
+  {
+    "timestamp": "2026-06-01T00:00:01Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "3c53a2b1",
+    "job_name": "PeptideWire Brief Build",
+    "message": "Job started",
+    "session_target": "isolated"
+  },
+  {
+    "timestamp": "2026-06-01T00:05:23Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "3c53a2b1",
+    "job_name": "PeptideWire Brief Build",
+    "message": "Job completed successfully",
+    "duration_seconds": 322
+  },
+  {
+    "timestamp": "2026-06-01T00:12:34Z",
+    "level": "ERROR",
+    "service": "gateway",
+    "message": "Subagent announce give up (retry-limit)",
+    "context": "Session: agent-abc123, Job: morning-habits-reminder"
+  },
+  {
+    "timestamp": "2026-06-01T00:15:01Z",
+    "level": "ERROR",
+    "service": "cron-scheduler",
+    "job_id": "61b2ea76",
+    "job_name": "Afternoon Wake Check-in",
+    "message": "Cron job failed: gateway restart during run",
+    "exit_code": -9
+  },
+  {
+    "timestamp": "2026-06-01T00:15:02Z",
+    "level": "WARN",
+    "service": "gateway",
+    "message": "Draining 3 active task(s) before restart",
+    "tasks": ["agent-abc123", "agent-def456", "agent-ghi789"]
+  },
+  {
+    "timestamp": "2026-06-01T02:30:00Z",
+    "level": "INFO",
+    "service": "crypto-monitor",
+    "message": "Price check completed",
+    "coins_checked": ["BTC", "ETH", "LLY", "VKTX", "GOOGL"],
+    "alerts_triggered": 0
+  },
+  {
+    "timestamp": "2026-06-01T02:45:00Z",
+    "level": "INFO",
+    "service": "research-engine",
+    "topic": "peptide-market",
+    "message": "PubMed query executed",
+    "hits": 47,
+    "novelty_score": 0.82
+  },
+  {
+    "timestamp": "2026-06-01T02:45:30Z",
+    "level": "WARN",
+    "service": "research-engine",
+    "topic": "peptide-market",
+    "message": "bioRxiv API returned 0 hits for query 'MOTS-c clinical trial'",
+    "action": "Queued for next research cycle"
+  },
+  {
+    "timestamp": "2026-06-01T03:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-peptide-market",
+    "message": "Research job started",
+    "provider": "kimi/kimi-code"
+  },
+  {
+    "timestamp": "2026-06-01T03:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-cybersecurity",
+    "message": "Research job started",
+    "provider": "kimi/kimi-code"
+  },
+  {
+    "timestamp": "2026-06-01T03:04:12Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-peptide-market",
+    "message": "Research job completed",
+    "findings": 12,
+    "state_updated": true
+  },
+  {
+    "timestamp": "2026-06-01T03:05:45Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-cybersecurity",
+    "message": "Research job completed",
+    "findings": 8,
+    "state_updated": true
+  },
+  {
+    "timestamp": "2026-06-01T03:30:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "peptidewire-article",
+    "job_name": "PeptideWire Daily Article",
+    "message": "Article generation started",
+    "timeout": 900
+  },
+  {
+    "timestamp": "2026-06-01T03:42:18Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "peptidewire-article",
+    "job_name": "PeptideWire Daily Article",
+    "message": "Article generation completed",
+    "word_count": 1543,
+    "output_path": "peptidewire-newsletter/app/public/content/issues/2026-06-01-peptide-digest.md"
+  },
+  {
+    "timestamp": "2026-06-01T03:50:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "98018993",
+    "job_name": "PeptideWire Site Deploy",
+    "message": "Vercel deploy triggered",
+    "mode": "prebuilt"
+  },
+  {
+    "timestamp": "2026-06-01T03:52:05Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "98018993",
+    "job_name": "PeptideWire Site Deploy",
+    "message": "Deploy completed successfully",
+    "url": "https://peptidewire.co"
+  },
+  {
+    "timestamp": "2026-06-01T07:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "e46f416a",
+    "job_name": "Weekly Sleep Report",
+    "message": "Report generated and sent to Discord",
+    "channel": "sunday-check-in-coach"
+  },
+  {
+    "timestamp": "2026-06-01T07:48:00Z",
+    "level": "INFO",
+    "service": "healthcheck",
+    "message": "Health check executed",
+    "overall_status": "warning",
+    "disk_used_pct": 89.05,
+    "memory_used_pct": 80.0,
+    "recent_errors": 2
+  },
+  {
+    "timestamp": "2026-06-01T07:48:00Z",
+    "level": "WARN",
+    "service": "healthcheck",
+    "message": "Disk usage warning threshold exceeded",
+    "threshold": 90.0,
+    "actual": 89.05,
+    "recommendation": "Run log-rotate.sh and review logs"
+  },
+  {
+    "timestamp": "2026-06-01T07:48:00Z",
+    "level": "INFO",
+    "service": "healthcheck",
+    "message": "Memory usage nominal",
+    "threshold": 85.0,
+    "actual": 80.0
+  },
+  {
+    "timestamp": "2026-06-01T08:00:00Z",
+    "level": "INFO",
+    "service": "kalshi-paper-trader",
+    "message": "Paper trading cycle started",
+    "mode": "taker",
+    "markets_scanned": 20,
+    "fair_values_built": 4
+  },
+  {
+    "timestamp": "2026-06-01T08:00:15Z",
+    "level": "INFO",
+    "service": "kalshi-paper-trader",
+    "message": "No taker opportunities found",
+    "reason": "All markets show zero liquidity (yes_ask=0, no_ask=0)"
+  },
+  {
+    "timestamp": "2026-06-01T08:00:16Z",
+    "level": "INFO",
+    "service": "kalshi-paper-trader",
+    "message": "Posted maker quotes",
+    "quotes": 10,
+    "markets": ["KXHIGHTHOU", "KXHIGHTBOS", "KXHIGHTNYC", "KXLOWTHOU"]
+  },
+  {
+    "timestamp": "2026-06-01T09:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "morning-briefing",
+    "job_name": "Morning Briefing",
+    "message": "Briefing generated and delivered",
+    "channels": ["morning-briefings"],
+    "sections": ["weather", "tasks", "stocks", "btc", "habits", "nutrition"]
+  },
+  {
+    "timestamp": "2026-06-01T09:00:01Z",
+    "level": "INFO",
+    "service": "habit-tracker",
+    "message": "Morning habit reminder sent",
+    "habits": ["bed-exit-time", "meds", "water"]
+  },
+  {
+    "timestamp": "2026-06-01T10:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-cybersecurity",
+    "message": "Research job started",
+    "provider": "kimi/kimi-code"
+  },
+  {
+    "timestamp": "2026-06-01T10:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-openclaw-community",
+    "message": "Research job started",
+    "provider": "kimi/kimi-code"
+  },
+  {
+    "timestamp": "2026-06-01T10:04:33Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-cybersecurity",
+    "message": "Research job completed",
+    "findings": 5,
+    "state_updated": true
+  },
+  {
+    "timestamp": "2026-06-01T10:05:12Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "research-openclaw-community",
+    "message": "Research job completed",
+    "findings": 3,
+    "state_updated": true
+  },
+  {
+    "timestamp": "2026-06-01T11:30:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "cronometer-hybrid-export",
+    "job_name": "Cronometer Diary Scraper",
+    "message": "Hybrid browser export started",
+    "method": "visible-browser-2fa"
+  },
+  {
+    "timestamp": "2026-06-01T11:35:22Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "cronometer-hybrid-export",
+    "job_name": "Cronometer Diary Scraper",
+    "message": "Export completed and parsed",
+    "output": "nutrition/daily-log.md"
+  },
+  {
+    "timestamp": "2026-06-01T12:00:00Z",
+    "level": "INFO",
+    "service": "inventory-tracker",
+    "message": "Supplement inventory check",
+    "items": [
+      {"name": "hGH (Somatropin)", "days_remaining": 14, "status": "ok"},
+      {"name": "Testosterone Cypionate", "days_remaining": 21, "status": "ok"},
+      {"name": "Dexedrine", "days_remaining": 7, "status": "reorder-soon"},
+      {"name": "Lexapro", "days_remaining": 30, "status": "ok"},
+      {"name": "Valium", "days_remaining": 15, "status": "ok"}
+    ]
+  },
+  {
+    "timestamp": "2026-06-01T12:00:01Z",
+    "level": "WARN",
+    "service": "inventory-tracker",
+    "message": "Reorder reminder triggered",
+    "item": "Dexedrine",
+    "days_remaining": 7,
+    "action": "Contact CVS pharmacy for refill"
+  },
+  {
+    "timestamp": "2026-06-01T14:00:00Z",
+    "level": "INFO",
+    "service": "kalshi-paper-trader",
+    "message": "Paper trading cycle started",
+    "mode": "taker"
+  },
+  {
+    "timestamp": "2026-06-01T14:00:20Z",
+    "level": "INFO",
+    "service": "kalshi-paper-trader",
+    "message": "Maker quotes swept",
+    "fills": 0,
+    "pending_quotes": 10
+  },
+  {
+    "timestamp": "2026-06-01T15:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "kalshi-quant-research",
+    "job_name": "Kalshi Quant Research",
+    "message": "Research memo generated",
+    "memo_path": "research/kalshi-memos/2026-06-01-weather.md"
+  },
+  {
+    "timestamp": "2026-06-01T19:00:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "healthcheck-security-audit",
+    "job_name": "Security Audit",
+    "message": "Security posture check completed",
+    "findings": 0,
+    "status": "pass"
+  },
+  {
+    "timestamp": "2026-06-01T20:00:00Z",
+    "level": "INFO",
+    "service": "habit-tracker",
+    "message": "Evening habit reminder sent",
+    "habits": ["gym", "steps", "sleep-prep"]
+  },
+  {
+    "timestamp": "2026-06-01T22:00:00Z",
+    "level": "INFO",
+    "service": "crypto-monitor",
+    "message": "BTC price alert triggered",
+    "coin": "BTC",
+    "price_usd": 67234.56,
+    "change_24h_pct": 5.2,
+    "direction": "up",
+    "discord_channel": "crypto-watch"
+  },
+  {
+    "timestamp": "2026-06-01T23:30:00Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "cronometer-hybrid-export",
+    "job_name": "Cronometer Diary Scraper",
+    "message": "Hybrid browser export started",
+    "method": "visible-browser-2fa"
+  },
+  {
+    "timestamp": "2026-06-01T23:35:45Z",
+    "level": "INFO",
+    "service": "cron-scheduler",
+    "job_id": "cronometer-hybrid-export",
+    "job_name": "Cronometer Diary Scraper",
+    "message": "Export completed and parsed",
+    "output": "nutrition/daily-log.md"
+  }
+]

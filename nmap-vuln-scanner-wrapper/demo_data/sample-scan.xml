@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/local/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Synthetic nmap scan data for demo mode. No real network was scanned. -->
+<nmaprun scanner="nmap" args="nmap -sS -sV -O --top-ports 1000 -oX - 192.168.1.0/24" start="1717200000" startstr="Mon Jun  1 00:00:00 2026" version="7.94" xmloutputversion="1.05">
+  <scaninfo type="syn" protocol="tcp" numservices="1000" services="1,3-4,6-7,9,13..."/>
+  
+  <host starttime="1717200000" endtime="1717200030">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.1" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="router.home.lab" type="PTR"/>
+    </hostnames>
+    <os>
+      <osmatch name="Linux 5.4" accuracy="92" line="12345"/>
+    </os>
+    <ports>
+      <extraports state="closed" count="997">
+        <extrareasons reason="resets" count="997"/>
+      </extraports>
+      <port protocol="tcp" portid="22">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ssh" product="OpenSSH" version="7.4p1 Debian 10+deb9u7" extrainfo="protocol 2.0" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:openssh:openssh:7.4p1</cpe>
+          <cpe>cpe:/o:linux:linux_kernel</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="80">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="http" product="Apache httpd" version="2.2.34" extrainfo="(Debian)" method="probed" conf="10">
+          <cpe>cpe:/a:apache:http_server:2.2.34</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="443">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="https" product="Apache httpd" version="2.2.34" extrainfo="(Debian)" tunnel="ssl" method="probed" conf="10">
+          <cpe>cpe:/a:apache:http_server:2.2.34</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="210" rttvar="30" to="100000"/>
+  </host>
+
+  <host starttime="1717200030" endtime="1717200060">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.10" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="db-server.home.lab" type="PTR"/>
+    </hostnames>
+    <os>
+      <osmatch name="Linux 5.15" accuracy="88" line="12346"/>
+    </os>
+    <ports>
+      <extraports state="closed" count="998">
+        <extrareasons reason="resets" count="998"/>
+      </extraports>
+      <port protocol="tcp" portid="22">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ssh" product="OpenSSH" version="8.9p1 Ubuntu 3ubuntu0.6" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:openssh:openssh:8.9p1</cpe>
+          <cpe>cpe:/o:linux:linux_kernel</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="3306">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="mysql" product="MySQL" version="5.5.62" extrainfo="community server" method="probed" conf="10">
+          <cpe>cpe:/a:mysql:mysql:5.5.62</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="450" rttvar="80" to="100000"/>
+  </host>
+
+  <host starttime="1717200060" endtime="1717200090">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.50" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="legacy-printer.home.lab" type="PTR"/>
+    </hostnames>
+    <os>
+      <osmatch name="Linux 2.6.32" accuracy="75" line="12347"/>
+    </os>
+    <ports>
+      <extraports state="closed" count="999">
+        <extrareasons reason="resets" count="999"/>
+      </extraports>
+      <port protocol="tcp" portid="23">
+        <state state="open" reason="syn-ack" reason_ttl="128"/>
+        <service name="telnet" product="Linux telnetd" version="1.0" extrainfo="embedded" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:linux:telnetd:1.0</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="1200" rttvar="200" to="100000"/>
+  </host>
+
+  <host starttime="1717200090" endtime="1717200120">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.100" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="nas.home.lab" type="PTR"/>
+    </hostnames>
+    <os>
+      <osmatch name="Linux 5.10" accuracy="90" line="12348"/>
+    </os>
+    <ports>
+      <extraports state="closed" count="995">
+        <extrareasons reason="resets" count="995"/>
+      </extraports>
+      <port protocol="tcp" portid="22">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ssh" product="OpenSSH" version="8.2p1 Ubuntu 4ubuntu0.9" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:openssh:openssh:8.2p1</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="445">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="smb" product="Samba" version="3.6.25" extrainfo="workgroup: WORKGROUP" method="probed" conf="10">
+          <cpe>cpe:/a:samba:samba:3.6.25</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="9090">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="http" product="Cockpit" version="264" extrainfo="web service" method="probed" conf="10">
+          <cpe>cpe:/a:cockpit-project:cockpit:264</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="6379">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="redis" product="Redis" version="5.0.14" extrainfo="key-value store" method="probed" conf="10">
+          <cpe>cpe:/a:redislabs:redis:5.0.14</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="300" rttvar="50" to="100000"/>
+  </host>
+
+  <runstats>
+    <finished time="1717200150" timestr="Mon Jun  1 00:02:30 2026" summary="Nmap done at Mon Jun  1 00:02:30 2026; 256 IP addresses (4 hosts up) scanned in 150.00 seconds" elapsed="150.00" exit="success"/>
+    <hosts up="4" down="252" total="256"/>
+  </runstats>
+</nmaprun>

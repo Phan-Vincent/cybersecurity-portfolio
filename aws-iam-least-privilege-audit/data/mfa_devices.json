@@ -1,0 +1,12 @@
+[
+  {
+    "UserName": "admin-sarah",
+    "SerialNumber": "arn:aws:iam::123456789012:mfa/admin-sarah",
+    "EnableDate": "2023-01-20T10:00:00Z"
+  },
+  {
+    "UserName": "analyst-maria",
+    "SerialNumber": "arn:aws:iam::123456789012:mfa/analyst-maria",
+    "EnableDate": "2024-08-25T09:00:00Z"
+  }
+]

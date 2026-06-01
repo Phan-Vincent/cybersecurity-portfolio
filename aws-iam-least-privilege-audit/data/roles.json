@@ -1,0 +1,142 @@
+[
+  {
+    "RoleName": "EC2-Instance-Role",
+    "Arn": "arn:aws:iam::123456789012:role/EC2-Instance-Role",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "ec2.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "AttachedPolicies": [
+      {
+        "PolicyName": "AmazonEC2ReadOnlyAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+      }
+    ],
+    "CreateDate": "2023-05-01T00:00:00Z"
+  },
+  {
+    "RoleName": "CrossAccount-ThirdParty-Role",
+    "Arn": "arn:aws:iam::123456789012:role/CrossAccount-ThirdParty-Role",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": "arn:aws:iam::999999999999:root"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "AttachedPolicies": [
+      {
+        "PolicyName": "ReadOnlyAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      }
+    ],
+    "CreateDate": "2022-03-10T00:00:00Z"
+  },
+  {
+    "RoleName": "Lambda-Execution-Role",
+    "Arn": "arn:aws:iam::123456789012:role/Lambda-Execution-Role",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "lambda.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole",
+          "Condition": {
+            "StringEquals": {
+              "aws:SourceAccount": "123456789012"
+            }
+          }
+        }
+      ]
+    },
+    "AttachedPolicies": [
+      {
+        "PolicyName": "AWSLambdaBasicExecutionRole",
+        "PolicyArn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      },
+      {
+        "PolicyName": "AmazonS3FullAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+      },
+      {
+        "PolicyName": "AmazonDynamoDBFullAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      },
+      {
+        "PolicyName": "AmazonSQSFullAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+      },
+      {
+        "PolicyName": "AmazonSNSFullAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+      },
+      {
+        "PolicyName": "CustomOverlyBroadPolicy",
+        "PolicyArn": "arn:aws:iam::123456789012:policy/CustomOverlyBroadPolicy"
+      }
+    ],
+    "CreateDate": "2023-08-15T00:00:00Z"
+  },
+  {
+    "RoleName": "Open-Trust-Role",
+    "Arn": "arn:aws:iam::123456789012:role/Open-Trust-Role",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": "*"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "AttachedPolicies": [
+      {
+        "PolicyName": "AdministratorAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+      }
+    ],
+    "CreateDate": "2021-01-01T00:00:00Z"
+  },
+  {
+    "RoleName": "AnyService-Role",
+    "Arn": "arn:aws:iam::123456789012:role/AnyService-Role",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "*"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "AttachedPolicies": [
+      {
+        "PolicyName": "ReadOnlyAccess",
+        "PolicyArn": "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      }
+    ],
+    "CreateDate": "2022-06-01T00:00:00Z"
+  }
+]

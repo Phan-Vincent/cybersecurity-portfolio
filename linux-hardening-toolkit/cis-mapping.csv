@@ -1,0 +1,32 @@
+Control_ID,CIS_Section,Description,ePHI_Relevance
+SSH-01,5.2.1,Ensure SSH Protocol is 2,Prevents downgrade attacks on admin sessions
+SSH-02,5.2.2,Ensure SSH LogLevel is VERBOSE,Forensic traceability for ePHI access
+SSH-03,5.2.3,Ensure SSH MaxAuthTries <= 4,Brute-force protection for privileged accounts
+SSH-04,5.2.4,Ensure SSH PermitRootLogin is disabled,Limits blast radius of root compromise
+SSH-05,5.2.5,Ensure SSH PasswordAuthentication is disabled,Enforces key-based auth for ePHI servers
+SSH-06,5.2.12,Ensure SSH idle timeout (ClientAliveInterval),Prevents unattended admin session misuse
+FW-01,3.5.1.1,Ensure UFW is installed,Stateful firewall for ePHI server perimeter
+FW-02,3.5.1.2,Ensure UFW service is enabled,Persistence of network controls
+FW-03,3.5.1.3,Ensure default deny policy,Default-drop posture for ePHI exposure
+FW-04,3.5.1.4,Ensure loopback traffic is configured,Anti-spoofing for local services
+FW-05,Custom,Ensure SSH port is explicitly managed,Admin access path must be restricted/known
+AUTH-01,5.3.1,Ensure password creation requirements (pam_pwquality),Weak passwords = #1 initial access vector
+AUTH-02,5.3.2,Ensure lockout for failed password attempts (pam_faillock),Rate-limiting credential stuffing
+AUTH-03,5.4.1.1,Ensure password expiration <= 365 days,Limits window of stolen credential reuse
+AUTH-04,5.4.1.2,Ensure minimum password age >= 1 day,Prevents rapid password cycling to bypass history
+AUTH-05,5.4.1.3,Ensure password warning >= 7 days,Prevents accidental lockouts blocking emergency access
+AUDIT-01,4.1.1.1,Ensure auditd is installed,Required for HIPAA audit trail
+AUDIT-02,4.1.1.2,Ensure auditd service is enabled,Continuous logging of ePHI access events
+AUDIT-03,4.1.1.3,Ensure max audit log file size configured,Prevents log loss during high-volume ePHI access
+AUDIT-04,4.1.1.4,Ensure audit log retention = keep_logs,HIPAA requires 6-year retention readiness
+AUDIT-05,4.1.3,Audit sudoers and privilege escalation,Detect unauthorized privilege grants
+AUDIT-06,Custom,Audit ePHI file access (synthetic rules),Detect unauthorized PHI reads/writes
+FS-01,6.1.1,Audit system file permissions (SUID/SGID),Prevents privilege escalation via SUID abuse
+FS-02,6.1.2,Ensure no world-writable files exist,Stops any-user from tampering with ePHI dirs
+FS-03,6.1.3,Ensure sticky bit on world-writable directories,Prevents unauthorized deletion in shared paths
+FS-04,Custom,Ensure ePHI directory permissions are restricted,Enforces least-privilege on PHI storage
+UPD-01,1.8,Ensure automatic updates enabled,Patch cadence for known-exploited vulnerabilities
+UPD-02,1.8,Ensure APT periodic unattended-upgrade is enabled,Persistence of auto-update mechanism
+UPD-03,1.8,Ensure security origin is enabled in unattended-upgrades,Only security patches auto-apply
+UPD-04,1.9,Ensure automatic reboot after kernel updates,Ensures security patches are live
+UPD-05,Custom,Ensure mail notification for unattended-upgrades,Operational awareness of patch events

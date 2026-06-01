@@ -1,0 +1,57 @@
+# ============================================================
+# TRAINING USE ONLY — AUTHORIZED SECURITY AWARENESS SIMULATION
+# ============================================================
+# This is a SYNTHETIC phishing email template for authorized internal
+# security training. All names, data, and scenarios are fictional.
+# DO NOT send this to real individuals without explicit consent.
+# ============================================================
+
+From: IT Security Operations <security-ops@example-corp-security.net>
+To: all-staff@example-corp.com
+Subject: CRITICAL: CVE-2026-3381 — Immediate Patch Required (All Workstations)
+Date: Mon, 01 Jun 2026 07:05:12 -0700
+
+---
+
+**PRIORITY: CRITICAL — ALL EMPLOYEES**
+
+A **zero-day vulnerability** (CVE-2026-3381) has been discovered in the Windows Print Spooler service. Microsoft has confirmed active exploitation in the wild. This vulnerability allows **remote code execution with SYSTEM privileges**.
+
+**Affected Systems:**
+- All Windows 10 and Windows 11 workstations
+- All domain-joined laptops (including Macs running Windows VMs)
+- All remote desktop sessions
+
+**Risk if unpatched:**
+- Complete workstation compromise
+- Lateral movement to file servers
+- Data exfiltration (including customer databases)
+- Ransomware deployment
+
+**IT Security has deployed an emergency patch via our management system. You MUST complete the following within 1 hour:**
+
+**Step 1:** Click the link below to verify your workstation is enrolled in the patch campaign.
+**[Verify Enrollment & Download Patch](https://it-security-patch-portal.example-corp-security.net/enroll?device=auto-detect&urgent=true)**
+
+**Step 2:** Run the downloaded patch installer. **Do not wait for your next reboot.** The patch requires a restart — save your work now.
+
+**Step 3:** Confirm completion by clicking "Patch Verified" on the portal. Failure to confirm will result in automatic network quarantine at 9:00 AM.
+
+**DO NOT:**
+- Contact the Help Desk — they are overwhelmed and cannot expedite this
+- Delay until your next shift — the exploit window is active NOW
+- Ignore this message — unpatched devices will be automatically isolated
+
+**Verified by:**
+- National Cyber Security Centre (NCSC) Advisory 2026-061
+- CISA Alert AA26-152A
+- Microsoft Security Response Center (MSRC)
+
+This is not a drill. We have already detected scanning activity against our external IP range.
+
+— IT Security Operations
+security-ops@example-corp.com
+Emergency Line: (555) 019-7733
+
+---
+*This message was sent to all employees. Do not reply — use the emergency line for critical issues only.*

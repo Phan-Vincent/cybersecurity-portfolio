@@ -1,0 +1,45 @@
+# ============================================================
+# TRAINING USE ONLY — AUTHORIZED SECURITY AWARENESS SIMULATION
+# ============================================================
+# This is a SYNTHETIC phishing email template for authorized internal
+# security training. All names, data, and scenarios are fictional.
+# DO NOT send this to real individuals without explicit consent.
+# ============================================================
+
+From: CVS Caremark Security <security-alerts@cvscaremork.com>
+To: employee@example-healthsystem.org
+Subject: URGENT: HIPAA Compliance Audit — Immediate Action Required
+Date: Mon, 01 Jun 2026 09:14:22 -0400
+
+---
+
+Dear Valued Team Member,
+
+Our automated HIPAA compliance monitoring system has flagged **3 discrepancies** in your recent e-prescribing activity. As a pharmacy professional, you understand the critical importance of maintaining patient data integrity.
+
+**Flagged Issues:**
+- Prescription #RX-2026-77821: Incomplete DEA verification log
+- Patient record access anomaly: 47 lookups without corresponding encounter notes
+- Expired SSL certificate on your workstation (this poses a PHI exposure risk)
+
+**You must resolve these within 24 hours to avoid:**
+- Suspension of your e-prescribing privileges
+- Mandatory retraining (unpaid, 16 hours)
+- Escalation to the Office for Civil Rights (OCR)
+
+**Click here to review and resolve →** [Verify Account](http://192.168.1.105/hipaa-portal/login?token=7a8f9e2b)
+
+**Note:** This link will expire in 2 hours for security purposes.
+
+If you believe this is an error, you may appeal by contacting your supervisor — but **delays in resolution will be noted in your personnel file**.
+
+Thank you for your commitment to patient privacy.
+
+Sincerely,
+Marcus Chen
+Senior Compliance Officer
+CVS Caremark Security Operations
+Direct: (555) 014-2291
+
+---
+*This message was sent from an unmonitored address. Do not reply.*

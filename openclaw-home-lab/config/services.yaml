@@ -1,0 +1,147 @@
+# OpenClaw Home Lab — Service Definitions
+# This file documents the running services, their purposes, and expected states.
+# Used by healthcheck.py and monitoring-rules.yaml for anomaly detection.
+
+services:
+  - name: openclaw-gateway
+    type: core
+    description: "Main OpenClaw WebSocket gateway — coordinates all agents and jobs"
+    bind_address: "127.0.0.1"
+    port: 18789
+    protocol: ws
+    expected_state: running
+    restart_policy: manual
+    owner: vincent
+    notes: "Loopback-only. No inbound exposure."
+
+  - name: cron-scheduler
+    type: core
+    description: "Gateway-embedded cron scheduler — 29 active jobs"
+    expected_state: active
+    jobs:
+      total: 29
+      enabled: 26
+      categories:
+        - research: 12
+        - health: 3
+        - finance: 2
+        - system: 4
+        - communications: 5
+        - misc: 3
+    notes: "Jobs run as isolated subagents or system events. Max 8 concurrent."
+
+  - name: crypto-monitor
+    type: automation
+    description: "Heartbeat-driven cryptocurrency price monitoring"
+    interval: "~5 minutes"
+    apis:
+      - coin_gecko
+    alert_channels:
+      - discord_crypto_watch
+    thresholds:
+      price_movement_pct: 5.0
+      cooldown_minutes: 30
+    expected_state: active
+    notes: "State file: crypto-state.json. Alert queue: crypto-alerts.queue."
+
+  - name: health-sync
+    type: automation
+    description: "Apple Health export parsing and daily log generation"
+    trigger: manual + cron (weekly)
+    inputs:
+      - apple_health_export_xml
+    outputs:
+      - health_data_json
+      - health_daily_log_md
+    expected_state: on_demand
+    notes: "Real health data stays in Apple Health. Parsed JSON is 265MB and git-ignored."
+
+  - name: nutrition-tracker
+    type: automation
+    description: "Cronometer CSV export parsing and Discord reporting"
+    trigger: cron (daily 23:30 PDT)
+    inputs:
+      - cronometer_csv_export
+    outputs:
+      - nutrition_daily_log_md
+      - discord_nutrition_channel
+    expected_state: active
+    notes: "Hybrid browser automation for 2FA export."
+
+  - name: morning-briefing
+    type: automation
+    description: "Aggregated morning status report"
+    trigger: cron (daily 9:00 PDT)
+    inputs:
+      - weather_api
+      - calendar
+      - habit_tracker
+      - crypto_prices
+      - stock_prices
+    outputs:
+      - discord_morning_briefings
+    expected_state: active
+    notes: "Weather, tasks, stocks (LLY/VKTX/GOOGL), BTC, habits, nutrition."
+
+  - name: research-engine
+    type: automation
+    description: "24/7 autonomous deep research across 12 topics"
+    topics:
+      - cybersecurity_internships
+      - openclaw_community
+      - topic_roundup
+      - tech_news
+      - geopolitical_flashpoints
+      - peptide_market
+      - trt_hgh
+      - nootropics
+      - personal_finance
+      - fitness_sleep
+      - social_media_growth
+      - openclaw_automation
+    expected_state: active
+    notes: "Diminishing-returns auto-pause. Novelty fingerprinting via engine.js."
+
+  - name: kalshi-paper-trader
+    type: automation
+    description: "Weather prediction market paper trading against live prod prices"
+    trigger: cron (every 30 min, 6-22 PDT)
+    data_sources:
+      - nws_nbm
+      - open_meteo
+    expected_state: active
+    notes: "PaperBook simulates fills. $100 starting bank. Read-only prod API."
+
+  - name: discord-bot
+    type: integration
+    description: "Multi-channel Discord notifications and alerts"
+    channels:
+      - general
+      - bot_status
+      - nutrition
+      - crypto_watch
+      - morning_briefings
+      - research
+    expected_state: active
+    notes: "Outbound REST API only. No inbound webhooks."
+
+  - name: telegram-bot
+    type: integration
+    description: "Personal alerts and wake check-ins"
+    expected_state: active
+    notes: "Target: 5070646265. Used for urgent/interactive notifications."
+
+  - name: github-integration
+    type: integration
+    description: "Issue tracking, CI checks, repo management, workspace backup"
+    apis:
+      - github_rest
+      - github_graphql
+    expected_state: active
+    notes: "Authenticated via SSH key + 1Password. Scopes: repo, workflow, read:org."
+
+  - name: secret-management
+    type: infrastructure
+    description: "1Password CLI secret injection"
+    expected_state: active
+    notes: "No secrets stored in workspace. Runtime injection via 'op read'."

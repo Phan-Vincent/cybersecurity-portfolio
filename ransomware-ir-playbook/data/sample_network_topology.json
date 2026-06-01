@@ -1,0 +1,260 @@
+{
+  "_disclaimer": "SYNTHETIC DATA — This is a fictional network topology for a student portfolio project. No real infrastructure, IPs, or organizations are represented.",
+  "pharmacy_name": "Valley Grove Pharmacy",
+  "network_segments": [
+    {
+      "vlan_id": 10,
+      "name": "Management / Domain",
+      "ip_range": "192.168.10.0/24",
+      "description": "Domain controller, DNS, DHCP, internal IT management"
+    },
+    {
+      "vlan_id": 20,
+      "name": "Dispensary Workstations",
+      "ip_range": "192.168.20.0/24",
+      "description": "Pharmacy workstations running dispensing software"
+    },
+    {
+      "vlan_id": 25,
+      "name": "Legacy Equipment",
+      "ip_range": "192.168.25.0/24",
+      "description": "Isolated VLAN for EOL equipment — NO internet access, restricted inter-VLAN routing"
+    },
+    {
+      "vlan_id": 30,
+      "name": "IoT / Environmental",
+      "ip_range": "192.168.30.0/24",
+      "description": "Temperature sensors, humidity monitors, refrigeration alerts"
+    },
+    {
+      "vlan_id": 40,
+      "name": "Billing / PBM",
+      "ip_range": "192.168.40.0/24",
+      "description": "Insurance claim processing, PBM connectivity, VPN termination"
+    },
+    {
+      "vlan_id": 99,
+      "name": "Guest / DMZ",
+      "ip_range": "192.168.99.0/24",
+      "description": "Guest WiFi, completely isolated from pharmacy systems"
+    }
+  ],
+  "firewall": {
+    "hostname": "VGP-FW-01",
+    "role": "Perimeter Firewall / Router",
+    "model": "pfSense CE 2.7.2",
+    "ip": "192.168.10.1",
+    "interfaces": ["WAN (DHCP)", "LAN (VLAN trunk)", "OPT1 (Guest DMZ)"],
+    "rules_summary": [
+      "Block all inter-VLAN traffic except explicitly permitted",
+      "VLAN 25 (Legacy) — NO outbound internet; only inbound RDP from VLAN 10 (IT)",
+      "VLAN 30 (IoT) — outbound to NTP/DNS only; inbound blocked except from VLAN 10",
+      "VLAN 40 (Billing) — outbound HTTPS to PBM whitelist only; IPSec VPN tunnel to PBM BA",
+      "Port 3389 blocked on WAN; GeoIP blocking enabled",
+      "IDS/IPS: Suricata with ET Open ruleset"
+    ],
+    "patch_status": "Last updated 2026-05-15",
+    "criticality": 5,
+    "backup_status": "Configuration exported weekly to NAS; no offsite backup"
+  },
+  "domain_controller": {
+    "hostname": "PHARM-DC",
+    "role": "Windows Server 2019 — Active Directory, DNS, DHCP",
+    "os": "Windows Server 2019 Standard (Build 17763)",
+    "ip": "192.168.10.10",
+    "mac": "00:50:56:A1:B2:C1",
+    "domain": "valleygrove.local",
+    "services": ["AD DS", "DNS", "DHCP", "Group Policy"],
+    "patch_status": "Last updated 2026-03-20 (2 months behind)",
+    "criticality": 5,
+    "backup_status": "Windows Server Backup to NAS nightly; offsite replication to cloud backup monthly (last successful: 2026-05-01)",
+    "known_vulnerabilities": [
+      "Missing KB5036896 (Mar 2026 cumulative update) — remote code execution vector patched in April",
+      "SMBv1 not explicitly disabled — legacy pharmacy software dependency (risk acknowledged, migration planned Q3 2026)"
+    ]
+  },
+  "workstations": [
+    {
+      "hostname": "DISP-WS-01",
+      "role": "Primary Dispensary Workstation — Rx dispensing, label printing, patient lookup",
+      "os": "Windows 10 Pro 22H2 (Build 19045.4291)",
+      "ip": "192.168.20.11",
+      "mac": "00:50:56:A1:B2:C2",
+      "installed_edr": "Microsoft Defender for Business",
+      "pharmacy_software": "RxConnect Pro v4.2",
+      "patch_status": "Current as of 2026-05-28",
+      "criticality": 5,
+      "backup_status": "No local backup; user profiles redirected to NAS; no offsite"
+    },
+    {
+      "hostname": "DISP-WS-02",
+      "role": "Secondary Dispensary Workstation — Rx dispensing, inventory lookup",
+      "os": "Windows 10 Pro 22H2 (Build 19045.4291)",
+      "ip": "192.168.20.12",
+      "mac": "00:50:56:A1:B2:C3",
+      "installed_edr": "Microsoft Defender for Business",
+      "pharmacy_software": "RxConnect Pro v4.2",
+      "patch_status": "Current as of 2026-05-28",
+      "criticality": 5,
+      "backup_status": "No local backup; user profiles redirected to NAS; no offsite"
+    },
+    {
+      "hostname": "DISP-WS-03",
+      "role": "Checkout / POS Workstation — patient checkout, payment processing",
+      "os": "Windows 10 Pro 22H2 (Build 19045.4291)",
+      "ip": "192.168.20.13",
+      "mac": "00:50:56:A1:B2:C4",
+      "installed_edr": "Microsoft Defender for Business",
+      "pharmacy_software": "RxConnect Pro v4.2",
+      "patch_status": "Current as of 2026-05-15 (2 weeks behind)",
+      "criticality": 4,
+      "backup_status": "No local backup; user profiles redirected to NAS; no offsite"
+    }
+  ],
+  "legacy_equipment": [
+    {
+      "hostname": "PILL-COUNT-01",
+      "role": "Pill Counting Interface — connects to standalone pill counter hardware",
+      "os": "Windows 7 Professional SP1 (Build 7601) — END OF LIFE",
+      "ip": "192.168.25.10",
+      "mac": "00:50:56:A1:B2:C5",
+      "installed_edr": "None (OS unsupported)",
+      "pharmacy_software": "CountPro Legacy v2.1 (vendor out of business; no upgrade path)",
+      "patch_status": "No patches available since Jan 2020",
+      "criticality": 3,
+      "backup_status": "None — device operates in standalone mode; data not stored locally",
+      "known_vulnerabilities": [
+        "Windows 7 EOL — no security updates since January 2020",
+        "Cannot run modern EDR or endpoint protection",
+        "SMBv1 enabled for legacy file sharing with CountPro hardware",
+        "Isolated on VLAN 25 with no internet access and restricted inter-VLAN routing (compensating control)"
+      ],
+      "isolation_notes": "Air-gapped from internet; only accessible via RDP from PHARM-DC (192.168.10.10) for maintenance. Physical access required for daily operation."
+    }
+  ],
+  "printers": [
+    {
+      "hostname": "LABEL-PRN-01",
+      "role": "Thermal Label Printer — prescription vial labels",
+      "model": "Zebra ZD420",
+      "ip": "192.168.20.21",
+      "mac": "00:50:56:A1:B2:C6",
+      "connection": "Ethernet (static IP)",
+      "criticality": 3,
+      "backup_status": "N/A — no data stored on device"
+    },
+    {
+      "hostname": "LABEL-PRN-02",
+      "role": "Thermal Label Printer — backup / overflow",
+      "model": "Zebra ZD420",
+      "ip": "192.168.20.22",
+      "mac": "00:50:56:A1:B2:C7",
+      "connection": "Ethernet (static IP)",
+      "criticality": 2,
+      "backup_status": "N/A — no data stored on device"
+    }
+  ],
+  "servers": [
+    {
+      "hostname": "BILLING-01",
+      "role": "Insurance Billing Server — NCPDP D.0 claims processing, PBM connectivity",
+      "os": "Windows Server 2022 Standard (Build 20348)",
+      "ip": "192.168.40.10",
+      "mac": "00:50:56:A1:B2:C8",
+      "installed_edr": "Microsoft Defender for Endpoint",
+      "services": ["RxConnect Billing Module", "NCPDP Gateway", "IPSec VPN client (PBM tunnel)"],
+      "patch_status": "Current as of 2026-05-28",
+      "criticality": 5,
+      "backup_status": "Veeam Backup & Replication to NAS nightly; cloud offsite weekly (last successful: 2026-05-29)",
+      "vpn_tunnel": {
+        "peer": "PBM Business Associate — SecureScripts Inc.",
+        "protocol": "IPSec IKEv2",
+        "remote_endpoint": "vpn.securescripts-billing.net",
+        "local_endpoint": "VGP-FW-01 OPT1 interface",
+        "purpose": "Secure transmission of NCPDP claims and adjudication responses",
+        "phi_flow": "Encrypted PHI transmitted via NCPDP D.0 standard; BA agreement on file"
+      }
+    }
+  ],
+  "iot_devices": [
+    {
+      "hostname": "TEMP-SENSOR-01",
+      "role": "Refrigeration Temperature Monitor — insulin/vaccine fridge",
+      "model": "Sensaphone Sentinel",
+      "ip": "192.168.30.11",
+      "mac": "00:50:56:A1:B2:C9",
+      "os_firmware": "Sensaphone firmware v3.1.2",
+      "connection": "WiFi (isolated SSID 'VGP-IOT' on VLAN 30)",
+      "criticality": 4,
+      "backup_status": "N/A — telemetry logged to cloud dashboard",
+      "known_vulnerabilities": [
+        "Default admin credentials changed but uses basic HTTP for local web UI",
+        "Firmware last updated 2024-08 — vendor EOL announced for 2026-12"
+      ]
+    },
+    {
+      "hostname": "TEMP-SENSOR-02",
+      "role": "Ambient Temperature Monitor — general pharmacy floor",
+      "model": "Sensaphone Sentinel",
+      "ip": "192.168.30.12",
+      "mac": "00:50:56:A1:B2:CA",
+      "os_firmware": "Sensaphone firmware v3.1.2",
+      "connection": "WiFi (isolated SSID 'VGP-IOT' on VLAN 30)",
+      "criticality": 2,
+      "backup_status": "N/A — telemetry logged to cloud dashboard",
+      "known_vulnerabilities": [
+        "Default admin credentials changed but uses basic HTTP for local web UI",
+        "Firmware last updated 2024-08 — vendor EOL announced for 2026-12"
+      ]
+    }
+  ],
+  "network_storage": [
+    {
+      "hostname": "VGP-NAS-01",
+      "role": "Local Backup NAS — Veeam repository, Windows Server Backup target",
+      "model": "Synology DS923+",
+      "ip": "192.168.10.20",
+      "mac": "00:50:56:A1:B2:CB",
+      "os_firmware": "DSM 7.2.1",
+      "installed_av": "None (NAS-level security only)",
+      "criticality": 5,
+      "backup_status": "Self-contained; RAID 5 with 1 hot spare; snapshots enabled weekly; NO offsite replication configured",
+      "known_vulnerabilities": [
+        "Synology DSM exposed to management VLAN only (not internet)",
+        "QuickConnect disabled; no external access"
+      ]
+    }
+  ],
+  "business_associate_connections": [
+    {
+      "ba_name": "SecureScripts Inc.",
+      "relationship": "Pharmacy Benefit Manager (PBM)",
+      "connection_type": "IPSec VPN tunnel",
+      "data_types": ["NCPDP D.0 claims", "Adjudication responses", "Eligibility verifications"],
+      "phi_involved": true,
+      "ba_agreement_date": "2025-01-15",
+      "ba_agreement_review": "Next review due 2026-01-15 (OVERDUE — flagged for renewal)",
+      "notes": "Primary claims processor. Handles ~85% of pharmacy claims volume."
+    },
+    {
+      "ba_name": "MedCourier Logistics",
+      "relationship": "Delivery / Shipping Partner",
+      "connection_type": "API via HTTPS (REST)",
+      "data_types": ["Patient name", "Address", "Delivery instructions (no medication details)"],
+      "phi_involved": true,
+      "ba_agreement_date": "2024-06-10",
+      "ba_agreement_review": "Next review due 2025-06-10 (OVERDUE — flagged for renewal)",
+      "notes": "Handles prescription delivery for patients opting into mail service. Limited PHI — address and name only."
+    }
+  ],
+  "security_gaps": [
+    "No offsite backup for firewall configuration",
+    "Domain controller 2 months behind on patches",
+    "SMBv1 still enabled on PHARM-DC for legacy CountPro compatibility",
+    "Windows 7 pill-counting interface — EOL, no upgrade path, no EDR",
+    "Workstation backups only to local NAS — no offsite",
+    "BA agreements overdue for renewal (SecureScripts and MedCourier)",
+    "IoT temp sensors using HTTP (not HTTPS) for local management UI",
+    "No formal incident response plan documented (this playbook is being developed as a student project)"
+  ]
+}

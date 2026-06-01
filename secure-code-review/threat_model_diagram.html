@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Threat Model Diagram</title>
+<style>
+  body { font-family: sans-serif; margin: 40px; background: #f8f9fa; }
+  h1 { font-size: 1.4rem; }
+  .box { border: 2px solid #333; border-radius: 8px; padding: 12px 16px; margin: 8px 0; background: #fff; }
+  .trusted { border-color: #2e7d32; background: #e8f5e9; }
+  .untrusted { border-color: #c62828; background: #ffebee; }
+  .boundary { border: 3px dashed #666; padding: 16px; margin: 16px 0; border-radius: 12px; }
+  .arrow { text-align: center; color: #555; font-size: 1.2rem; margin: 4px 0; }
+  .label { font-size: 0.85rem; color: #444; margin-top: 4px; }
+  .findings { margin-top: 24px; }
+  .finding { padding: 8px; margin: 6px 0; border-left: 4px solid #c62828; background: #fff; }
+  .finding.mitigated { border-left-color: #2e7d32; }
+</style>
+</head>
+<body>
+<h1>Secure Code Review — Threat Model Diagram</h1>
+
+<div class="boundary trusted">
+  <strong>Trusted Zone: User Workstation</strong>
+  <div class="box trusted">CSV Input (synthetic data)</div>
+  <div class="arrow">↓</div>
+  <div class="box trusted">Ingestion (validation + sanitization)</div>
+  <div class="arrow">↓</div>
+  <div class="box trusted">Processing (deterministic metrics)</div>
+  <div class="arrow">↓</div>
+  <div class="box trusted">Sanitized Metrics (JSON)</div>
+</div>
+
+<div class="arrow">↓ TLS 1.2+</div>
+
+<div class="boundary untrusted">
+  <strong>Untrusted Zone: OpenAI API</strong>
+  <div class="box untrusted">LLM Call</div>
+  <div class="arrow">↓</div>
+  <div class="box untrusted">JSON Output</div>
+  <div class="arrow">↓</div>
+  <div class="box trusted">Schema Validation (strict)</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="boundary trusted">
+  <strong>Trusted Zone: Report Generation</strong>
+  <div class="box trusted">PDF + JSON Report</div>
+  <div class="box trusted">Audit Log (0o600)</div>
+</div>
+
+<div class="findings">
+  <h2>Findings Mapped to Flow</h2>
+  <div class="finding">FINDING-01: Prompt injection via user-controlled <code>muscle_group</code> reaching LLM</div>
+  <div class="finding">FINDING-02: Health metrics sent to third-party API (data disclosure risk)</div>
+  <div class="finding">FINDING-03: Insecure output handling — schema validation bypass + no output encoding</div>
+  <div class="finding mitigated">FINDING-04: Path traversal in CSV input (mitigated: chroot + symlink check)</div>
+  <div class="finding mitigated">FINDING-05: Sensitive data in logs (mitigated: secret scrubber + structured audit)</div>
+  <div class="finding mitigated">FINDING-06: Least privilege — file permissions (mitigated: 0o700 dirs, 0o600 files)</div>
+  <div class="finding mitigated">FINDING-07: Cost overrun (mitigated: pre-flight token estimation + daily budget)</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+[
+  {
+    "UserName": "admin-sarah",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE1",
+    "Arn": "arn:aws:iam::123456789012:user/admin-sarah",
+    "CreateDate": "2023-01-15T09:00:00Z",
+    "PasswordLastUsed": "2025-05-30T14:22:00Z",
+    "UserType": "regular"
+  },
+  {
+    "UserName": "dev-jake",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE2",
+    "Arn": "arn:aws:iam::123456789012:user/dev-jake",
+    "CreateDate": "2024-03-10T11:30:00Z",
+    "PasswordLastUsed": "2025-05-28T08:45:00Z",
+    "UserType": "regular"
+  },
+  {
+    "UserName": "svc-etl-pipeline",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE3",
+    "Arn": "arn:aws:iam::123456789012:user/svc-etl-pipeline",
+    "CreateDate": "2022-06-01T00:00:00Z",
+    "PasswordLastUsed": null,
+    "UserType": "regular"
+  },
+  {
+    "UserName": "analyst-maria",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE4",
+    "Arn": "arn:aws:iam::123456789012:user/analyst-maria",
+    "CreateDate": "2024-08-20T13:15:00Z",
+    "PasswordLastUsed": "2025-05-29T16:00:00Z",
+    "UserType": "regular"
+  },
+  {
+    "UserName": "root",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE5",
+    "Arn": "arn:aws:iam::123456789012:user/root",
+    "CreateDate": "2020-01-01T00:00:00Z",
+    "PasswordLastUsed": "2025-05-01T10:00:00Z",
+    "UserType": "root"
+  },
+  {
+    "UserName": "contractor-temp",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE6",
+    "Arn": "arn:aws:iam::123456789012:user/contractor-temp",
+    "CreateDate": "2024-11-05T09:00:00Z",
+    "PasswordLastUsed": "2025-04-15T11:00:00Z",
+    "UserType": "regular"
+  },
+  {
+    "UserName": "backup-service",
+    "UserId": "AIDACKCEVSQ6C2EXAMPLE7",
+    "Arn": "arn:aws:iam::123456789012:user/backup-service",
+    "CreateDate": "2021-09-12T00:00:00Z",
+    "PasswordLastUsed": null,
+    "UserType": "regular"
+  }
+]

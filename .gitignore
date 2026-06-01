@@ -1,0 +1,15 @@
+# Build / cache artifacts (never commit)
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+env/
+ENV/
+node_modules/
+.DS_Store
+Thumbs.db
+*.swp

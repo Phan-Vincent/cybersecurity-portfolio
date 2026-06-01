@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "tool": "hipaa_notification_calculator.py",
+    "version": "1.0.0",
+    "generated_at": "2026-06-01T01:55:40.118935",
+    "author": "Vincent Phan (CPhT, CSUSB-bound IT/Cybersecurity student)",
+    "disclaimer": "Synthetic calculation for portfolio. Not legal advice. Consult HIPAA counsel.",
+    "discovery_date": "2026-06-15",
+    "affected_individuals": 1200,
+    "state": "CA",
+    "breach_type": "unauthorized_access"
+  },
+  "state_info": {
+    "name": "California",
+    "pharmacy_board": "California State Board of Pharmacy",
+    "board_notice_hours": 72,
+    "board_notice_desc": "Notify CA Board of Pharmacy within 72 hours if ePHI or controlled substance data compromised.",
+    "additional_law": "California Civil Code 1798.82 (CMIA)",
+    "additional_deadline_days": null,
+    "notes": "California requires breach notification to affected residents without unreasonable delay. For pharmacies, CA BOP may also require incident reporting if controlled substance data is involved.",
+    "contact_url": "https://www.pharmacy.ca.gov/"
+  },
+  "deadlines": {
+    "individual_notice": {
+      "description": "Notify affected individuals via first-class mail (or email if authorized per 164.522).",
+      "deadline": "2026-08-14",
+      "days_from_discovery": 60,
+      "regulation": "45 CFR 164.404(b)",
+      "required": true,
+      "urgency": "high"
+    },
+    "hhs_secretary_notice": {
+      "description": "Notify HHS Secretary via breach portal (https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf).",
+      "deadline": "2026-08-14",
+      "days_from_discovery": 60,
+      "regulation": "45 CFR 164.408",
+      "required": true,
+      "immediate": true,
+      "urgency": "critical"
+    },
+    "media_notice": {
+      "description": "Notify prominent media outlets in the state/jurisdiction if >500 individuals affected.",
+      "deadline": "2026-08-14",
+      "days_from_discovery": 60,
+      "regulation": "45 CFR 164.406",
+      "required": true,
+      "urgency": "high"
+    },
+    "state_pharmacy_board_notice": {
+      "description": "Notify CA Board of Pharmacy within 72 hours if ePHI or controlled substance data compromised.",
+      "deadline": "2026-06-18 00:00:00",
+      "hours_from_discovery": 72,
+      "regulation": "State Board of Pharmacy rules (California)",
+      "required": true,
+      "urgency": "critical",
+      "contact_url": "https://www.pharmacy.ca.gov/"
+    },
+    "business_associate_notice": {
+      "description": "Notify all business associates (BAs) covered by HIPAA BAA within 60 days.",
+      "deadline": "2026-08-14",
+      "days_from_discovery": 60,
+      "regulation": "HIPAA Business Associate Agreement (BAA)",
+      "required": true,
+      "urgency": "high"
+    },
+    "additional_state_notices": []
+  },
+  "ransomware_specific_notes": [],
+  "checklist_items": [
+    {
+      "task": "Contain the breach and preserve evidence (memory dumps, disk images, logs).",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Incident Response Team",
+      "deadline": "Immediate",
+      "category": "containment"
+    },
+    {
+      "task": "Conduct risk assessment per 164.402(2): determine probability of compromise.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Privacy Officer / Security Officer",
+      "deadline": "2026-06-20",
+      "category": "assessment"
+    },
+    {
+      "task": "Document all affected individuals, data types, and systems involved.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "HIPAA Compliance Officer",
+      "deadline": "2026-06-22",
+      "category": "documentation"
+    },
+    {
+      "task": "Notify California State Board of Pharmacy within 72 hours.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Pharmacy Manager / Compliance Officer",
+      "deadline": "2026-06-18 00:00:00",
+      "category": "state_notification"
+    },
+    {
+      "task": "Notify affected individuals via first-class mail (or email if authorized).",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Compliance / Communications Team",
+      "deadline": "2026-08-14",
+      "category": "individual_notification"
+    },
+    {
+      "task": "Notify HHS Secretary via OCR Breach Portal.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "HIPAA Compliance Officer",
+      "deadline": "2026-08-14",
+      "category": "hhs_notification"
+    },
+    {
+      "task": "Notify prominent media outlets in the affected state/jurisdiction.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Communications / PR Team",
+      "deadline": "2026-08-14",
+      "category": "media_notification"
+    },
+    {
+      "task": "Notify all Business Associates (BAs) per BAA terms.",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Compliance Officer / Legal",
+      "deadline": "2026-08-14",
+      "category": "ba_notification"
+    },
+    {
+      "task": "Offer credit monitoring / identity theft protection if warranted.",
+      "done": false,
+      "urgent": false,
+      "assigned_to": "Compliance / Legal",
+      "deadline": "As part of individual notice",
+      "category": "remediation"
+    },
+    {
+      "task": "File FBI IC3 report (Internet Crime Complaint Center).",
+      "done": false,
+      "urgent": true,
+      "assigned_to": "Security Officer / Legal",
+      "deadline": "Immediate",
+      "category": "law_enforcement"
+    },
+    {
+      "task": "Update policies and procedures to prevent recurrence.",
+      "done": false,
+      "urgent": false,
+      "assigned_to": "Security / Compliance",
+      "deadline": "2026-09-13",
+      "category": "remediation"
+    }
+  ]
+}

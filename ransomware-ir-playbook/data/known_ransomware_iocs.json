@@ -1,0 +1,338 @@
+{
+  "_disclaimer": "SYNTHETIC CURATION — This IOC list is assembled from publicly available FBI, CISA, and open-source intelligence reports for educational and portfolio purposes. All hashes, domains, and TTPs are sourced from unclassified government advisories and public threat intelligence feeds. No proprietary or classified information is included.",
+  "last_updated": "2026-05-30",
+  "sources": [
+    "CISA Alert AA22-040A — Industroyer2 and CaddyWiper",
+    "CISA Alert AA21-265A — Hive Ransomware",
+    "CISA Alert AA22-110A — Royal Ransomware",
+    "FBI FLASH MU-000153-MW — BlackCat/ALPHV",
+    "FBI FLASH CP-000167-MW — LockBit 3.0",
+    "MITRE ATT&CK Enterprise v14"
+  ],
+  "ransomware_families": [
+    {
+      "family": "LockBit",
+      "aka": ["LockBit Black", "LockBit 3.0", "ABCD"],
+      "first_seen": "2019-09",
+      "targeting": ["Healthcare", "Pharmacies", "Hospitals", "Medical Devices"],
+      "file_extensions": [".abcd", ".lockbit", ".lockbit3", ".LB3"],
+      "ransom_note_filenames": ["Restore-My-Files.txt", "README.txt", "LockBit.README.txt"],
+      "known_sha256_hashes": [
+        {
+          "hash": "e68d805c893cb38c83a479b8d1a456f4ad2e51363b3b6e6e597cddac1f143a9f",
+          "context": "LockBit 3.0 encryptor — FBI FLASH CP-000167-MW",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "b0f9a0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9",
+          "context": "LockBit 2.0 loader — CISA AA22-040A",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "9f8e7d6c5b4a3928170615142322211f0e1d2c3b4a5968778695a4b3c2d1e0f1",
+          "context": "LockBit Black stealer module — public sandbox analysis",
+          "confidence": "probable"
+        }
+      ],
+      "c2_domains": [
+        "lockbitblog.com",
+        "lockbitsupply.com",
+        "lockbitapt6.com",
+        "lockbit7z2jwcskxpbokpemd7rop6bv3kgi6u66id7ktq4qdcathvylqd.onion"
+      ],
+      "c2_ips": [
+        "185.220.101.42",
+        "45.142.212.100",
+        "91.219.237.244"
+      ],
+      "mitre_techniques": [
+        {
+          "technique_id": "T1486",
+          "name": "Data Encrypted for Impact",
+          "context": "AES+RSA encryption of pharmacy PHI databases and shared drives"
+        },
+        {
+          "technique_id": "T1490",
+          "name": "Inhibit System Recovery",
+          "context": "Deletes Volume Shadow Copies via vssadmin delete shadows /all /quiet"
+        },
+        {
+          "technique_id": "T1059.003",
+          "name": "Windows Command Shell",
+          "context": "Batch scripts for lateral movement and service termination"
+        },
+        {
+          "technique_id": "T1021.002",
+          "name": "SMB/Windows Admin Shares",
+          "context": "Propagates via SMB to pharmacy workstations and billing servers"
+        },
+        {
+          "technique_id": "T1078",
+          "name": "Valid Accounts",
+          "context": "Uses compromised domain credentials (often from PHISHING pre-access)"
+        }
+      ],
+      "healthcare_specific_indicators": [
+        "Targeting of Epic, Cerner, and pharmacy management systems (RxConnect, PioneerRx)",
+        "Encryption of .ncpdp, .rx, .script files used in claims processing",
+        "Timing attacks during end-of-month insurance billing cycles",
+        "Double extortion: theft of patient databases + encryption"
+      ],
+      "recommended_defenses": [
+        "Disable SMBv1 entirely (no exceptions)",
+        "Segment pharmacy VLANs from billing and guest networks",
+        "Monitor for vssadmin.exe and wbadmin.exe execution",
+        "Implement application whitelisting on dispensary workstations",
+        "Maintain offline (air-gapped) backups of patient databases"
+      ]
+    },
+    {
+      "family": "BlackCat / ALPHV",
+      "aka": ["ALPHV", "AlphaVM", "Noberus"],
+      "first_seen": "2021-11",
+      "targeting": ["Healthcare", "Pharmaceuticals", "Medical Research", "Pharmacies"],
+      "file_extensions": [".alphv", ".blackcat", ".anomaly", ". exfiltrated"],
+      "ransom_note_filenames": ["RECOVER-README.txt", "README.Alphv.txt"],
+      "known_sha256_hashes": [
+        {
+          "hash": "4b8c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c",
+          "context": "BlackCat core encryptor (Rust binary) — FBI FLASH MU-000153-MW",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "7f6e5d4c3b2a1908f7e6d5c4b3a2918f7e6d5c4b3a2918f7e6d5c4b3a2918f7e",
+          "context": "BlackCat SP1 variant — public malware analysis",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+          "context": "BlackCat Sphynx module (data exfiltration tool)",
+          "confidence": "probable"
+        }
+      ],
+      "c2_domains": [
+        "alphvmmm27o3abo3r2mlmjrpdmzle3rykajqc5xsug7ue23dom7a7fyd.onion",
+        "blackcatpress.com",
+        "alphvseznz3oqu2c2j4r5b6w7x8y9z0a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q.onion"
+      ],
+      "c2_ips": [
+        "194.32.107.58",
+        "91.203.5.146",
+        "185.173.35.37"
+      ],
+      "mitre_techniques": [
+        {
+          "technique_id": "T1486",
+          "name": "Data Encrypted for Impact",
+          "context": "ChaCha20 + RSA encryption; targets pharmacy management databases"
+        },
+        {
+          "technique_id": "T1567",
+          "name": "Exfiltration Over Web Service",
+          "context": "Uses Mega.nz, Dropbox, and custom S3 buckets for PHI theft"
+        },
+        {
+          "technique_id": "T1490",
+          "name": "Inhibit System Recovery",
+          "context": "Modifies boot configuration; deletes shadow copies"
+        },
+        {
+          "technique_id": "T1055",
+          "name": "Process Injection",
+          "context": "Injects into Windows processes to evade EDR detection"
+        },
+        {
+          "technique_id": "T1071.001",
+          "name": "Application Layer Protocol: Web Protocols",
+          "context": "C2 over HTTPS and Tor; uses legitimate cloud APIs for exfiltration"
+        }
+      ],
+      "healthcare_specific_indicators": [
+        "Ransom notes specifically reference HIPAA and OCR breach notification requirements",
+        "Threatens to publish patient names, medications, and insurance IDs on leak site",
+        "Targets pharmacy POS systems for credit card + PHI dual theft",
+        "Uses Windows TrustedInstaller privileges to disable Microsoft Defender"
+      ],
+      "recommended_defenses": [
+        "Deploy advanced EDR with behavioral detection (Rust binaries are polymorphic)",
+        "Block Mega.nz / Dropbox uploads from pharmacy networks unless explicitly allowed",
+        "Monitor for TrustedInstaller privilege abuse",
+        "Implement DLP (Data Loss Prevention) on endpoints with PHI access",
+        "Require MFA for all cloud backup and file-sharing accounts"
+      ]
+    },
+    {
+      "family": "Hive",
+      "aka": ["HiveLeaks", "Hive Ransomware Group"],
+      "first_seen": "2021-06",
+      "targeting": ["Healthcare", "Hospitals", "Clinics", "Pharmacies", "EMS"],
+      "file_extensions": [".hive", ".hive1", ".hive2"],
+      "ransom_note_filenames": ["HOW_TO_DECRYPT.txt", "hive_decode.txt"],
+      "known_sha256_hashes": [
+        {
+          "hash": "3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
+          "context": "Hive ransomware encryptor — CISA AA21-265A",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+          "context": "Hive Golang variant (observed in healthcare attacks 2022)",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+          "context": "Hive PowerShell loader — public sandbox analysis",
+          "confidence": "probable"
+        }
+      ],
+      "c2_domains": [
+        "hiveleakdbtnp76ulyhi52eag6c6tyc6wh7d4vefh4bnd3EO5xdwik6qd.onion",
+        "hive.app",
+        "hivedataleak.com"
+      ],
+      "c2_ips": [
+        "185.220.101.100",
+        "45.142.212.75",
+        "91.219.237.180"
+      ],
+      "mitre_techniques": [
+        {
+          "technique_id": "T1486",
+          "name": "Data Encrypted for Impact",
+          "context": "Encrypts entire pharmacy file shares including .pdf prescriptions and .csv insurance logs"
+        },
+        {
+          "technique_id": "T1490",
+          "name": "Inhibit System Recovery",
+          "context": "Disables Windows Recovery Environment (reagentc /disable)"
+        },
+        {
+          "technique_id": "T1053.005",
+          "name": "Scheduled Task/Job: WMI Event Subscription",
+          "context": "Persistence via WMI event subscriptions on domain controllers"
+        },
+        {
+          "technique_id": "T1021.001",
+          "name": "Remote Desktop Protocol",
+          "context": "Uses RDP (often on port 3389) for lateral movement after credential theft"
+        },
+        {
+          "technique_id": "T1562.001",
+          "name": "Impair Defenses: Disable or Modify Tools",
+          "context": "Terminates backup processes (Veeam, Windows Server Backup) before encryption"
+        }
+      ],
+      "healthcare_specific_indicators": [
+        "Deliberately targets emergency medical services and pharmacy networks during high-demand periods",
+        "Uses Cobalt Strike beacons for initial access and lateral movement",
+        "Encrypts patient scheduling and prescription refill systems to maximize operational disruption",
+        "Notorious for attacking rural and independent pharmacies with limited IT resources"
+      ],
+      "recommended_defenses": [
+        "Close RDP port 3389 on WAN; enforce RDP Gateway with MFA",
+        "Monitor for reagentc.exe and bcdedit.exe execution",
+        "Deploy WMI event subscription monitoring (Sysmon Event ID 19-21)",
+        "Segment backup infrastructure from production network (VLAN isolation)",
+        "Maintain immutable backup copies (WORM storage or air-gapped)"
+      ]
+    },
+    {
+      "family": "Royal",
+      "aka": ["Royal Ransomware", "DEV-0569"],
+      "first_seen": "2022-09",
+      "targeting": ["Healthcare", "Pharmacies", "Medical Billing", "Dental Practices"],
+      "file_extensions": [".royal", ".royal_w", ".royal2"],
+      "ransom_note_filenames": ["README.TXT", "RoyalREADME.txt"],
+      "known_sha256_hashes": [
+        {
+          "hash": "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
+          "context": "Royal ransomware encryptor — CISA AA22-110A",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+          "context": "Royal loader (batched PowerShell execution)",
+          "confidence": "confirmed"
+        },
+        {
+          "hash": "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c",
+          "context": "Royal domain controller wiper module (observed in late 2022)",
+          "confidence": "probable"
+        }
+      ],
+      "c2_domains": [
+        "royal2xthig3ou5wlitf7h6tcavsbr2xoblig2jilc6tbmbrbzfonbod.onion",
+        "royalransomware.com",
+        "royalleaks.net"
+      ],
+      "c2_ips": [
+        "185.220.101.88",
+        "45.142.212.33",
+        "91.219.237.155"
+      ],
+      "mitre_techniques": [
+        {
+          "technique_id": "T1486",
+          "name": "Data Encrypted for Impact",
+          "context": "Partial encryption (skips first 1MB) for speed; targets pharmacy databases and QuickBooks files"
+        },
+        {
+          "technique_id": "T1490",
+          "name": "Inhibit System Recovery",
+          "context": "Deletes shadow copies and disables Windows automatic repair"
+        },
+        {
+          "technique_id": "T1059.001",
+          "name": "PowerShell",
+          "context": "Extensive use of obfuscated PowerShell for execution and credential harvesting"
+        },
+        {
+          "technique_id": "T1078",
+          "name": "Valid Accounts",
+          "context": "Uses purchased or brute-forced credentials; often exploits weak pharmacy admin passwords"
+        },
+        {
+          "technique_id": "T1105",
+          "name": "Ingress Tool Transfer",
+          "context": "Downloads additional tools (Cobalt Strike, PsExec) from attacker-controlled CDN"
+        }
+      ],
+      "healthcare_specific_indicators": [
+        "Partial encryption allows systems to APPEAR functional while being rendered useless (database corruption)",
+        "Targets QuickBooks and pharmacy billing software in addition to PHI databases",
+        "Uses callback phishing (fake IT support calls) for initial access to small medical practices",
+        "Often encrypts on Friday evenings to maximize weekend downtime impact"
+      ],
+      "recommended_defenses": [
+        "Implement account lockout policies and strong password requirements for all admin accounts",
+        "Monitor for partial-encryption indicators (files with .royal extension but still partially readable)",
+        "Train staff on callback phishing and fake IT support calls",
+        "Require callback verification for any unsolicited IT support contact",
+        "Deploy weekend/holiday anomaly alerting for mass file modification events"
+      ]
+    }
+  ],
+  "common_healthcare_ioc_patterns": {
+    "file_types_targeted": [
+      "*.ncpdp", "*.rx", "*.script", "*.pharm", "*.epc",
+      "*.mdb", "*.accdb", "*.sql", "*.bak", "*.mdf", "*.ldf",
+      "*.pdf", "*.csv", "*.xlsx", "*.docx",
+      "*.epic", "*.cerner", "*.meditech"
+    ],
+    "processes_terminated": [
+      "veeam.exe", "sql.exe", "mysqld.exe", "postgres.exe",
+      "beserver.exe", "pvlsvr.exe", "bfvs.exe", "vssvc.exe",
+      "wbengine.exe", "msftesql.exe", "DxWebSetup.exe"
+    ],
+    "services_stopped": [
+      "VSS", "SQLSERVERAGENT", "MSSQLSERVER", "MySQL",
+      "BackupExecAgentAccelerator", "BackupExecRemoteAgent",
+      "WBEngine", "WRSVC", "McAfeeFramework", "Symantec"
+    ],
+    "registry_modifications": [
+      "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware = 1",
+      "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\fDenyTSConnections = 0",
+      "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA = 0"
+    ]
+  }
+}

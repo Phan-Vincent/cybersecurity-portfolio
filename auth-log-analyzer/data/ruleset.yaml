@@ -1,0 +1,36 @@
+# Detection ruleset for Auth Log Analyzer
+# Adjust thresholds and watchlists based on your environment.
+
+brute_force:
+  # Number of failed attempts within the time window to trigger
+  failed_attempt_threshold: 5
+  # Time window in minutes
+  time_window_minutes: 10
+
+impossible_travel:
+  # Minimum speed (km/h) that triggers impossible travel
+  # 800 km/h ≈ 500 mph — faster than a commercial airliner is suspicious
+  min_speed_kmh: 800
+
+privilege_escalation:
+  # Users NOT expected to have sudo/root access
+  # Empty list = flag all sudo-to-root events
+  non_admin_users:
+    - alice
+    - bob
+    - mallory
+  
+  # Commands that elevate severity when run via sudo
+  suspicious_commands:
+    - "/bin/cat /etc/shadow"
+    - "chmod u+s"
+    - "nc -e /bin/sh"
+    - "nmap"
+    - "openssl enc"
+    - "useradd"
+    - "passwd"
+
+off_hours:
+  # Business hours for useradd anomaly detection (24h format)
+  business_hours_start: 8
+  business_hours_end: 18

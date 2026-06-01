@@ -1,0 +1,79 @@
+[
+  {
+    "UserName": "admin-sarah",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE1",
+    "Status": "Active",
+    "CreateDate": "2023-01-15T09:00:00Z",
+    "LastUsed": {
+      "LastUsedDate": "2025-05-30T14:22:00Z",
+      "ServiceName": "iam",
+      "Region": "us-west-2"
+    }
+  },
+  {
+    "UserName": "admin-sarah",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE2",
+    "Status": "Active",
+    "CreateDate": "2023-02-01T10:00:00Z",
+    "LastUsed": {
+      "LastUsedDate": "2024-01-10T08:00:00Z",
+      "ServiceName": "s3",
+      "Region": "us-west-2"
+    }
+  },
+  {
+    "UserName": "dev-jake",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE3",
+    "Status": "Active",
+    "CreateDate": "2024-03-10T11:30:00Z",
+    "LastUsed": {
+      "LastUsedDate": "2025-05-28T08:45:00Z",
+      "ServiceName": "ec2",
+      "Region": "us-east-1"
+    }
+  },
+  {
+    "UserName": "svc-etl-pipeline",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE4",
+    "Status": "Active",
+    "CreateDate": "2022-06-01T00:00:00Z",
+    "LastUsed": {
+      "LastUsedDate": null,
+      "ServiceName": "N/A",
+      "Region": "N/A"
+    }
+  },
+  {
+    "UserName": "analyst-maria",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE5",
+    "Status": "Active",
+    "CreateDate": "2024-08-20T13:15:00Z",
+    "LastUsed": {
+      "LastUsedDate": "2025-05-29T16:00:00Z",
+      "ServiceName": "athena",
+      "Region": "us-west-2"
+    }
+  },
+  {
+    "UserName": "backup-service",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE6",
+    "Status": "Active",
+    "CreateDate": "2021-09-12T00:00:00Z",
+    "LastUsed": {
+      "LastUsedDate": "2023-03-15T12:00:00Z",
+      "ServiceName": "s3",
+      "Region": "us-west-2"
+    }
+  },
+  {
+    "UserName": "backup-service",
+    "AccessKeyId": "AKIAIOSFODNN7EXAMPLE7",
+    "Status": "Active",
+    "CreateDate": "2021-09-12T00:00:00Z",
+    "LastUsed": {
+      "LastUsedDate": null,
+      "ServiceName": "N/A",
+      "Region": "N/A"
+    }
+  }
+]

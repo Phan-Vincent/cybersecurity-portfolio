@@ -1,0 +1,52 @@
+# ============================================================
+# TRAINING USE ONLY — AUTHORIZED SECURITY AWARENESS SIMULATION
+# ============================================================
+# This is a SYNTHETIC phishing email template for authorized internal
+# security training. All names, data, and scenarios are fictional.
+# DO NOT send this to real individuals without explicit consent.
+# ============================================================
+
+From: DHL Express <no-reply@dhl-express-tracking.net>
+To: mike.johnson@example-corp.com
+Subject: Delivery Failed — Customs Fee Required ($4.87) — Package On Hold
+Date: Mon, 01 Jun 2026 06:18:44 -0700
+
+---
+
+Dear Customer,
+
+We attempted to deliver your package today at 9:14 AM, but delivery was **unsuccessful** due to an unpaid customs processing fee.
+
+**Package Details:**
+- Tracking Number: 1Z999AA10123456784
+- Origin: Shenzhen, China
+- Weight: 2.4 kg
+- Declared Value: $89.00
+- Service: DHL Express Worldwide
+
+**Issue:**
+Your package is being held at our Los Angeles Distribution Center. A customs duty and processing fee of **$4.87** must be paid before redelivery can be scheduled.
+
+**⚠️ HOLD EXPIRES IN 48 HOURS**
+After 48 hours, your package will be:
+- Returned to sender (at your expense)
+- Subject to additional storage fees ($12/day)
+- Potentially flagged for additional inspection
+
+**Pay Customs Fee & Schedule Redelivery →** [Pay $4.87 Now](https://dhl-customs-clearance.secure-checkout.io/pay?track=1Z999AA10123456784&fee=4.87)
+
+**What happens next:**
+1. Pay the $4.87 fee
+2. Select your preferred redelivery date
+3. Receive updated tracking confirmation
+
+**Why is there a fee?**
+Effective June 1, 2026, the U.S. Customs and Border Protection (CBP) has implemented a $4.87 processing fee on all inbound commercial packages valued between $50–$100. This is not a DHL fee — we are collecting on behalf of CBP.
+
+Questions? Our automated support center is available 24/7.
+
+DHL Express Customer Care
+Reference: CUS-2026-4419-LAX
+
+---
+*This is an automated message. Replies are not monitored.*

@@ -1,0 +1,8 @@
+# Synthetic demo targets inventory
+# This is sample data for demonstration purposes only.
+# No real infrastructure, IPs, or hostnames are used.
+
+address,hostname,description,environment
+192.168.1.10,web-server-01,Apache web server + MySQL database,internal-lab
+192.168.1.20,file-server-01,Samba file share + RDP access,internal-lab
+192.168.1.30,backup-server-01,SSH management + nginx reverse proxy,internal-lab

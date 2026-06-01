@@ -1,0 +1,79 @@
+================================================================================
+Linux Hardening Toolkit — Audit Report
+Generated: 2026-06-01T14:32:10Z
+Mode: audit (read-only)
+Host: ubuntu-ePHI-demo (synthetic)
+Author: Vincent Phan | CSUSB Cybersecurity Student
+================================================================================
+
+--- Module: SSH ---
+[PASS]  SSH-01: SSH Protocol is 2 (CIS 5.2.1)
+[PASS]  SSH-02: SSH LogLevel is VERBOSE (CIS 5.2.2)
+[FAIL]  SSH-03: MaxAuthTries <= 4 (CIS 5.2.3)
+[FAIL]  SSH-04: PermitRootLogin is disabled (CIS 5.2.4)
+[FAIL]  SSH-05: PasswordAuthentication disabled (CIS 5.2.5)
+[PASS]  SSH-06: ClientAliveInterval set to 300 (CIS 5.2.12)
+
+--- Module: Firewall ---
+[PASS]  FW-01: UFW is installed (CIS 3.5.1.1)
+[PASS]  FW-02: UFW service is enabled (CIS 3.5.1.2)
+[FAIL]  FW-03: Default deny policy (CIS 3.5.1.3)
+[PASS]  FW-04: Loopback traffic configured (CIS 3.5.1.4)
+[FAIL]  FW-05: SSH (port 22) restricted/allowed (ePHI admin path)
+
+--- Module: Auth ---
+[PASS]  AUTH-01: pam_pwquality enforces strong passwords (CIS 5.3.1)
+[FAIL]  AUTH-02: pam_faillock locks accounts after failed attempts (CIS 5.3.2)
+[FAIL]  AUTH-03: Password max age <= 365 days (CIS 5.4.1.1)
+[PASS]  AUTH-04: Password min age >= 1 day (CIS 5.4.1.2)
+[PASS]  AUTH-05: Password warning >= 7 days (CIS 5.4.1.3)
+
+--- Module: Auditd ---
+[PASS]  AUDIT-01: auditd is installed (CIS 4.1.1.1)
+[PASS]  AUDIT-02: auditd service is enabled (CIS 4.1.1.2)
+[FAIL]  AUDIT-03: Max audit log file size configured (CIS 4.1.1.3)
+[FAIL]  AUDIT-04: Audit log retention = keep_logs (CIS 4.1.1.4)
+[PASS]  AUDIT-05: sudoers changes are audited (CIS 4.1.3)
+[FAIL]  AUDIT-06: ePHI directory access auditing (HIPAA 164.312(b))
+
+--- Module: Filesystem ---
+[PASS]  FS-01: SUID binary count is reasonable (42) (CIS 6.1.1)
+[PASS]  FS-02: No world-writable files found (CIS 6.1.2)
+[PASS]  FS-03: Sticky bit set on all world-writable directories (CIS 6.1.3)
+[WARN]  FS-04: /srv/ePHI does not exist (skipping — create this dir for production ePHI)
+
+--- Module: Updates ---
+[PASS]  UPD-01: Unattended-upgrades installed (CIS 1.8)
+[PASS]  UPD-02: Unattended-upgrades enabled in APT (CIS 1.8)
+[FAIL]  UPD-03: Security origin enabled in unattended-upgrades (CIS 1.8)
+[FAIL]  UPD-04: Auto-reboot enabled for security updates (CIS 1.9)
+[FAIL]  UPD-05: Unattended-upgrades mail notification configured (ePHI best practice)
+
+================================================================================
+Results: 14 passed / 11 failed / 25 total
+Some checks failed. Review above and re-run with --harden to remediate.
+================================================================================
+
+--- Remediation Recommendations (Prioritized by ePHI Risk) ---
+
+HIGH PRIORITY (Immediate):
+1. SSH-04: PermitRootLogin no — Root access is the highest ePHI exposure.
+2. SSH-05: PasswordAuthentication no — Keys > passwords for admin ePHI access.
+3. FW-03: Default deny — Every exposed port is a potential breach entry.
+4. AUTH-02: pam_faillock — Credential stuffing is the #1 healthcare vector.
+
+MEDIUM PRIORITY (This week):
+5. AUTH-03: Password expiration — Limits stolen credential window.
+6. AUDIT-03/04: Audit log sizing & retention — Required for HIPAA forensics.
+7. UPD-03/04: Auto-updates & reboot — Patch gap = exploited gap.
+
+LOW PRIORITY (Next sprint):
+8. SSH-03: MaxAuthTries — Already partially mitigated by key-auth + fail2ban.
+9. FW-05: SSH port rule — Add explicit allow after default deny is set.
+10. UPD-05: Mail notifications — Operational awareness, not direct security.
+
+--- Notes ---
+* This is a SYNTHETIC audit report for portfolio demonstration.
+* No real system was audited. All data is fabricated for educational purposes.
+* In production, this report would be exported to a SIEM and retained per HIPAA §164.316(b)(1).
+* /srv/ePHI is a synthetic path. Replace with actual ePHI mount point.
