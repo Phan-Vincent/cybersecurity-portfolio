@@ -2,7 +2,7 @@
 ## For Small Healthcare Pharmacies & Clinics
 ### Based on NIST SP 800-61 Rev. 2
 
-**Author:** Vincent Phan | CPhT — CVS Pharmacy Technician  
+**Author:** Vincent Phan | CPhT — CVS Pharmacy Technician\
 **Target Audience:** Small-to-midsize outpatient pharmacies, compounding labs, clinic dispensaries  
 **Version:** 1.0  
 **Classification:** Internal Use / Portfolio Project — All patient data is synthetic

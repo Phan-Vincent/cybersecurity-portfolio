@@ -17,3 +17,4 @@ Thumbs.db
 # internal QA artifact, scratch
 QA-REPORT.md
 _all_files.txt
+*.pyc

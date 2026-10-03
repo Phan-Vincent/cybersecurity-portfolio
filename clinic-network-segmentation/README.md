@@ -2,8 +2,8 @@
 
 > A defense-in-depth network architecture for a 3-provider primary care clinic, built around HIPAA Security Rule technical safeguards and zero-trust principles for clinical IoT. This is a student design project grounded in real healthcare workflow experience.
 
-**Author:** Vincent Phan — [github.com/Phan-Vincent](https://github.com/Phan-Vincent)  
-**Role:** CVS Pharmacy Technician (CPhT) | CSU San Bernardino BS-IS Cybersecurity (Fall 2026)  
+**Author:** Vincent Phan — [github.com/Phan-Vincent](https://github.com/Phan-Vincent)\
+**Role:** CVS Pharmacy Technician (CPhT) | CSU San Bernardino BS-IS Cybersecurity (Fall 2026)\
 **Date:** 2026-06-02  
 **License:** MIT
 

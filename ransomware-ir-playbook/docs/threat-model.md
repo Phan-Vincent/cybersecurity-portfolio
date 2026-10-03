@@ -1,7 +1,7 @@
 # Threat Model: Small-Pharmacy Ransomware Attack Surface
 ## Security Rationale for the IR Playbook
 
-**Author:** Vincent Phan | CPhT — CVS Pharmacy Technician  
+**Author:** Vincent Phan | CPhT — CVS Pharmacy Technician\
 **Target:** Independent / small-chain outpatient pharmacies, compounding labs, clinic dispensaries  
 **Version:** 1.0  
 **Classification:** Internal Use / Portfolio Project
