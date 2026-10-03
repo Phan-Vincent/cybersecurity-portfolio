@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!--
+  Synthetic nmap XML fixture for the scanner package.
+  Consumed by scanner/scanner.py in demo mode and by tests/test_scanner.py.
+  No real host was scanned. Addresses are RFC 1918 lab examples and
+  hostnames are non-resolvable placeholders; versions are synthetic.
+  Keep this in sync with data/demo_targets.csv.
+-->
+<nmaprun scanner="nmap" args="nmap -sS -sV -O --top-ports 1000 -oX - 192.168.1.0/24" start="1705329121" startstr="Mon Jan 15 14:32:01 2024" version="7.94" xmloutputversion="1.05">
+  <scaninfo type="syn" protocol="tcp" numservices="1000" services="1,3-4,6-7,9,13..."/>
+
+  <host starttime="1705329121" endtime="1705329151">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.10" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="web-server-01" type="PTR"/>
+    </hostnames>
+    <ports>
+      <extraports state="closed" count="996"/>
+      <port protocol="tcp" portid="22">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ssh" product="OpenSSH" version="8.2p1" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:openssh:openssh:8.2p1</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="80">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="http" product="Apache httpd" version="2.4.41" extrainfo="(Debian)" method="probed" conf="10">
+          <cpe>cpe:/a:apache:http_server:2.4.41</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="443">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="https" product="Apache httpd" version="2.4.41" extrainfo="(Debian)" tunnel="ssl" method="probed" conf="10">
+          <cpe>cpe:/a:apache:http_server:2.4.41</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="3306">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="mysql" product="MySQL" version="5.7.33" extrainfo="MySQL Community Server" method="probed" conf="10">
+          <cpe>cpe:/a:mysql:mysql:5.7.33</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="210" rttvar="30" to="100000"/>
+  </host>
+
+  <host starttime="1705329151" endtime="1705329181">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.20" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="file-server-01" type="PTR"/>
+    </hostnames>
+    <ports>
+      <extraports state="closed" count="998"/>
+      <port protocol="tcp" portid="445">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="microsoft-ds" product="Samba" version="4.11.6" extrainfo="workgroup: WORKGROUP" ostype="Unix" method="probed" conf="10">
+          <cpe>cpe:/a:samba:samba:4.11.6</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="3389">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ms-wbt-server" product="xrdp" version="0.9.12" method="probed" conf="10">
+          <cpe>cpe:/a:neutrinolabs:xrdp:0.9.12</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="450" rttvar="80" to="100000"/>
+  </host>
+
+  <host starttime="1705329181" endtime="1705329211">
+    <status state="up" reason="arp-response" reason_ttl="0"/>
+    <address addr="192.168.1.30" addrtype="ipv4"/>
+    <hostnames>
+      <hostname name="backup-server-01" type="PTR"/>
+    </hostnames>
+    <ports>
+      <extraports state="closed" count="998"/>
+      <port protocol="tcp" portid="22">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="ssh" product="OpenSSH" version="7.4p1" extrainfo="Debian; protocol 2.0" ostype="Linux" method="probed" conf="10">
+          <cpe>cpe:/a:openssh:openssh:7.4p1</cpe>
+        </service>
+      </port>
+      <port protocol="tcp" portid="8080">
+        <state state="open" reason="syn-ack" reason_ttl="64"/>
+        <service name="http" product="nginx" version="1.14.0" extrainfo="reverse proxy" method="probed" conf="10">
+          <cpe>cpe:/a:nginx:nginx:1.14.0</cpe>
+        </service>
+      </port>
+    </ports>
+    <times srtt="300" rttvar="50" to="100000"/>
+  </host>
+
+  <runstats>
+    <finished time="1705329271" timestr="Mon Jan 15 14:34:31 2024" summary="Nmap done at Mon Jan 15 14:34:31 2024; 256 IP addresses (3 hosts up) scanned in 150.00 seconds" elapsed="150.00" exit="success"/>
+    <hosts up="3" down="253" total="256"/>
+  </runstats>
+</nmaprun>

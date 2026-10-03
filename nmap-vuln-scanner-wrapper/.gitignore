@@ -20,6 +20,7 @@ scan-report.json
 scan-report.md
 *.xml
 !demo_data/*.xml
+!data/*.xml
 
 # pytest
 .pytest_cache/
