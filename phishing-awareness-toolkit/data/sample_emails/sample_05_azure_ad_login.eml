@@ -1,0 +1,18 @@
+Return-Path: <no-reply@login-micr0soft-online.site>
+Received: from login-micr0soft-online.site (login-micr0soft-online.site [203.0.113.9]) by mx.example-clinic.com; Fri, 05 Jun 2026 06:02:11 -0700
+Authentication-Results: mx.example-clinic.com; spf=fail smtp.mailfrom=login-micr0soft-online.site; dkim=fail; dmarc=fail
+From: "IT Identity Services" <no-reply@login-micr0soft-online.site>
+To: jane.smith@example-clinic.com
+Subject: Security alert: sign-in blocked - re-validate MFA
+Date: Fri, 05 Jun 2026 06:02:05 -0700
+Message-ID: <e5@login-micr0soft-online.site>
+MIME-Version: 1.0
+Content-Type: text/html; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+<html><body>
+<p>We blocked a sign-in to your work account from an unrecognised device.</p>
+<p>Security alert: please re-validate your multi-factor authentication within
+the next 12 hours to keep access to email and the EHR portal.</p>
+<p><a href="https://sso.portal.auth.login-micr0soft-online.site/common/oauth2/reauth">Re-validate now</a></p>
+</body></html>

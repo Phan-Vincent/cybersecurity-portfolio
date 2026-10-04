@@ -1,5 +1,7 @@
 # Vincent Phan — Cybersecurity Portfolio
 
+[![tests](https://github.com/Phan-Vincent/cybersecurity-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/Phan-Vincent/cybersecurity-portfolio/actions/workflows/tests.yml)
+
 **Certified Pharmacy Technician (CPhT) with four years of HIPAA-regulated PHI handling experience, now transferring to CSU San Bernardino for a BS in Information Systems — Cybersecurity concentration.** This portfolio bridges healthcare operations and defensive security: every project is grounded in real patient-data sensitivity, built with synthetic-data ethics, and documented with the kind of risk-aware judgment that SOC teams need on Day 1.
 
 ---
@@ -56,6 +58,17 @@
 | **hipaa-security-rule-gap-assessment** | | | | ✅ Full gap assessment | Python | | |
 | **ransomware-ir-playbook** | | ✅ NIST 800-61 | | ✅ Breach notification | Python / Bash | ✅ IOC hunting | |
 | **credential-hygiene-auditor** | | | | ✅ Access controls | Python | | |
+
+---
+
+## Testing
+
+Every project ships with an automated test suite, run on each push by [GitHub Actions](.github/workflows/tests.yml) — 300+ pytest cases across the Python projects, plus a sandboxed Bash suite and ShellCheck for the Linux hardening toolkit.
+
+```bash
+cd <project> && pip install -r requirements.txt pytest && pytest -q   # Python projects
+cd linux-hardening-toolkit && bash tests/validate.sh                   # Bash toolkit (no root, never touches the host)
+```
 
 ---
 

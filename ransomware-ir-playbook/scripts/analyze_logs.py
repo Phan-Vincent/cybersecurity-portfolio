@@ -38,7 +38,14 @@ from typing import List, Dict, Any, Tuple, Optional
 # ──────────────────────────────────────────────────────────────────────────────
 # Detection Rules (heuristic, no external threat-intel required)
 # ──────────────────────────────────────────────────────────────────────────────
-SUSPICIOUS_EXTENSIONS = [".encrypted", ".locked", ".locked3", ".pay2dec", ".README_"]
+SUSPICIOUS_EXTENSIONS = [".encrypted", ".locked", ".locked3", ".pay2dec"]
+# Ransom notes: common note filenames (LockBit, BlackCat, Hive, Royal, generic) and wording
+RANSOM_NOTE_PATTERN = re.compile(
+    r"(readme[_\-.]?(recover|restore|decrypt|for_decrypt)"
+    r"|restore-my-files|recover-readme|how[_\-]?to[_\-]?(decrypt|restore|recover)"
+    r"|decrypt[_\-]?instructions|!+\s*readme|your files (have been|are) encrypted)",
+    re.IGNORECASE,
+)
 SUSPICIOUS_POWERSHELL_PATTERNS = [
     "invoke-expression", "iex", "downloadstring", "downloadfile",
     "frombase64string", "-enc", "-encodedcommand", "bypass", "noprofile",
@@ -230,12 +237,10 @@ def detect_indicators(events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     ransom_notes = []
     for i, ev in enumerate(events):
         text = data_texts[i]
-        for ext in SUSPICIOUS_EXTENSIONS:
-            if ext in text:
-                if ".readme_" in text:
-                    ransom_notes.append((ev["EventID"], ev["TimeCreated"], text))
-                else:
-                    encrypted_files.append((ev["EventID"], ev["TimeCreated"], text))
+        if RANSOM_NOTE_PATTERN.search(text):
+            ransom_notes.append((ev["EventID"], ev["TimeCreated"], text))
+        elif any(ext in text for ext in SUSPICIOUS_EXTENSIONS):
+            encrypted_files.append((ev["EventID"], ev["TimeCreated"], text))
 
     if encrypted_files:
         findings.append({

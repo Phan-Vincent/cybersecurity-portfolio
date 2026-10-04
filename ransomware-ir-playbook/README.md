@@ -35,7 +35,7 @@ ransomware-ir-playbook/
 │   └── threat-model.md                # attack-surface model, MITRE ATT&CK mapping, risk matrix
 ├── scripts/
 │   ├── generate_sample_logs.py        # synthesize attack-progression Windows Event Log XML + JSON
-│   ├── analyze_logs.py                # detect 11 ransomware indicator categories, score, MITRE-map
+│   ├── analyze_logs.py                # detect 12 ransomware indicator categories, score, MITRE-map
 │   ├── check_iocs.py                  # match hashes/IPs/domains vs local IOC DB (air-gapped)
 │   ├── hipaa_notification_calculator.py  # compute all HIPAA/state breach-notification deadlines
 │   └── network_isolation.sh           # rapid segmentation (pfSense/OPNsense/UniFi/nftables) + rollback
@@ -43,7 +43,9 @@ ransomware-ir-playbook/
 │   ├── sample_network_topology.json
 │   ├── sample_system_inventory.json
 │   ├── sample_phi_records.json        # fictional patients, "_synthetic": true on every record
-│   └── known_ransomware_iocs.json     # public CISA/FBI IOCs (LockBit, BlackCat, Hive, Royal)
+│   └── known_ransomware_iocs.json     # LockBit/BlackCat/Hive/Royal TTP profiles (indicator values are placeholders)
+├── tests/                             # pytest: deadline math, IOC matching, generate -> detect pipeline
+├── LICENSE                            # MIT
 └── templates/
     ├── hipaa_breach_notification_template.md
     ├── business_associate_notification_template.md
@@ -59,7 +61,7 @@ All scripts use the **Python 3 standard library only** — no `pip install`, so 
 cd scripts
 
 # 1. Generate a synthetic ransomware attack log set (Windows Event Log XML + JSON timeline)
-python3 generate_sample_logs.py            # writes sample_logs.xml + sample_logs_timeline.json
+python3 generate_sample_logs.py            # writes sample_logs.xml + sample_logs_timeline.json (--out-dir to redirect)
 
 # 2. Analyze those logs for ransomware indicators -> JSON timeline + Markdown IR report
 python3 analyze_logs.py sample_logs.xml
@@ -72,6 +74,9 @@ python3 hipaa_notification_calculator.py --date 2026-06-15 --count 1200 --state 
 
 # 5. (Review only — do not run live) network isolation playbook script
 bash -n network_isolation.sh   # syntax check; the script is documentation-grade and gated by pre-flight checks
+
+# Tests (from the project root; pytest is the only non-stdlib dependency and is test-only)
+cd .. && pip install pytest && pytest tests/ -v
 ```
 
 Run any script with `-h` for full options. `generate_sample_logs.py` and `check_iocs.py` run straight from synthetic data; `analyze_logs.py` takes a log file and `hipaa_notification_calculator.py` takes incident parameters.
@@ -98,7 +103,7 @@ The playbook's phases are explicitly justified against these: e.g., containment 
 
 - **This is a student portfolio project**, not a production-certified IR plan. A real pharmacy should have counsel and a qualified IR firm review any plan before adopting it.
 - **All data is synthetic.** No real PHI, patient names, NPIs, employer data, or secrets appear anywhere. Patient records carry an explicit `"_synthetic": true` flag.
-- **The IOC list uses public threat intelligence** (CISA advisories, FBI FLASH/IC3) — these hashes/domains are published intelligence, not secrets.
+- **IOC data is illustrative.** Family profiles, TTPs and defenses in `data/known_ransomware_iocs.json` are summarized from public CISA/FBI advisories, but the hash, domain and IP values are placeholders shaped like real indicators — not verified intelligence. `check_iocs.py` ships with an embedded, explicitly fabricated demo database.
 - I am a CPhT and a cybersecurity student. I do **not** hold a security certification yet, and nothing here claims otherwise. The healthcare/PHI/HIPAA operational knowledge is grounded in my actual pharmacy-technician experience; the security framing is applied coursework + self-study.
 - The tooling is intentionally simple and stdlib-only so it's auditable and runnable on a clean IR laptop — it is not a replacement for commercial EDR/DFIR tooling.
 

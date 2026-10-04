@@ -1,0 +1,18 @@
+Return-Path: <tracking@parcel-update.example-shipping.net>
+Received: from mail.example-shipping.net (mail.example-shipping.net [198.51.100.40]) by mx.example-mail.com; Sat, 06 Jun 2026 09:14:00 -0700
+Authentication-Results: mx.example-mail.com; spf=pass smtp.mailfrom=example-shipping.net; dkim=pass; dmarc=pass
+From: "Delivery Updates" <tracking@parcel-update.example-shipping.net>
+To: customer@example-mail.com
+Subject: Delivery attempt failed - reschedule your package
+Date: Sat, 06 Jun 2026 09:13:52 -0700
+Message-ID: <f6@example-shipping.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+We tried to deliver your package today but no one was available.
+
+A redelivery fee of $1.99 applies. Reschedule here (link expires soon):
+https://tinyurl.com/redeliver-pkg-2026
+
+Delivery Updates

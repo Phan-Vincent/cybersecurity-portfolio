@@ -1,3 +1,6 @@
+# Clinic Network — Mermaid Diagram
+
+```mermaid
 graph TB
     subgraph WAN["Internet"]
         ISP["ISP / Modem"]
@@ -67,3 +70,5 @@ graph TB
     VLAN30 -.->|"IoT telemetry"| IOT_GW
     IOT_GW -.->|"Filtered"| VLAN20
     VLAN50 -.->|"Mirror / TAP"| SW
+
+```

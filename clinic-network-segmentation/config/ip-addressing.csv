@@ -5,5 +5,5 @@ vlan_id,subnet,cidr,gateway_ip,dhcp_range_start,dhcp_range_end,static_reservatio
 40,10.40.0.0,24,10.40.0.1,10.40.0.100,10.40.0.250,0,254,0,Guest devices; 4-hour lease; captive portal
 50,10.50.0.0,24,10.50.0.1,10.50.0.100,10.50.0.200,3,254,3,SIEM + NIDS + syslog collector; no DHCP client mode
 100,10.100.0.0,24,10.100.0.1,10.100.0.100,10.100.0.200,4,254,4,Switch + firewall + AP management; no user DHCP
-254,10.254.0.0,24,10.254.0.1,10.254.0.100,10.254.0.200,2,254,2,DMZ proxy + DNS resolver; controlled NAT
+254,10.254.0.0,24,10.254.0.1,10.254.0.100,10.254.0.200,3,254,3,DMZ proxy + EHR sync relay + DNS resolver; controlled NAT
 999,192.168.255.0,24,192.168.255.1,192.168.255.100,192.168.255.200,0,254,0,Quarantine; no DHCP lease > 5 minutes

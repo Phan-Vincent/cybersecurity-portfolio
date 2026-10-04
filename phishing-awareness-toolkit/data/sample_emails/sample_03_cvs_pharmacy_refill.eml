@@ -1,0 +1,22 @@
+Return-Path: <alerts@cvs-rx-refi11.click>
+Received: from cvs-rx-refi11.click (cvs-rx-refi11.click [203.0.113.150]) by mx.example-mail.com; Wed, 03 Jun 2026 18:05:31 -0700
+Authentication-Results: mx.example-mail.com; spf=softfail smtp.mailfrom=cvs-rx-refi11.click; dkim=fail; dmarc=fail
+From: "Pharmacy Refill Center" <alerts@cvs-rx-refi11.click>
+To: patient.jdoe@example-mail.com
+Subject: Prescription expired - confirm your insurance to avoid delay
+Date: Wed, 03 Jun 2026 18:05:20 -0700
+Message-ID: <c3@cvs-rx-refi11.click>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+Hello,
+
+Your prescription expired and your refill is on hold. To avoid a gap in your
+medication, verify your account and update your billing information today.
+
+Confirm refill: https://cvs-rx-refi11.click/refill?rx=RX-0000000
+
+This link expires today.
+
+Pharmacy Refill Center

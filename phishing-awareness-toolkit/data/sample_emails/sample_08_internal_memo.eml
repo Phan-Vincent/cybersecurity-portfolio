@@ -1,0 +1,20 @@
+Return-Path: <operations@example-clinic.com>
+Received: from mail.example-clinic.com (mail.example-clinic.com [198.51.100.5]) by mx.example-clinic.com; Tue, 09 Jun 2026 13:30:10 -0700
+Authentication-Results: mx.example-clinic.com; spf=pass smtp.mailfrom=example-clinic.com; dkim=pass header.d=example-clinic.com; dmarc=pass
+From: "Clinic Operations" <operations@example-clinic.com>
+To: all-staff@example-clinic.com
+Subject: Schedule reminder: quarterly fire drill on Thursday
+Date: Tue, 09 Jun 2026 13:30:00 -0700
+Message-ID: <h8@example-clinic.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+Hi team,
+
+Reminder that our quarterly fire drill is this Thursday at 10:00. Please
+review the evacuation map posted by the break room and make sure patient
+areas are cleared calmly. The drill should take about 15 minutes.
+
+Thanks,
+Clinic Operations
