@@ -65,7 +65,7 @@ HIPAA §164.312(b) explicitly requires audit controls to record activity in info
 **Real-world:** HHS OCR fines are 30-50% higher when an organization cannot produce audit logs during an investigation.
 
 ### AUDIT-06: ePHI file access rules
-HIPAA requires knowing *who* accessed *what* ePHI *when*. auditd rules on `/srv/ePHI` (or production equivalent) provide the raw data for this. This is the difference between "we think we were breached" and "user jsmith accessed patient #48291 at 14:23 on June 1."
+HIPAA requires knowing *who* accessed *what* ePHI *when*. auditd rules on the ePHI directory (`/var/ephisynth` by default, `--ephi-dir` in production) (or production equivalent) provide the raw data for this. This is the difference between "we think we were breached" and "user jsmith accessed patient #48291 at 14:23 on June 1."
 
 ---
 

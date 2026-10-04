@@ -5,3 +5,6 @@ venv/
 .env
 reports/
 *.log
+
+# Synthetic sample log is intentionally committed
+!data/sample-auth.log

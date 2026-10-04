@@ -1,0 +1,20 @@
+Jun  3 02:13:44 clinic-app01 useradd[2101]: new user: name=svc-backup, UID=1007, GID=1007, home=/home/svc-backup, shell=/bin/bash
+Jun  3 07:58:02 clinic-app01 sshd[3101]: Accepted publickey for vphan from 192.168.1.5 port 50122 ssh2
+Jun  3 08:01:15 clinic-app01 sudo:    vphan : TTY=pts/0 ; PWD=/home/vphan ; USER=root ; COMMAND=/usr/bin/apt update
+Jun  3 08:01:15 clinic-app01 sudo: pam_unix(sudo:session): session opened for user root by vphan(uid=0)
+Jun  3 08:45:10 clinic-app01 sshd[3120]: Accepted password for alice from 192.168.1.5 port 50410 ssh2
+Jun  3 08:52:31 clinic-app01 sshd[3130]: Invalid user admin from 203.0.113.45 port 41022
+Jun  3 08:52:33 clinic-app01 sshd[3130]: Failed password for invalid user admin from 203.0.113.45 port 41022 ssh2
+Jun  3 08:52:47 clinic-app01 sshd[3131]: Failed password for root from 203.0.113.45 port 41030 ssh2
+Jun  3 08:53:02 clinic-app01 sshd[3132]: Failed password for root from 203.0.113.45 port 41038 ssh2
+Jun  3 08:53:20 clinic-app01 sshd[3133]: Failed password for alice from 203.0.113.45 port 41044 ssh2
+Jun  3 08:53:41 clinic-app01 sshd[3134]: Failed password for alice from 203.0.113.45 port 41051 ssh2
+Jun  3 08:54:05 clinic-app01 sshd[3135]: Failed password for alice from 203.0.113.45 port 41060 ssh2
+Jun  3 08:55:12 clinic-app01 sshd[3136]: Accepted password for alice from 203.0.113.45 port 41075 ssh2
+Jun  3 08:57:40 clinic-app01 sudo:    alice : TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/cat /etc/shadow
+Jun  3 08:57:40 clinic-app01 sudo: pam_unix(sudo:session): session opened for user root by alice(uid=0)
+Jun  3 09:30:18 clinic-app01 sshd[3150]: Failed password for bob from 192.168.1.5 port 50601 ssh2
+Jun  3 09:30:29 clinic-app01 sshd[3151]: Accepted password for bob from 192.168.1.5 port 50602 ssh2
+Jun  3 09:41:03 clinic-app01 sudo:    bob : TTY=pts/2 ; PWD=/home/bob ; USER=root ; COMMAND=/usr/bin/systemctl restart nginx
+Jun  3 10:05:27 clinic-app01 useradd[2140]: new user: name=carol, UID=1008, GID=1008, home=/home/carol, shell=/bin/bash
+Jun  3 12:15:00 clinic-app01 sshd[3170]: Accepted publickey for vphan from 192.168.1.5 port 51003 ssh2

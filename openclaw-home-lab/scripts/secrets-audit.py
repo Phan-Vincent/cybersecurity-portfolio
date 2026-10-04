@@ -106,6 +106,13 @@ SKIP_PATTERNS = [
 # ---------------------------------------------------------------------------
 
 
+def redact(secret: str) -> str:
+    """Never echo a discovered secret: keep a 4-char prefix for triage plus the length."""
+    if len(secret) <= 8:
+        return "*" * len(secret)
+    return f"{secret[:4]}…[{len(secret)} chars redacted]"
+
+
 def should_skip(path: Path) -> bool:
     rel = str(path)
     for pat in SKIP_PATTERNS:
@@ -161,10 +168,10 @@ def scan_file(path: Path) -> list[dict]:
                     "file": str(path),
                     "line": line_no,
                     "column": match.start() + 1,
-                    "match": match.group(0)[:40] + "..." if len(match.group(0)) > 40 else match.group(0),
+                    "match": redact(match.group(0)),
                     "pattern": pat["name"],
                     "severity": pat["severity"],
-                    "context": line.strip()[:120],
+                    "context": line.strip().replace(match.group(0), redact(match.group(0)))[:120],
                 })
 
     return findings

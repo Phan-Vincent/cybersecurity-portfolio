@@ -7,6 +7,8 @@ Validates the clinic network segmentation design for consistency:
   - Detects duplicate VLAN IDs
   - Detects firewall rules that reference non-existent VLANs
   - Detects rules with source == destination but no intra-VLAN justification
+  - Validates the device inventory against the addressing plan
+    (subnet membership, duplicates, DHCP-pool collisions, PHI placement)
   - Reports high-level statistics
 
 Usage:
@@ -103,7 +105,8 @@ def check_intra_vlan_rules(rules: list[dict]) -> list[str]:
         src = row.get('source_vlan', '').strip()
         dst = row.get('dest_vlan', '').strip()
         action = row.get('action', '').strip()
-        if src == dst and action == 'Deny':
+        # Any -> Any is a global/catch-all rule, not an intra-VLAN rule
+        if src == dst and src != 'Any' and action == 'Deny':
             issues.append(
                 f"{WARN}: Rule {row['rule_id']} denies intra-VLAN traffic ({src}). "
                 f"Consider using L2 port ACLs instead."
@@ -127,6 +130,72 @@ def check_global_deny_rules(rules: list[dict]) -> list[str]:
             issues.append(f"{FAIL}: Rule 999 is not a Deny rule — this is a critical security flaw")
         else:
             issues.append(f"{PASS}: Final default deny rule (999) is present and correct")
+    return issues
+
+
+# VLANs where PHI-handling devices are permitted to live
+PHI_VLANS = {"Clinical", "Medical_IoT"}
+
+
+def check_device_inventory(devices: list[dict], vlans: list[dict], addressing: list[dict]) -> list[str]:
+    """Validate the device inventory against the VLAN and IP addressing plan."""
+    issues = []
+    vlan_by_id = {v['vlan_id']: v for v in vlans}
+    plan_by_id = {a['vlan_id']: a for a in addressing}
+    seen_ips: dict[str, str] = {}
+    seen_hosts: set[str] = set()
+    statics_per_vlan: dict[str, int] = {}
+
+    for d in devices:
+        host = d.get('hostname', '?')
+        vid = d.get('vlan_id', '').strip()
+
+        if host in seen_hosts:
+            issues.append(f"{FAIL}: Duplicate hostname '{host}' in device inventory")
+        seen_hosts.add(host)
+
+        vlan = vlan_by_id.get(vid)
+        if vlan is None:
+            issues.append(f"{FAIL}: Device {host} assigned to unknown VLAN '{vid}'")
+            continue
+
+        try:
+            ip = ipaddress.ip_address(d.get('ip_address', '').strip())
+        except ValueError:
+            issues.append(f"{FAIL}: Device {host} has invalid IP '{d.get('ip_address')}'")
+            continue
+
+        net = ipaddress.ip_network(f"{vlan['subnet']}/{vlan['cidr']}", strict=False)
+        if ip not in net:
+            issues.append(f"{FAIL}: Device {host} ({ip}) is outside VLAN {vid} subnet {net}")
+
+        if str(ip) in seen_ips:
+            issues.append(f"{FAIL}: IP {ip} assigned to both {seen_ips[str(ip)]} and {host}")
+        seen_ips[str(ip)] = host
+
+        plan = plan_by_id.get(vid)
+        if plan and d.get('assignment', '').strip() == 'static':
+            statics_per_vlan[vid] = statics_per_vlan.get(vid, 0) + 1
+            pool_start = ipaddress.ip_address(plan['dhcp_range_start'])
+            pool_end = ipaddress.ip_address(plan['dhcp_range_end'])
+            if pool_start <= ip <= pool_end:
+                issues.append(f"{FAIL}: Static device {host} ({ip}) sits inside the VLAN {vid} DHCP pool")
+            if str(ip) == plan.get('gateway_ip'):
+                issues.append(f"{FAIL}: Device {host} uses the VLAN {vid} gateway address {ip}")
+
+        if d.get('handles_phi', '').strip().lower() == 'yes' and vlan['vlan_name'] not in PHI_VLANS:
+            issues.append(
+                f"{FAIL}: PHI-handling device {host} is on VLAN {vid} ({vlan['vlan_name']}); "
+                f"PHI must stay on {', '.join(sorted(PHI_VLANS))}"
+            )
+
+    for vid, plan in plan_by_id.items():
+        expected = int(plan.get('reserved_statics') or 0)
+        actual = statics_per_vlan.get(vid, 0)
+        if actual != expected:
+            issues.append(
+                f"{WARN}: VLAN {vid} plan reserves {expected} static IP(s) but inventory has {actual}"
+            )
     return issues
 
 
@@ -154,6 +223,8 @@ def main() -> int:
     base = Path(__file__).parent.parent
     vlans_path = base / "config" / "vlan-segmentation.csv"
     rules_path = base / "config" / "firewall-rules.csv"
+    addressing_path = base / "config" / "ip-addressing.csv"
+    inventory_path = base / "data" / "sample-device-inventory.csv"
 
     if not vlans_path.exists():
         print(f"{FAIL}: VLAN config not found: {vlans_path}")
@@ -171,6 +242,10 @@ def main() -> int:
     all_issues.extend(check_firewall_vlan_consistency(rules, vlans))
     all_issues.extend(check_intra_vlan_rules(rules))
     all_issues.extend(check_global_deny_rules(rules))
+    if inventory_path.exists() and addressing_path.exists():
+        all_issues.extend(
+            check_device_inventory(load_csv(inventory_path), vlans, load_csv(addressing_path))
+        )
 
     # Print results
     print(f"{INFO} === Clinic Network Segmentation Validation ===\n")

@@ -45,7 +45,9 @@ auth-log-analyzer/
 │   ├── sample-auth.log       # Synthetic auth log for testing
 │   └── ruleset.yaml          # Detection rules configuration
 ├── tests/
-│   └── test_parser.py        # Unit tests
+│   ├── test_parser.py        # Parser unit tests
+│   └── test_detections.py    # Detection engine tests (incl. sample log)
+├── LICENSE                    # MIT
 └── docs/
     ├── threat-model.md       # Security rationale & detection design
     └── mitre-mapping.md      # ATT&CK technique mappings

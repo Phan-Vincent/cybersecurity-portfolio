@@ -63,7 +63,7 @@ python phishing_analyzer.py --list-indicators
 
 ### Run Tests
 ```bash
-pytest tests/test_analyzer.py -v
+pytest tests/ -v
 ```
 
 ### Analyze Programmatically
@@ -115,7 +115,8 @@ phishing-awareness-toolkit/
 │   └── heuristics.yaml                ← Configurable rules, weights, and thresholds
 ├── tests/
 │   ├── conftest.py                    ← Path setup for imports
-│   └── test_analyzer.py               ← 44 pytest unit + integration tests
+│   ├── test_analyzer.py               ← 44 pytest unit + integration tests
+│   └── test_sample_fixtures.py        ← Regression tests over the 8 .eml fixtures
 ├── data/
 │   └── sample_emails/                 ← 8 synthetic .eml fixtures
 │       ├── sample_01_obvious_phish.eml
@@ -176,7 +177,7 @@ This is a **student portfolio project**. Here is what is real and what is aspira
 - ✅ `phishing_analyzer.py` — heuristic email analyzer with multi-dimensional scoring
 - ✅ `config/heuristics.yaml` — fully configurable rule engine
 - ✅ 8 synthetic `.eml` email fixtures covering obvious phish, subtle phish, and legitimate baselines
-- ✅ 44 pytest unit + integration tests with synthetic fixtures
+- ✅ 56 pytest unit, integration, and fixture-regression tests
 - ✅ Complete documentation: threat model, security rationale, user guide
 - ✅ CLI tool with JSON/text/score-only output modes, runs offline with zero network calls
 

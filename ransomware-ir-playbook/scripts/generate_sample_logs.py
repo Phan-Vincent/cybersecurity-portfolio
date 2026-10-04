@@ -16,6 +16,8 @@ Author: Vincent Phan (Entry-level IT/Cybersecurity student)
 License: MIT
 """
 
+import argparse
+import os
 import xml.etree.ElementTree as ET
 import json
 import datetime
@@ -336,13 +338,18 @@ def write_json(events: List[Dict[str, Any]], path: str) -> None:
 # ──────────────────────────────────────────────────────────────────────────────
 # Main
 # ──────────────────────────────────────────────────────────────────────────────
-def main() -> int:
+def main(argv: List[str] | None = None) -> int:
     """
     Generate synthetic pharmacy ransomware event logs.
 
     Returns:
         0 on success, 1 on error.
     """
+    parser = argparse.ArgumentParser(
+        description="Generate a synthetic pharmacy ransomware attack as Windows Event Log XML + JSON timeline.",
+    )
+    parser.add_argument("--out-dir", default=".", help="Directory for sample_logs.xml and sample_logs_timeline.json (default: current directory)")
+    args = parser.parse_args(argv)
     try:
         print("=" * 60)
         print("SYNTHETIC EVENT LOG GENERATOR")
@@ -352,8 +359,9 @@ def main() -> int:
         events = generate_events()
         print(f"[*] Generated {len(events)} synthetic events.")
 
-        xml_path = "sample_logs.xml"
-        json_path = "sample_logs_timeline.json"
+        os.makedirs(args.out_dir, exist_ok=True)
+        xml_path = os.path.join(args.out_dir, "sample_logs.xml")
+        json_path = os.path.join(args.out_dir, "sample_logs_timeline.json")
 
         write_xml(events, xml_path)
         write_json(events, json_path)

@@ -4,6 +4,15 @@
 
 A SOC analyst's job is to find the signal in the noise of millions of log lines. This project demonstrates understanding of that workflow: parsing unstructured logs, applying time- and pattern-based detections, and producing alerts a human can act on.
 
+## What Attackers Are We Worried About?
+
+| Attacker | Capability | Motivation |
+|----------|-----------|------------|
+| Internet opportunist | Masscan + password list | Compromise any reachable SSH host for botnet/cryptomining |
+| Credential-stuffing actor | Leaked databases | Re-use passwords against exposed `sshd` |
+| Lateral-movement insider | Valid low-priv account | Escalate via `sudo`/`su` misconfigurations |
+| Compromised user device | Stolen key / session | Log in from impossible geography after phishing |
+
 ## What Each Detection Catches (and Misses)
 
 ### 1. Brute-force SSH (T1110)
@@ -83,4 +92,28 @@ All sample data is synthetic because:
 2. **Legality:** PHI and system logs may be subject to HIPAA, PCI-DSS, or corporate confidentiality.
 3. **Pedagogy:** Synthetic data lets us craft specific attack scenarios for demonstration.
 
-The sample log (`data/sample-auth.log`) is intentionally designed to trigger every detection at least once.
+The sample log (`data/sample-auth.log`) is intentionally designed to trigger every detection at least once. IP addresses come from RFC 5737 documentation ranges (`203.0.113.0/24`, `198.51.100.0/24`) or RFC 1918 private space.
+
+## Tool Limitations (Honest Scope)
+
+| Limitation | Why It Exists |
+|------------|---------------|
+| Batch-only (no real-time tail) | Student scope; real-time needs `pyinotify`/systemd integration |
+| Mock geo-lookup | Real IP-to-geo requires API keys and GDPR/privacy risk. The static table is illustrative. |
+| No ML / statistical baseline | Rule-based is enough to show security logic; ML adds complexity beyond portfolio scope |
+| Single-host parsing | No centralized aggregation. A real SOC would use syslog/ELK/Splunk |
+| No log integrity verification | No chain-of-custody or signed log hashes. Production SIEMs need tamper evidence. |
+
+## Design Security Decisions
+
+1. **Least-privilege by default:** The parser opens the log file read-only. No network egress except optional (not included) webhook alerting.
+2. **No secrets in repo:** Config thresholds only; no API keys, no passwords, no private keys.
+3. **Deterministic output:** Same log + config → same alerts. Reproducible for testing and CI.
+4. **Fail-open for parser errors:** Malformed lines are logged to stderr but do not crash the run, ensuring availability during incident response.
+
+## Future Hardening (Not Implemented)
+
+- SHA-256 log file hash on ingest for tamper evidence.
+- Syslog forwarding output module.
+- Integration with MaxMind GeoLite2 (self-hosted MMDB) for real geo without API calls.
+- Statistical baseline builder (7-day rolling mean) to reduce false positives.

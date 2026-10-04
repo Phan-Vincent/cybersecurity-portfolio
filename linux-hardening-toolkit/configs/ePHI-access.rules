@@ -1,0 +1,7 @@
+# configs/ePHI-access.rules — /etc/audit/rules.d/ePHI-access.rules (AUDIT-06)
+# Replace /var/ephisynth with the real ePHI mount point (harden.sh --ephi-dir).
+-w /var/ephisynth -p rwxa -k ePHI_access
+-a always,exit -F arch=b64 -S open -S openat -F dir=/var/ephisynth -F success=1 -k ePHI_file_open
+# Privilege changes (AUDIT-05)
+-w /etc/sudoers -p wa -k identity
+-w /etc/sudoers.d/ -p wa -k identity
