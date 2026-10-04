@@ -43,7 +43,7 @@ ransomware-ir-playbook/
 │   ├── sample_network_topology.json
 │   ├── sample_system_inventory.json
 │   ├── sample_phi_records.json        # fictional patients, "_synthetic": true on every record
-│   └── known_ransomware_iocs.json     # LockBit/BlackCat/Hive/Royal TTP profiles (indicator values are placeholders)
+│   └── known_ransomware_iocs.json     # LockBit/BlackCat/Hive/Royal profiles + IOCs from CISA #StopRansomware advisories
 ├── tests/                             # pytest: deadline math, IOC matching, generate -> detect pipeline
 ├── LICENSE                            # MIT
 └── templates/
@@ -103,7 +103,7 @@ The playbook's phases are explicitly justified against these: e.g., containment 
 
 - **This is a student portfolio project**, not a production-certified IR plan. A real pharmacy should have counsel and a qualified IR firm review any plan before adopting it.
 - **All data is synthetic.** No real PHI, patient names, NPIs, employer data, or secrets appear anywhere. Patient records carry an explicit `"_synthetic": true` flag.
-- **IOC data is illustrative.** Family profiles, TTPs and defenses in `data/known_ransomware_iocs.json` are summarized from public CISA/FBI advisories, but the hash, domain and IP values are placeholders shaped like real indicators — not verified intelligence. `check_iocs.py` ships with an embedded, explicitly fabricated demo database.
+- **IOC data is sourced.** Hashes, IPs, domains, ransom-note names and ATT&CK IDs in `data/known_ransomware_iocs.json` are copied from CISA advisories AA23-075A (LockBit 3.0), AA23-353A (ALPHV Blackcat), AA22-321A (Hive) and AA23-061A (BlackSuit/Royal) and checked character-for-character against the advisory PDFs; each family links its source. They are historical indicators (IPs may since have been reassigned) — use them for hunting, not automatic blocking. LockBit's advisory publishes no hashes or C2 infrastructure, so none are listed. `check_iocs.py` still ships with an embedded, explicitly fabricated demo database for the offline demo.
 - I am a CPhT and a cybersecurity student. I do **not** hold a security certification yet, and nothing here claims otherwise. The healthcare/PHI/HIPAA operational knowledge is grounded in my actual pharmacy-technician experience; the security framing is applied coursework + self-study.
 - The tooling is intentionally simple and stdlib-only so it's auditable and runnable on a clean IR laptop — it is not a replacement for commercial EDR/DFIR tooling.
 
