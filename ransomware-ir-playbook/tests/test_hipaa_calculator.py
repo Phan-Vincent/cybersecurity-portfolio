@@ -61,3 +61,16 @@ def test_iso_datetime_accepted_and_garbage_rejected():
     assert calc.calculate_hipaa_deadlines("2026-06-15T09:30:00", 1, "CA")["metadata"]["discovery_date"] == "2026-06-15"
     with pytest.raises(ValueError):
         calc.calculate_hipaa_deadlines("06/15/2026", 1, "CA")
+
+
+@pytest.mark.parametrize("state, count, expected_days", [
+    ("TX", 249, None), ("TX", 250, 30),   # 521.053(i) as amended by SB 768 (2023)
+    ("FL", 499, None), ("FL", 500, 30),   # 501.171(3): 500 or more residents
+])
+def test_state_ag_notice_thresholds(state, count, expected_days):
+    notices = deadlines(count, state=state)["additional_state_notices"]
+    if expected_days is None:
+        assert notices == []
+    else:
+        assert notices[0]["days_from_discovery"] == expected_days
+        assert notices[0]["deadline"] == "2026-07-15"
