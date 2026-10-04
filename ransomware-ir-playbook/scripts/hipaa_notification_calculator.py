@@ -65,12 +65,17 @@ STATE_LAWS = {
     "TX": {
         "name": "Texas",
         "pharmacy_board": "Texas State Board of Pharmacy",
+        # No TSBP rule sets a fixed deadline for an ePHI breach; 24h is an internal
+        # target. TSBP does require IMMEDIATE written reports of drug theft/loss.
         "board_notice_hours": 24,
-        "board_notice_desc": "Notify TX Board of Pharmacy within 24 hours for significant incidents affecting pharmacy operations or ePHI.",
-        "additional_law": "Texas Business and Commerce Code 521.053 (TIDITA)",
-        "additional_deadline_days": 60,
-        "notes": "Texas requires notification to AG if >10,000 residents affected. "
-                 "Pharmacy-specific: TX BOP may require immediate notification for data breaches involving prescription data.",
+        "board_notice_desc": "Internal target: brief the TX State Board of Pharmacy within 24 hours. Theft or significant loss of "
+                             "controlled substances or dangerous drugs must be reported to TSBP in writing immediately on discovery.",
+        "additional_law": "Tex. Bus. & Com. Code 521.053(i) (Identity Theft Enforcement and Protection Act, as amended by SB 768, 2023)",
+        "additional_deadline_days": 30,
+        "additional_min_residents": 250,
+        "notes": "Texas AG must be notified via the AG's online form as soon as practicable and within 30 days if 250 or more "
+                 "Texas residents are affected. Individuals: within 60 days (521.053(b)). If more than 10,000 people are notified, "
+                 "also notify the nationwide consumer reporting agencies (521.053(h)).",
         "contact_url": "https://www.pharmacy.texas.gov/",
     },
     "NY": {
@@ -91,6 +96,7 @@ STATE_LAWS = {
         "board_notice_desc": "Notify FL Board of Pharmacy within 72 hours if ePHI or patient data compromised.",
         "additional_law": "Florida Statute 501.171 (FIPA)",
         "additional_deadline_days": 30,
+        "additional_min_residents": 500,
         "notes": "Florida requires notification to the Department of Legal Affairs within 30 days if 500 or more residents are affected. "
                  "FL BOP may require incident report for breaches involving pharmacy operations or ePHI.",
         "contact_url": "https://floridaspharmacy.gov/",
@@ -172,7 +178,9 @@ def calculate_hipaa_deadlines(
 
     # Additional state deadlines
     additional_deadlines = []
-    if state_info.get("additional_deadline_days"):
+    # State AG notice applies only at or above the state's resident threshold
+    # (assumes every affected individual is a resident of the selected state)
+    if state_info.get("additional_deadline_days") and affected_count >= state_info.get("additional_min_residents", 0):
         additional_deadlines.append({
             "name": f"{state_info['name']} Attorney General / Additional State Notification",
             "deadline": (discovery + timedelta(days=state_info["additional_deadline_days"])).strftime("%Y-%m-%d"),
