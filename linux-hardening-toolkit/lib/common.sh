@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # lib/common.sh — Shared functions for harden.sh and audit.sh
-# Scoring engine, backup helpers, report generation, color output.
+# Check engine, scoring, backup helpers, report generation, color output.
 # This file is sourced, not executed directly.
 #
 
@@ -16,55 +16,108 @@ else
 fi
 
 # ─── State ───
-declare -A SCORES        # cis_id -> PASS/FAIL/WARN/MANUAL
-declare -A MESSAGES      # cis_id -> human-readable detail
-declare -A SEVERITY      # cis_id -> LOW/MEDIUM/HIGH/CRITICAL
+declare -a RESULTS=()    # "STATUS|MODULE|DESCRIPTION" in execution order
 declare -a BACKUPS=()    # list of backup files created
 TOTAL_CHECKS=0
 PASS_COUNT=0
 FAIL_COUNT=0
 WARN_COUNT=0
-MANUAL_COUNT=0
+FIXED_COUNT=0
+CHANGES_MADE=0
+CURRENT_MODULE=""
 REPORT_FILE=""
+REPORT_DIR="${REPORT_DIR:-./reports}"
 AUTO_MODE=false
 KEY_AUTH=false
-EPHI_DIR="/var/ephisynth"   # Synthetic ePHI path — no real PHI ever
+EPHI_DIR="${EPHI_DIR:-/var/ephisynth}"   # Synthetic ePHI path — no real PHI ever
 
 # ─── Helpers ───
 log_info()  { echo -e "${BLUE}[INFO]${NC} $*"; }
 log_warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; }
 log_fail()  { echo -e "${RED}[FAIL]${NC} $*"; }
 log_pass()  { echo -e "${GREEN}[PASS]${NC} $*"; }
-log_crit()  { echo -e "${RED}[CRIT]${NC} $*"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
-require_root() {
+check_root() {
   if [[ $EUID -ne 0 ]]; then
-    echo "This script must run as root (or via sudo)." >&2
+    log_error "This script must run as root (or via sudo)."
     exit 1
   fi
 }
 
+print_banner() {
+  echo "================================================================"
+  echo " Linux Hardening Toolkit — CIS-aligned audit for ePHI servers"
+  echo "================================================================"
+}
+
+init_logging() {
+  RESULTS=(); BACKUPS=()
+  TOTAL_CHECKS=0; PASS_COUNT=0; FAIL_COUNT=0; WARN_COUNT=0; FIXED_COUNT=0; CHANGES_MADE=0
+}
+
 # ─── Scoring ───
-# Usage: score <cis_id> <PASS|FAIL|WARN|MANUAL> <severity> <message>
-score() {
-  local id="$1" result="$2" sev="$3" msg="$4"
-  SCORES["$id"]="$result"
-  SEVERITY["$id"]="$sev"
-  MESSAGES["$id"]="$msg"
-  ((TOTAL_CHECKS++))
-  case "$result" in
-    PASS)   ((PASS_COUNT++)); log_pass  "[$id] $msg" ;;
-    FAIL)   ((FAIL_COUNT++)); log_fail  "[$id] $msg" ;;
-    WARN)   ((WARN_COUNT++)); log_warn  "[$id] $msg" ;;
-    MANUAL) ((MANUAL_COUNT++)); log_info "[$id] $msg" ;;
+# Usage: record_result <PASS|FAIL|WARN|FIXED> <description>
+# FIXED counts as a pass: the control failed, was remediated, and re-verified.
+record_result() {
+  local status="$1" desc="$2"
+  RESULTS+=("${status}|${CURRENT_MODULE}|${desc}")
+  case "$status" in
+    PASS)  TOTAL_CHECKS=$((TOTAL_CHECKS + 1)); PASS_COUNT=$((PASS_COUNT + 1)); log_pass "$desc" ;;
+    FIXED) TOTAL_CHECKS=$((TOTAL_CHECKS + 1)); PASS_COUNT=$((PASS_COUNT + 1)); FIXED_COUNT=$((FIXED_COUNT + 1))
+           log_pass "$desc (remediated)" ;;
+    FAIL)  TOTAL_CHECKS=$((TOTAL_CHECKS + 1)); FAIL_COUNT=$((FAIL_COUNT + 1)); log_fail "$desc" ;;
+    WARN)  WARN_COUNT=$((WARN_COUNT + 1)); log_warn "$desc" ;;
   esac
+}
+
+# ─── Check engine ───
+# Usage: check_and_record <mode> <description> <check_cmd> <fix_cmd>
+#   check_cmd  shell snippet; exit 0 means the control is satisfied
+#   fix_cmd    shell snippet applied in harden mode (after confirmation) when
+#              the check fails; empty string means "manual remediation only"
+# Counts are kept in the global TOTAL_CHECKS / PASS_COUNT / FAIL_COUNT.
+check_and_record() {
+  local mode="$1" desc="$2" check_cmd="$3" fix_cmd="$4"
+
+  [[ "${VERBOSE:-false}" == true ]] && log_info "  check: ${check_cmd}"
+  if (eval "$check_cmd") >/dev/null 2>&1; then
+    record_result PASS "$desc"
+    return 0
+  fi
+
+  if [[ "$mode" != "harden" ]]; then
+    record_result FAIL "$desc"
+    return 0
+  fi
+
+  if [[ -z "$fix_cmd" ]]; then
+    record_result FAIL "$desc — manual remediation required"
+    return 0
+  fi
+
+  if ! confirm_change "$desc"; then
+    record_result FAIL "$desc — remediation declined"
+    return 0
+  fi
+
+  # Not in a subshell: backup_file must be able to record into BACKUPS
+  if eval "$fix_cmd" && (eval "$check_cmd") >/dev/null 2>&1; then
+    CHANGES_MADE=$((CHANGES_MADE + 1))
+    record_result FIXED "$desc"
+  else
+    record_result FAIL "$desc — remediation did not verify"
+  fi
+  return 0
 }
 
 # ─── Backup ───
 backup_file() {
   local f="$1"
   if [[ -f "$f" ]]; then
-    local bak="${f}.bak.$(date +%Y%m%d_%H%M%S)"
+    local bak
+    bak="${f}.bak.$(date +%Y%m%d_%H%M%S)"
+    [[ -e "$bak" ]] && return 0   # already backed up this second
     cp -p "$f" "$bak"
     BACKUPS+=("$bak")
     log_info "Backed up $f -> $bak"
@@ -78,154 +131,99 @@ confirm_change() {
   if [[ "$AUTO_MODE" == true ]]; then
     return 0
   fi
-  read -rp "Apply change: $desc? [y/N] " ans
+  local ans=""
+  read -rp "Apply change: $desc? [y/N] " ans || return 1
   [[ "$ans" =~ ^[Yy]$ ]]
 }
 
 # ─── Config manipulation ───
-set_ssh_config() {
-  local key="$1" value="$2"
-  local file="/etc/ssh/sshd_config"
+# Usage: set_config_value <file> <key> <value>
+# Replaces an existing (optionally commented-out) "key value" line, or appends one.
+set_config_value() {
+  local file="$1" key="$2" value="$3"
   backup_file "$file"
   if grep -qE "^\s*#?\s*${key}\s+" "$file"; then
-    sed -i -E "s/^\s*#?\s*(${key})\s+.*/\1 ${value}/" "$file"
+    sed -i -E "0,/^\s*#?\s*${key}\s+.*/s//${key} ${value}/" "$file"
   else
-    echo "$key $value" >> "$file"
-  fi
-}
-
-set_pam_pwquality() {
-  local key="$1" value="$2"
-  local file="/etc/security/pwquality.conf"
-  backup_file "$file"
-  if grep -qE "^\s*#?\s*${key}\s*=" "$file" 2>/dev/null; then
-    sed -i -E "s/^\s*#?\s*(${key})\s*=.*/\1 = ${value}/" "$file"
-  else
-    echo "$key = $value" >> "$file"
+    echo "${key} ${value}" >> "$file"
   fi
 }
 
 # ─── Report generation ───
 generate_report() {
   local mode="$1"   # "audit" or "harden"
-  mkdir -p "./reports"
-  REPORT_FILE="./reports/$(date +%Y%m%d_%H%M%S)-${mode}-report.md"
+  mkdir -p "$REPORT_DIR"
+  REPORT_FILE="${REPORT_DIR}/$(date +%Y%m%d_%H%M%S)-${mode}-report.md"
 
   local pct=0
   if (( TOTAL_CHECKS > 0 )); then
     pct=$(( PASS_COUNT * 100 / TOTAL_CHECKS ))
   fi
 
-  # Risk rating
   local risk="LOW"
-  if (( FAIL_COUNT > 0 )); then
-    if (( FAIL_COUNT >= 5 )); then risk="HIGH"
-    elif (( FAIL_COUNT >= 2 )); then risk="MEDIUM"
+  if (( FAIL_COUNT >= 8 )); then risk="CRITICAL"
+  elif (( FAIL_COUNT >= 5 )); then risk="HIGH"
+  elif (( FAIL_COUNT >= 2 )); then risk="MEDIUM"
+  fi
+
+  local os
+  os="$( (. /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-unknown}") || echo unknown)"
+
+  {
+    echo "# Linux Hardening Toolkit — ${mode^} Report"
+    echo
+    echo "**Generated:** $(date '+%Y-%m-%d %H:%M:%S %Z')  "
+    echo "**Mode:** ${mode}  "
+    echo "**Host:** $(hostname)  "
+    echo "**OS:** ${os}  "
+    echo "**Kernel:** $(uname -r)  "
+    echo "**ePHI directory:** \`${EPHI_DIR}\`"
+    echo
+    echo "## Executive Summary"
+    echo
+    echo "| Metric | Value |"
+    echo "|--------|-------|"
+    echo "| Scored controls | $TOTAL_CHECKS |"
+    echo "| Passed | $PASS_COUNT |"
+    echo "| Remediated this run | $FIXED_COUNT |"
+    echo "| Failed | $FAIL_COUNT |"
+    echo "| Warnings (not scored) | $WARN_COUNT |"
+    echo "| **Compliance** | **${pct}%** |"
+    echo "| **Risk Rating** | **$risk** |"
+    echo
+    echo "## Detailed Findings"
+    echo
+    echo "| Module | Result | Control |"
+    echo "|--------|--------|---------|"
+    local entry status module desc
+    for entry in "${RESULTS[@]}"; do
+      IFS='|' read -r status module desc <<< "$entry"
+      printf "| %s | %s | %s |\n" "$module" "$status" "${desc//|/\\|}"
+    done
+    echo
+    echo "## Remediation Required"
+    echo
+    if (( FAIL_COUNT == 0 )); then
+      echo "No failed controls."
+    else
+      for entry in "${RESULTS[@]}"; do
+        IFS='|' read -r status module desc <<< "$entry"
+        if [[ "$status" == "FAIL" ]]; then echo "- [ ] **${module}** — ${desc}"; fi
+      done
     fi
-  fi
-  # Critical overrides
-  for id in "${!SCORES[@]}"; do
-    if [[ "${SCORES[$id]}" == "FAIL" && "${SEVERITY[$id]}" == "CRITICAL" ]]; then
-      risk="CRITICAL"
+    if (( ${#BACKUPS[@]} > 0 )); then
+      echo
+      echo "## Backups Created"
+      echo
+      local b
+      for b in "${BACKUPS[@]}"; do echo "- \`$b\`"; done
     fi
-  done
-
-  cat > "$REPORT_FILE" <<EOF
-# Linux Hardening Toolkit — ${mode^} Report
-
-**Generated:** $(date '+%Y-%m-%d %H:%M:%S %Z')  
-**Mode:** ${mode}  
-**Host:** $(hostname)  
-**OS:** $(lsb_release -d -s 2>/dev/null || cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | tr -d '"')  
-**Kernel:** $(uname -r)
-
----
-
-## Executive Summary
-
-| Metric | Value |
-|--------|-------|
-| Total Controls | $TOTAL_CHECKS |
-| Passed | $PASS_COUNT |
-| Failed | $FAIL_COUNT |
-| Warnings | $WARN_COUNT |
-| Manual | $MANUAL_COUNT |
-| **Compliance** | **${pct}%** |
-| **Risk Rating** | **$risk** |
-
----
-
-## Detailed Findings
-
-| CIS ID | Severity | Result | Detail |
-|--------|----------|--------|--------|
-EOF
-
-  # Sort by severity order
-  for sev in CRITICAL HIGH MEDIUM LOW; do
-    for id in $(echo "${!SEVERITY[@]}" | tr ' ' '\n' | sort); do
-      if [[ "${SEVERITY[$id]}" == "$sev" ]]; then
-        local r="${SCORES[$id]}"
-        local m="${MESSAGES[$id]}"
-        # Escape pipe for markdown
-        m="${m//|/\\|}"
-        printf "| %s | %s | %s | %s |\n" "$id" "$sev" "$r" "$m" >> "$REPORT_FILE"
-      fi
-    done
-  done
-
-  cat >> "$REPORT_FILE" <<EOF
-
----
-
-## Remediation Priority (Failed Controls)
-
-EOF
-
-  if (( FAIL_COUNT == 0 )); then
-    echo "No failed controls." >> "$REPORT_FILE"
-  else
-    for id in $(echo "${!SCORES[@]}" | tr ' ' '\n' | sort); do
-      if [[ "${SCORES[$id]}" == "FAIL" ]]; then
-        printf "- **%s** (%s): %s\n" "$id" "${SEVERITY[$id]}" "${MESSAGES[$id]}" >> "$REPORT_FILE"
-      fi
-    done
-  fi
-
-  if [[ "$mode" == "harden" && ${#BACKUPS[@]} -gt 0 ]]; then
-    cat >> "$REPORT_FILE" <<EOF
-
----
-
-## Backups Created
-
-EOF
-    for b in "${BACKUPS[@]}"; do
-      echo "- \`$b\`" >> "$REPORT_FILE"
-    done
-  fi
-
-  cat >> "$REPORT_FILE" <<EOF
-
----
-
-## Honest Scope Note
-
-This is a student-built assessment toolkit aligned with CIS Ubuntu Linux Benchmark v2.0.1. 
-It is not a substitute for CIS-CAT, OpenSCAP, or a professional security audit. 
-All ePHI references use synthetic paths (e.g., \`/var/ephisynth/\`).
-EOF
+    echo
+    echo "---"
+    echo
+    echo "*Student-built assessment aligned with the CIS Ubuntu Linux Benchmark. Not a substitute for"
+    echo "CIS-CAT, OpenSCAP, or a professional audit. ePHI paths are synthetic.*"
+  } > "$REPORT_FILE"
 
   echo -e "\n${CYAN}Report written to: ${REPORT_FILE}${NC}"
-}
-
-print_summary() {
-  echo ""
-  echo "╔══════════════════════════════════════════╗"
-  echo "║         AUDIT SUMMARY                    ║"
-  echo "╠══════════════════════════════════════════╣"
-  printf  "║  Total:  %-3d    Passed:  %-3d            ║\n" "$TOTAL_CHECKS" "$PASS_COUNT"
-  printf  "║  Failed: %-3d    Warnings: %-3d            ║\n" "$FAIL_COUNT" "$WARN_COUNT"
-  printf  "║  Manual: %-3d                             ║\n" "$MANUAL_COUNT"
-  echo "╚══════════════════════════════════════════╝"
 }

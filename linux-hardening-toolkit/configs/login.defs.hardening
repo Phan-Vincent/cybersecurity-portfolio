@@ -1,0 +1,5 @@
+# configs/login.defs.hardening — password aging values for /etc/login.defs
+# Matches AUTH-03..AUTH-05 in lib/auth.sh (CIS §5.4.1).
+PASS_MAX_DAYS 365
+PASS_MIN_DAYS 1
+PASS_WARN_AGE 7

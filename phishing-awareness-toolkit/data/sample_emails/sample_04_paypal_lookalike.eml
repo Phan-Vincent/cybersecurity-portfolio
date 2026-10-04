@@ -1,0 +1,21 @@
+Return-Path: <service@paypa1-resolution.xyz>
+Received: from mail.paypa1-resolution.xyz (mail.paypa1-resolution.xyz [198.51.100.201]) by mx.example-mail.com; Thu, 04 Jun 2026 11:20:02 -0700
+Authentication-Results: mx.example-mail.com; spf=fail smtp.mailfrom=paypa1-resolution.xyz; dkim=none; dmarc=fail
+From: "Payment Resolution Center" <service@paypa1-resolution.xyz>
+To: customer@example-mail.com
+Subject: Re: Payment on hold - unusual login detected
+Date: Thu, 04 Jun 2026 11:19:58 -0700
+Message-ID: <d4@paypa1-resolution.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+We noticed an unusual login on your account and placed a temporary hold on a
+payment of $842.19.
+
+To restore access, confirm your password and update your billing details:
+https://www.paypa1-resolution.xyz/signin/restore
+
+If we don't hear from you, your account will be locked.
+
+Payment Resolution Center

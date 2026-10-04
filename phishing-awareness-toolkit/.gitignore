@@ -43,3 +43,6 @@ Thumbs.db
 real-emails/
 *.eml
 *.msg
+
+# Synthetic training fixtures are intentionally committed
+!data/sample_emails/*.eml

@@ -1,5 +1,5 @@
 {
-  "_disclaimer": "SYNTHETIC CURATION — This IOC list is assembled from publicly available FBI, CISA, and open-source intelligence reports for educational and portfolio purposes. All hashes, domains, and TTPs are sourced from unclassified government advisories and public threat intelligence feeds. No proprietary or classified information is included.",
+  "_disclaimer": "SYNTHETIC CURATION — Ransomware families, aliases, file extensions, ransom-note names, MITRE techniques and defenses are summarized from public FBI/CISA advisories and open-source reporting. Hash values, C2 domains and IPs are ILLUSTRATIVE PLACEHOLDERS shaped like real indicators; they are not verified IOCs and must not be used for blocking or attribution. Pull current indicators from the cited advisories (CISA #StopRansomware, FBI FLASH) instead.",
   "last_updated": "2026-05-30",
   "sources": [
     "CISA Alert AA22-040A — Industroyer2 and CaddyWiper",

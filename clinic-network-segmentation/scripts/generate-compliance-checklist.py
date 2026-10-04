@@ -6,11 +6,12 @@ Reads the HIPAA compliance mapping and generates a printable markdown checklist
 for use during a HIPAA Security Risk Assessment (SRA).
 
 Usage:
-    python3 scripts/generate-compliance-checklist.py
+    python3 scripts/generate-compliance-checklist.py [--output PATH]
 
-Output: writes to output/hipaa-checklist.md
+Output: writes to output/hipaa-checklist.md unless --output is given
 """
 
+import argparse
 import csv
 import re
 from pathlib import Path
@@ -34,7 +35,7 @@ def extract_sections(text: str) -> list[tuple[str, list[str]]]:
     lines = text.splitlines()
     for line in lines:
         # Match section headers like ## §164.312(a)(1) — Access Control
-        m = re.match(r'^##\s+(§164\.\S+)\s+[-–]\s+(.+)$', line)
+        m = re.match(r'^##\s+(§164\.\S+)\s+[-–—]\s+(.+)$', line)
         if m:
             if current_title:
                 sections.append((current_title, current_controls))
@@ -156,13 +157,20 @@ def generate_checklist(vlans: list[dict], rules: list[dict], compliance_path: Pa
     return "\n".join(lines)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     base = Path(__file__).parent.parent
+    parser = argparse.ArgumentParser(description="Generate a HIPAA compliance checklist from the design artifacts.")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=base / "output" / "hipaa-checklist.md",
+        help="Markdown file to write (default: output/hipaa-checklist.md)",
+    )
+    args = parser.parse_args(argv)
     vlans_path = base / "config" / "vlan-segmentation.csv"
     rules_path = base / "config" / "firewall-rules.csv"
     compliance_path = base / "docs" / "hipaa-compliance.md"
-    output_dir = base / "output"
-    output_path = output_dir / "hipaa-checklist.md"
+    output_path = args.output
 
     if not vlans_path.exists():
         print(f"Error: VLAN config not found: {vlans_path}")
@@ -176,7 +184,7 @@ def main() -> int:
 
     checklist = generate_checklist(vlans, rules, compliance_path)
 
-    output_dir.mkdir(exist_ok=True)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(checklist, encoding="utf-8")
 
     print(f"Generated HIPAA compliance checklist: {output_path}")

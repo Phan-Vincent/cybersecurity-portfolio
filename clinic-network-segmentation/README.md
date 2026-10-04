@@ -292,21 +292,30 @@ Rules are organized by **interface/VLAN** (rules apply to traffic *entering* tha
 ```
 clinic-network-segmentation/
 ├── README.md                     # This file
+├── LICENSE                       # MIT
 ├── docs/
+│   ├── architecture.md            # Per-VLAN design, onboarding, backup strategy
+│   ├── vlan-segmentation.md       # VLAN plan narrative
+│   ├── firewall-rules.md          # Rule-by-rule rationale
+│   ├── network-diagram.md         # Diagram walkthrough
 │   ├── threat-model.md            # Expanded STRIDE + DREAD analysis
-│   └── hipaa-mapping.md           # Full safeguard crosswalk with NIST references
+│   ├── hipaa-compliance.md        # §164.312 control-by-control evidence map
+│   ├── hipaa-mapping.md           # Full safeguard crosswalk with NIST references
+│   └── hipaa-safeguards-mapping.md # Technical safeguards (§164.312) summary
 ├── diagrams/
-│   └── network-diagram.txt        # ASCII art version for quick terminal viewing
+│   ├── network-ascii.txt          # ASCII art for quick terminal viewing
+│   ├── network-diagram.txt        # Detailed text diagram
+│   └── network-mermaid.md         # Mermaid source (renders on GitHub)
 ├── config/
 │   ├── vlan-segmentation.csv        # VLAN table + DHCP + addressing details (CSV)
 │   ├── firewall-rules.csv           # Firewall rules in CSV format
 │   └── ip-addressing.csv            # IP addressing plan
-├── scripts/
-│   ├── validate-segmentation.py     # Validates CSV configs against design constraints
-│   └── generate-compliance-checklist.py  # Generates HIPAA compliance checklist
 ├── data/
-│   ├── sample-device-inventory.csv # Synthetic clinic device list (no real PHI)
-│   └── sample-firewall-config.xml  # Synthetic OPNsense config fragment
+│   └── sample-device-inventory.csv  # Synthetic clinic device list (no real PHI)
+├── scripts/
+│   ├── validate-segmentation.py     # Validates configs + inventory against design constraints
+│   └── generate-compliance-checklist.py  # Generates HIPAA compliance checklist
+├── tests/                           # pytest suite for both scripts
 └── .gitignore
 ```
 
@@ -326,7 +335,12 @@ Checks:
 - No duplicate VLAN IDs
 - Firewall rules reference valid VLANs only
 - Default deny rule (999) is present
+- Every inventoried device sits inside its VLAN subnet, outside the DHCP pool, and off the gateway address
+- No duplicate IPs or hostnames; static counts match the addressing plan
+- PHI-handling devices live only on the Clinical or Medical_IoT VLANs
 - Reports high-level statistics
+
+Exits non-zero on any FAIL, so it can gate a CI pipeline.
 
 ### 2. Generate Compliance Checklist
 
@@ -336,6 +350,13 @@ python3 generate-compliance-checklist.py --output ../output/hipaa-checklist.md
 ```
 
 Produces a Markdown checklist mapping every VLAN and firewall rule to its HIPAA §164.312 safeguard.
+
+### 3. Run Tests
+
+```bash
+pip install pytest
+pytest tests/ -v
+```
 
 ---
 
