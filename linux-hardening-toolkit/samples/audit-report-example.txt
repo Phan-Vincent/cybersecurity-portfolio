@@ -40,7 +40,7 @@ Author: Vincent Phan | CSUSB Cybersecurity Student
 [PASS]  FS-01: SUID binary count is reasonable (42) (CIS 6.1.1)
 [PASS]  FS-02: No world-writable files found (CIS 6.1.2)
 [PASS]  FS-03: Sticky bit set on all world-writable directories (CIS 6.1.3)
-[WARN]  FS-04: /srv/ePHI does not exist (skipping — create this dir for production ePHI)
+[WARN]  FS-04: /var/ephisynth does not exist (skipping — pass --ephi-dir for production ePHI)
 
 --- Module: Updates ---
 [PASS]  UPD-01: Unattended-upgrades installed (CIS 1.8)
@@ -76,4 +76,4 @@ LOW PRIORITY (Next sprint):
 * This is a SYNTHETIC audit report for portfolio demonstration.
 * No real system was audited. All data is fabricated for educational purposes.
 * In production, this report would be exported to a SIEM and retained per HIPAA §164.316(b)(1).
-* /srv/ePHI is a synthetic path. Replace with actual ePHI mount point.
+* /var/ephisynth is a synthetic path. Pass --ephi-dir with the actual ePHI mount point.

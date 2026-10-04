@@ -19,12 +19,15 @@ Small-to-mid-size healthcare entities (pharmacies, clinics, private practices) s
 ```
 hipaa-security-rule-gap-assessment/
 ├── README.md                          # This file
+├── LICENSE                            # MIT
+├── controls/
+│   └── hipaa_security_controls.json     # 58-control catalog (CFR refs, PHI exposure, maturity)
 ├── data/
-│   ├── controls.json                    # Control framework catalog (JSON)
-│   ├── hipaa-controls.json              # HIPAA Security Rule controls reference
 │   └── sample_pharmacy_assessment.csv   # Synthetic filled assessment for demo
 ├── scripts/
-│   └── generate_checklist.py            # Generates empty assessment checklist from controls catalog
+│   ├── generate_checklist.py            # Generates empty assessment checklist from controls catalog
+│   └── score_assessment.py              # Scores gaps, writes roadmap + risk register
+├── tests/                               # pytest suite (scoring, validation, outputs, doc drift)
 ├── output/
 │   └── (generated artifacts — not committed)
 └── docs/
@@ -45,7 +48,19 @@ python scripts/generate_checklist.py \
 
 # 3. Open the CSV and fill in assessment_status, evidence_description,
 #    finding_notes, remediation_owner, and target_date for each control.
+#    Optional likelihood / impact columns (1-5) override the default scores.
+
+# 4. Score the assessment and generate the prioritized remediation roadmap
+python scripts/score_assessment.py \
+    --assessment data/sample_pharmacy_assessment.csv \
+    --output output/gap_report.md \
+    --register output/risk_register.csv   # or .json
+
+# Run the tests
+pip install pytest && pytest tests/ -v
 ```
+
+Against the synthetic pharmacy sample, the scorer reports 52 open gaps out of 58 controls (6 Critical, 4 High, 40 Medium, 2 Low) and groups them into 30 / 90 / 180-day remediation phases.
 
 ## Control Framework
 
@@ -59,7 +74,7 @@ The toolkit covers all three safeguard categories from 45 CFR Part 164 Subpart C
 
 Each control is tagged with:
 - **Standard** (Required vs Addressable per CFR)
-- **Implementation Level** (1-5 maturity scale)
+- **Implementation Level** (1-5 maturity scale, planning reference)
 - **PHI Exposure** (High/Medium/Low — how much PHI this control protects)
 - **Regulatory Reference** (exact CFR subsection)
 
@@ -75,12 +90,20 @@ PHI Exposure Multiplier:
   Medium  = 1.25
   Low     = 1.0
 
-Severity Bands:
-  Critical  = ≥ 30
-  High      = 20-29
-  Medium    = 10-19
-  Low       = < 10
+Default Likelihood (from assessment_status):
+  Non-Compliant = 5   Not Assessed = 4   Partial = 3
+
+Default Impact (from implementation specification):
+  Required = 4        Addressable = 3
+
+Severity Bands (remediation window):
+  Critical  = ≥ 30    (0-30 days)
+  High      = 20-29   (31-90 days)
+  Medium    = 10-19   (91-180 days)
+  Low       = < 10    (next annual review)
 ```
+
+Compliant and Not Applicable controls are not scored. Controls missing from the CSV are treated as Not Assessed — an unexamined control is a gap, not a pass.
 
 **Why this model:** In pharmacy operations, a missing workstation lock (Physical) may seem minor, but a single unlocked terminal in the dispensing area exposes hundreds of patient records. The PHI Exposure multiplier ensures controls protecting large datasets score higher — aligning with breach notification thresholds and OCR enforcement patterns.
 
@@ -109,7 +132,7 @@ What's simplified:
 
 ## License
 
-MIT — synthetic data only, no real PHI. See `data/sample-assessment.csv` for data format; never populate with production data.
+MIT — synthetic data only, no real PHI. See `data/sample_pharmacy_assessment.csv` for data format; never populate with production data.
 
 ---
 

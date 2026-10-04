@@ -1,0 +1,25 @@
+Return-Path: <noreply@hhs-compliance-notice.online>
+Received: from relay.hhs-compliance-notice.online (relay.hhs-compliance-notice.online [198.51.100.83]) by mx.example-clinic.com; Tue, 02 Jun 2026 07:41:09 -0700
+Authentication-Results: mx.example-clinic.com; spf=fail smtp.mailfrom=hhs-compliance-notice.online; dkim=none; dmarc=fail
+From: "Office for Civil Rights - Compliance Desk" <ocr-desk@hhs-compliance-notice.online>
+Reply-To: case-review@hhs-compliance-notice.online
+To: privacy.officer@example-clinic.com
+Subject: HIPAA Violation Notice - Case #OCR-2026-44817 - Response Required
+Date: Tue, 02 Jun 2026 07:41:02 -0700
+Message-ID: <b2@hhs-compliance-notice.online>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Training-Notice: SYNTHETIC FIXTURE - authorized security awareness training only. All names, domains and data are fictional.
+
+Dear Privacy Officer,
+
+Our office has received a complaint alleging a HIPAA violation and a PHI breach
+involving patient data exposure at your facility.
+
+You must respond within 48 hours. Failure to respond may result in a civil
+monetary penalty and referral for legal action.
+
+Review the complaint and upload your risk assessment here:
+https://hhs-compliance-notice.online/case/OCR-2026-44817/upload
+
+Compliance Desk

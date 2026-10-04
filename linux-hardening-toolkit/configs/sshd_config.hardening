@@ -1,0 +1,12 @@
+# configs/sshd_config.hardening — lines to merge into /etc/ssh/sshd_config
+# Matches the SSH-01..SSH-06 checks in lib/ssh.sh (CIS Ubuntu 22.04 §5.2).
+# Validate with `sshd -t` before restarting; keep an existing session open.
+Protocol 2
+LogLevel VERBOSE
+MaxAuthTries 4
+PermitRootLogin no
+# Only after key-based login is confirmed for every admin (harden.sh --key-auth)
+PasswordAuthentication no
+PermitEmptyPasswords no
+ClientAliveInterval 300
+ClientAliveCountMax 3

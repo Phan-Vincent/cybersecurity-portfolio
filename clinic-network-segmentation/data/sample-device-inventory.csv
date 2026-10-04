@@ -1,0 +1,32 @@
+hostname,device_type,vlan_id,ip_address,assignment,handles_phi,owner,notes
+jump-01,Jump host (vendor support),10,10.10.0.10,static,No,IT contractor,MFA-gated bastion; only path into Clinical for vendors
+dc-radius-01,AD domain controller + FreeRADIUS,10,10.10.0.11,static,No,IT contractor,802.1X authentication backend
+admin-ws-01,Office manager workstation,10,10.10.0.21,static,No,Office manager,Billing done via EHR web portal through jump host
+admin-ws-02,Front desk scheduling workstation,10,10.10.0.22,static,No,Front desk,No local PHI storage; GPO screen lock 15 min
+admin-mfp-01,Office printer/scanner,10,10.10.0.30,static,No,Office manager,Scan-to-email disabled
+ehr-srv-01,EHR application + database server,20,10.20.0.10,static,Yes,EHR vendor (BAA),Full-disk encryption; nightly encrypted backup
+lab-pc-01,Lab interface workstation,20,10.20.0.20,static,Yes,Lab lead,HL7 lab interface to EHR
+rx-label-01,Prescription label printer,20,10.20.0.30,static,Yes,Clinical lead,Prints patient names and medications
+clin-mfp-01,Clinical fax/scanner,20,10.20.0.31,static,Yes,Clinical lead,Inbound referrals and lab results
+pump-01,Infusion pump,30,10.30.0.11,static,Yes,Biomed vendor,Firmware staged via jump host; SHA-256 verified
+pump-02,Infusion pump,30,10.30.0.12,static,Yes,Biomed vendor,Firmware staged via jump host; SHA-256 verified
+pump-03,Infusion pump,30,10.30.0.13,static,Yes,Biomed vendor,Firmware staged via jump host; SHA-256 verified
+pump-04,Infusion pump,30,10.30.0.14,static,Yes,Biomed vendor,Firmware staged via jump host; SHA-256 verified
+vitals-01,Vital signs monitor,30,10.30.0.15,static,Yes,Biomed vendor,Telemetry over MQTT/TLS to IoT gateway
+vitals-02,Vital signs monitor,30,10.30.0.16,static,Yes,Biomed vendor,Telemetry over MQTT/TLS to IoT gateway
+vitals-03,Vital signs monitor,30,10.30.0.17,static,Yes,Biomed vendor,Telemetry over MQTT/TLS to IoT gateway
+ecg-01,ECG cart,30,10.30.0.18,static,Yes,Biomed vendor,Legacy OS; cannot be patched — compensating controls only
+us-01,Portable ultrasound,30,10.30.0.19,static,Yes,Biomed vendor,DICOM TLS to gateway
+xray-01,Digital X-ray sensor,30,10.30.0.20,static,Yes,Biomed vendor,DICOM TLS to gateway
+fridge-01,Vaccine refrigerator temperature sensor,30,10.30.0.21,static,No,Clinical lead,Out-of-range alerts to SIEM
+fridge-02,Vaccine refrigerator temperature sensor,30,10.30.0.22,static,No,Clinical lead,Out-of-range alerts to SIEM
+siem-01,Wazuh SIEM manager,50,10.50.0.10,static,No,IT contractor,Receives agent logs; 6-year retention
+nids-01,Suricata NIDS sensor,50,10.50.0.11,static,No,IT contractor,SPAN port from core switch
+syslog-01,Syslog collector (Graylog),50,10.50.0.12,static,No,IT contractor,Firewall and switch logs
+sw-core-01,Core switch management,100,10.100.0.2,static,No,IT contractor,SSH/HTTPS from VLAN 10 only
+sw-access-01,Access switch management,100,10.100.0.3,static,No,IT contractor,SSH/HTTPS from VLAN 10 only
+ap-01,Wireless AP management,100,10.100.0.4,static,No,IT contractor,WPA3-Enterprise + guest SSID
+ap-02,Wireless AP management,100,10.100.0.5,static,No,IT contractor,WPA3-Enterprise + guest SSID
+dmz-proxy-01,Web proxy + e-prescribing gateway,254,10.254.0.10,static,No,IT contractor,TLS inspection; forwards eRx to EHR
+dmz-relay-01,Cloud EHR sync relay + filtered guest DNS,254,10.254.0.11,static,No,IT contractor,Outbound-only EHR sync
+dmz-dns-01,DNS-over-TLS resolver (Quad9),254,10.254.0.12,static,No,IT contractor,Clinical DNS resolution

@@ -12,8 +12,8 @@ Purpose:
     Key deadlines:
     - 60 days: Individual notice (first-class mail or email if authorized)
     - 60 days: Media notice (if >500 individuals affected in a single state)
-    - Immediately (no later than 60 days): HHS Secretary notice if >500 individuals
-    - 60 days after end of calendar year: HHS Secretary notice if <500 individuals
+    - Immediately (no later than 60 days): HHS Secretary notice if 500 or more individuals
+    - 60 days after end of calendar year: HHS Secretary notice if fewer than 500 individuals
     - State pharmacy board: varies (typically 24-72 hours for significant incidents)
     - Business associates: 60 days (or per BAA)
 
@@ -32,6 +32,19 @@ import sys
 import argparse
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Federal thresholds — note the regulations use different comparisons:
+#   164.408(b): breaches involving 500 OR MORE individuals -> HHS within 60 days
+#   164.406(a): MORE THAN 500 residents of a State/jurisdiction -> media notice
+# ──────────────────────────────────────────────────────────────────────────────
+HHS_IMMEDIATE_THRESHOLD = 500   # affected_count >= this
+MEDIA_NOTICE_THRESHOLD = 500    # affected_count > this
+
+
+def hhs_notice_is_immediate(affected_count: int) -> bool:
+    return affected_count >= HHS_IMMEDIATE_THRESHOLD
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -78,7 +91,7 @@ STATE_LAWS = {
         "board_notice_desc": "Notify FL Board of Pharmacy within 72 hours if ePHI or patient data compromised.",
         "additional_law": "Florida Statute 501.171 (FIPA)",
         "additional_deadline_days": 30,
-        "notes": "Florida requires notification to AG within 30 days if >500 residents affected. "
+        "notes": "Florida requires notification to the Department of Legal Affairs within 30 days if 500 or more residents are affected. "
                  "FL BOP may require incident report for breaches involving pharmacy operations or ePHI.",
         "contact_url": "https://floridaspharmacy.gov/",
     },
@@ -137,17 +150,17 @@ def calculate_hipaa_deadlines(
     individual_notice_deadline = discovery + timedelta(days=60)
 
     # HHS Secretary notice
-    if affected_count > 500:
+    if hhs_notice_is_immediate(affected_count):
         hhs_notice_deadline = discovery + timedelta(days=60)
         hhs_notice_immediate = True
     else:
-        # <500: within 60 days after end of calendar year
+        # Fewer than 500: within 60 days after end of calendar year (164.408(c))
         year_end = datetime(discovery.year, 12, 31)
         hhs_notice_deadline = year_end + timedelta(days=60)
         hhs_notice_immediate = False
 
     # Media notice (if >500 individuals in a single state or jurisdiction)
-    media_notice_required = affected_count > 500
+    media_notice_required = affected_count > MEDIA_NOTICE_THRESHOLD
     media_notice_deadline = discovery + timedelta(days=60) if media_notice_required else None
 
     # State pharmacy board notice
@@ -204,11 +217,11 @@ def calculate_hipaa_deadlines(
             "hhs_secretary_notice": {
                 "description": "Notify HHS Secretary via breach portal (https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf).",
                 "deadline": hhs_notice_deadline.strftime("%Y-%m-%d"),
-                "days_from_discovery": 60 if affected_count > 500 else f"60 days after end of {discovery.year}",
+                "days_from_discovery": 60 if hhs_notice_immediate else f"60 days after end of {discovery.year}",
                 "regulation": "45 CFR 164.408",
                 "required": True,
                 "immediate": hhs_notice_immediate,
-                "urgency": "critical" if affected_count > 500 else "high",
+                "urgency": "critical" if hhs_notice_immediate else "high",
             },
             "media_notice": {
                 "description": "Notify prominent media outlets in the state/jurisdiction if >500 individuals affected.",
@@ -228,10 +241,10 @@ def calculate_hipaa_deadlines(
                 "contact_url": state_info.get("contact_url", ""),
             },
             "business_associate_notice": {
-                "description": "Notify all business associates (BAs) covered by HIPAA BAA within 60 days.",
+                "description": "Business associates must report the breach to the pharmacy (covered entity) without unreasonable delay and within 60 days of their discovery (164.410(b)); confirm BAA terms, which are often shorter.",
                 "deadline": ba_notice_deadline.strftime("%Y-%m-%d"),
                 "days_from_discovery": 60,
-                "regulation": "HIPAA Business Associate Agreement (BAA)",
+                "regulation": "45 CFR 164.410 + Business Associate Agreement",
                 "required": True,
                 "urgency": "high",
             },
@@ -302,9 +315,9 @@ def generate_checklist_items(
         {
             "task": "Notify HHS Secretary via OCR Breach Portal.",
             "done": False,
-            "urgent": affected_count > 500,
+            "urgent": hhs_notice_is_immediate(affected_count),
             "assigned_to": "HIPAA Compliance Officer",
-            "deadline": (discovery + timedelta(days=60)).strftime("%Y-%m-%d") if affected_count > 500 else (datetime(discovery.year, 12, 31) + timedelta(days=60)).strftime("%Y-%m-%d"),
+            "deadline": (discovery + timedelta(days=60)).strftime("%Y-%m-%d") if hhs_notice_is_immediate(affected_count) else (datetime(discovery.year, 12, 31) + timedelta(days=60)).strftime("%Y-%m-%d"),
             "category": "hhs_notification",
         },
     ]

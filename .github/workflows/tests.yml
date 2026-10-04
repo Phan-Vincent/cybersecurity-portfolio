@@ -1,0 +1,65 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - auth-log-analyzer
+          - aws-iam-least-privilege-audit
+          - clinic-network-segmentation
+          - credential-hygiene-auditor
+          - hipaa-security-rule-gap-assessment
+          - nmap-vuln-scanner-wrapper
+          - openclaw-home-lab
+          - phishing-awareness-toolkit
+          - ransomware-ir-playbook
+          - secure-code-review
+          - threat-intel-ioc-extractor
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+      - name: Run tests
+        run: python -m pytest -q
+
+  linux-hardening-toolkit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: linux-hardening-toolkit
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck (errors)
+        run: shellcheck -S error -x harden.sh audit.sh lib/*.sh tests/validate.sh
+      - name: Sandboxed test suite
+        run: bash tests/validate.sh
+      - name: Read-only audit of the runner
+        # A stock runner is not hardened, so failed controls (exit 1) are expected;
+        # anything else means the toolkit itself broke.
+        run: |
+          set +e
+          sudo ./audit.sh
+          rc=$?
+          set -e
+          test "$rc" -le 1
+          ls reports/*-audit-report.md

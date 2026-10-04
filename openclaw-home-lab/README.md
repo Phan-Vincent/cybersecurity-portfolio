@@ -82,6 +82,14 @@ python3 scripts/secrets-audit.py --workspace ./
 bash scripts/backup.sh --dry-run
 ```
 
+### Tests
+
+```bash
+pip install pytest && pytest tests/ -v
+```
+
+The secrets scanner redacts every match (4-character prefix + length) so its own report can never leak a credential.
+
 ## Threat Model & Security Rationale
 
 See [`docs/threat-model.md`](docs/threat-model.md) for a full STRIDE analysis. Key points:
@@ -125,7 +133,9 @@ openclaw-home-lab/
 │   ├── healthcheck.py             # System health + service status
 │   ├── secrets-audit.py           # Hardcoded-secret scanner
 │   ├── log-rotate.sh              # Log archival + compression
+│   ├── network-scan.sh            # Firewall state + listening-port audit (read-only)
 │   └── backup.sh                  # Git-based config backup
+├── tests/                         # pytest: secret detection + redaction, health thresholds
 ├── config/
 │   ├── services.yaml              # Service definitions + ports
 │   └── monitoring-rules.yaml      # Alert thresholds + conditions
