@@ -1,0 +1,20 @@
+# Each scenario must raise exactly these detections (by rule name) and nothing else.
+# The benign baseline must raise none: every event in it is a deliberate near-miss.
+- file: ssh_bruteforce_root.jsonl
+  story: Internet scanner guesses SSH passwords, then logs in as root.
+  expect: [ssh_bruteforce, ssh_root_login_success]
+- file: linux_post_exploitation.jsonl
+  story: Web shell on Apache spawns a reverse shell, adds a sudo user, plants cron jobs, wipes history.
+  expect: [linux_reverse_shell, linux_sudo_privilege_change, linux_cron_persistence, linux_history_tampering]
+- file: ransomware_precursors.jsonl
+  story: Pharmacy workstation runs an encoded PowerShell stager, dumps LSASS, deletes shadow copies.
+  expect: [win_powershell_encoded_command, win_lsass_memory_dump, win_shadow_copy_deletion]
+- file: ehr_insider_snooping.jsonl
+  story: A nurse browses 55 unrelated charts, opens a VIP chart and overrides a restriction with no reason.
+  expect: [ehr_bulk_record_access, ehr_vip_record_snooping, ehr_break_glass_without_reason]
+- file: phi_exfiltration.jsonl
+  story: A billing user uploads a file with SSNs and MRNs to personal cloud storage.
+  expect: [proxy_phi_upload_personal_cloud]
+- file: benign_baseline.jsonl
+  story: Normal admin, clinical and browsing activity that looks like the attacks but isn't.
+  expect: []
