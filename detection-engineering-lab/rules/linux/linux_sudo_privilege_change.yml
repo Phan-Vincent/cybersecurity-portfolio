@@ -1,0 +1,29 @@
+title: User Granted Sudo Rights Or Sudoers Modified
+id: 2642cb8a-5593-4bb9-ad87-5f89f76ce049
+name: linux_sudo_privilege_change
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: A user added to the sudo or wheel group, or /etc/sudoers written outside visudo.
+references:
+  - https://attack.mitre.org/techniques/T1548/003/
+tags:
+  - attack.privilege-escalation
+  - attack.t1548.003
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection_group:
+    CommandLine|re: '(usermod\s.*-[a-zA-Z]*G\s*\S*(sudo|wheel)|gpasswd\s+-a\s+\S+\s+(sudo|wheel))'
+  selection_sudoers_path:
+    CommandLine|contains: '/etc/sudoers'
+  selection_sudoers_write:
+    CommandLine|contains:
+      - '>>'
+      - 'tee '
+      - 'sed -i'
+  condition: selection_group or (selection_sudoers_path and selection_sudoers_write)
+falsepositives:
+  - Onboarding an administrator through a ticketed change (correlate with the change calendar)
+level: high

@@ -1,0 +1,24 @@
+title: Successful SSH Login As Root
+id: 900f8710-4be2-497f-adb1-91e64d16de53
+name: ssh_root_login_success
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Direct root logins should be disabled (PermitRootLogin no); a success means the control is off or bypassed.
+references:
+  - https://attack.mitre.org/techniques/T1078/003/
+tags:
+  - attack.privilege-escalation
+  - attack.t1078.003
+logsource:
+  product: linux
+  service: sshd
+detection:
+  selection:
+    action: login
+    outcome: success
+    user: root
+  condition: selection
+falsepositives:
+  - Break-glass console recovery (should come from the jump host only)
+level: high

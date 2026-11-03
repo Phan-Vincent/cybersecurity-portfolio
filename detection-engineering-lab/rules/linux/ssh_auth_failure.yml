@@ -1,0 +1,18 @@
+title: SSH Authentication Failure
+id: c204eb3a-b1bd-4b3c-be62-d493e5edb1ac
+name: ssh_auth_failure
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Building block for the SSH brute-force correlation. Alone it is noise, so it does not alert.
+logsource:
+  product: linux
+  service: sshd
+detection:
+  selection:
+    action: login
+    outcome: failure
+  condition: selection
+falsepositives:
+  - Mistyped passwords
+level: informational

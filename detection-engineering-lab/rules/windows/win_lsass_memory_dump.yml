@@ -1,0 +1,29 @@
+title: LSASS Memory Dump
+id: 059f0f9a-89a8-443f-b467-a50bdc53e367
+name: win_lsass_memory_dump
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Dumping LSASS process memory with comsvcs.dll MiniDump or Sysinternals ProcDump to harvest credentials.
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+tags:
+  - attack.credential-access
+  - attack.t1003.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_comsvcs:
+    CommandLine|contains|all:
+      - 'comsvcs'
+      - 'MiniDump'
+  selection_procdump:
+    Image|endswith:
+      - '\procdump.exe'
+      - '\procdump64.exe'
+    CommandLine|contains: 'lsass'
+  condition: 1 of selection_*
+falsepositives:
+  - Support engineers capturing a crash dump on request (should be rare and ticketed)
+level: critical

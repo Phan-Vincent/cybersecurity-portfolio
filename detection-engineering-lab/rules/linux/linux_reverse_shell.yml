@@ -1,0 +1,28 @@
+title: Linux Reverse Shell Command Line
+id: a263e17e-6383-43ce-b2de-027b53dbde1d
+name: linux_reverse_shell
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Interactive shells redirected to a network socket, the classic post-exploitation callback.
+references:
+  - https://attack.mitre.org/techniques/T1059/004/
+tags:
+  - attack.execution
+  - attack.t1059.004
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+      - '/dev/tcp/'
+      - '/dev/udp/'
+      - 'nc -e '
+      - 'ncat -e '
+      - 'socat exec:'
+      - 'pty.spawn('
+  condition: selection
+falsepositives:
+  - Bash scripts that health-check a port with /dev/tcp (tune with a filter on the parent)
+level: critical

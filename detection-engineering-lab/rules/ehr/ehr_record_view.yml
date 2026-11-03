@@ -1,0 +1,17 @@
+title: EHR Patient Record Viewed
+id: 87b41d6c-d722-43f7-aa4b-e1a637b491a2
+name: ehr_record_view
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Building block for the bulk-access correlation. Viewing a chart is normal clinical work, so it does not alert.
+logsource:
+  product: ehr
+  service: audit
+detection:
+  selection:
+    action: record_view
+  condition: selection
+falsepositives:
+  - Everyday clinical care
+level: informational
