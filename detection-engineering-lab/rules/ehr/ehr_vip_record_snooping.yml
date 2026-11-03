@@ -1,0 +1,25 @@
+title: EHR VIP Record Opened Without A Care Relationship
+id: 38cfa623-e2f9-4b08-b5f3-eae3aa09fcd7
+name: ehr_vip_record_snooping
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: A chart flagged VIP (celebrity, employee, public figure) opened by someone outside the patient's care team.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+tags:
+  - attack.collection
+  - attack.t1078
+logsource:
+  product: ehr
+  service: audit
+detection:
+  selection:
+    action: record_view
+    patient_flags|contains: 'vip'
+  filter_care_team:
+    care_relationship: true
+  condition: selection and not filter_care_team
+falsepositives:
+  - Covering clinicians not yet added to the care team in the EHR
+level: high

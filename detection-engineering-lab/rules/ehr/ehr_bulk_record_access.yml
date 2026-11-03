@@ -1,0 +1,26 @@
+title: EHR Bulk Patient Record Access
+id: b75dac51-6763-4168-ab5f-228b3b8e7578
+name: ehr_bulk_record_access
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: One account opening 40 or more different patient charts within an hour, a pattern of record snooping or staged exfiltration. HIPAA 164.312(b) requires reviewing this audit activity.
+references:
+  - https://attack.mitre.org/techniques/T1213/
+  - https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html
+tags:
+  - attack.collection
+  - attack.t1213
+correlation:
+  type: value_count
+  rules:
+    - ehr_record_view
+  group-by:
+    - user
+  timespan: 1h
+  condition:
+    gte: 40
+    field: patient_id
+falsepositives:
+  - Census, billing or quality-review roles that legitimately review many charts (tune by role)
+level: high

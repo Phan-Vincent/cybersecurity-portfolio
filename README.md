@@ -16,6 +16,7 @@
 | [nmap-vuln-scanner-wrapper](./nmap-vuln-scanner-wrapper/) | An ethics-first nmap wrapper that parses reconnaissance into structured, prioritized vulnerability intelligence with a `--demo` mode for safe evaluation. |
 | [threat-intel-ioc-extractor](./threat-intel-ioc-extractor/) | A threat-intel pipeline that extracts and validates IOCs from unstructured feeds into STIX-lite bundles and SOC-ready daily briefs. |
 | [phishing-awareness-toolkit](./phishing-awareness-toolkit/) | An offline heuristic email analyzer that scores phishing risk across headers, URLs, and urgency language for triage and awareness training. |
+| [detection-engineering-lab](./detection-engineering-lab/) | Detection-as-code: 13 Sigma rules (with correlations) mapped to ATT&CK, proven against synthetic attacks and a benign near-miss baseline in CI, including EHR snooping and PHI exfiltration detections. |
 
 ### Hardening & Architecture
 
@@ -50,6 +51,7 @@
 | **nmap-vuln-scanner-wrapper** | | | | | Python | | |
 | **threat-intel-ioc-extractor** | | | | | Python | ✅ IOC lifecycle, STIX | |
 | **phishing-awareness-toolkit** | ✅ Heuristic detection, scoring | | | | Python | | |
+| **detection-engineering-lab** | ✅ Sigma rules, correlation, FP tuning | | | ✅ EHR audit, PHI DLP | Python | MITRE mapping | |
 | **clinic-network-segmentation** | | | | ✅ Safeguard crosswalk | | | |
 | **linux-hardening-toolkit** | | | | ✅ CIS, ePHI | Bash | | |
 | **openclaw-home-lab** | ✅ Monitoring, log analysis | ✅ Prompt-injection IR | | ✅ PHI handling | Python / Bash | | |

@@ -1,0 +1,28 @@
+title: PHI Uploaded To Personal Cloud Storage
+id: 257cd182-ba58-4c4e-94c2-90bc3ddd39a4
+name: proxy_phi_upload_personal_cloud
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: An upload to a personal (unsanctioned) cloud storage service where the DLP engine matched patient identifiers.
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+tags:
+  - attack.exfiltration
+  - attack.t1567.002
+logsource:
+  category: proxy
+detection:
+  selection:
+    http_method:
+      - POST
+      - PUT
+    url_category: personal_cloud_storage
+    dlp_match|contains:
+      - 'ssn'
+      - 'mrn'
+      - 'dob'
+  condition: selection
+falsepositives:
+  - None expected; sanctioned storage is categorised separately
+level: critical

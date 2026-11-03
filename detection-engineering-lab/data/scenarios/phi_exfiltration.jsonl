@@ -1,0 +1,1 @@
+{"@timestamp": "2026-10-20T09:00:00Z", "_id": "phi_exfiltration-001", "_logsource": {"category": "proxy"}, "bytes_out": 4812330, "dest_domain": "files.personal-drive.example", "dlp_match": "ssn,mrn,dob", "http_method": "POST", "url_category": "personal_cloud_storage", "user": "billing.mlee"}

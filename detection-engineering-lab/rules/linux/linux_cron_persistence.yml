@@ -1,0 +1,29 @@
+title: Cron Job Created Or Replaced
+id: 3bc1b8c8-1102-495c-b232-a74d38a00b15
+name: linux_cron_persistence
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: A crontab installed or edited from the command line, or a file written into /etc/cron.d. Listing a crontab is ignored.
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+tags:
+  - attack.persistence
+  - attack.t1053.003
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection_crontab:
+    Image|endswith: '/crontab'
+  filter_list:
+    CommandLine|contains: ' -l'
+  selection_cron_dir:
+    CommandLine|contains: '/etc/cron.d/'
+    CommandLine|contains|all:
+      - 'echo'
+      - '>'
+  condition: (selection_crontab and not filter_list) or selection_cron_dir
+falsepositives:
+  - Configuration management installing scheduled jobs (exclude its service account)
+level: medium

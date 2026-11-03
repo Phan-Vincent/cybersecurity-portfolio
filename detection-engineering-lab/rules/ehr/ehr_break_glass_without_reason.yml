@@ -1,0 +1,26 @@
+title: EHR Break-The-Glass Without Justification
+id: 718c999a-ec78-4e5b-9aad-7b977a1653ad
+name: ehr_break_glass_without_reason
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Emergency override of chart restrictions with no justification recorded.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+tags:
+  - attack.defense-evasion
+  - attack.t1078
+logsource:
+  product: ehr
+  service: audit
+detection:
+  selection:
+    action: break_glass
+  reason_missing:
+    justification: null
+  reason_empty:
+    justification: ''
+  condition: selection and 1 of reason_*
+falsepositives:
+  - A true emergency where the clinician documents the reason afterward (follow up within the shift)
+level: high

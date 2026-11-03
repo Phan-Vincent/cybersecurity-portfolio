@@ -1,0 +1,33 @@
+title: Shadow Copies Deleted Or Recovery Disabled
+id: 83856fc8-a319-4733-a531-94c09e1399f6
+name: win_shadow_copy_deletion
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Deleting Volume Shadow Copies or disabling Windows recovery, a step most ransomware takes right before encrypting.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+tags:
+  - attack.impact
+  - attack.t1490
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_vssadmin:
+    Image|endswith: '\vssadmin.exe'
+    CommandLine|contains|all:
+      - 'delete'
+      - 'shadows'
+  selection_wmic:
+    Image|endswith: '\wmic.exe'
+    CommandLine|contains|all:
+      - 'shadowcopy'
+      - 'delete'
+  selection_bcdedit:
+    Image|endswith: '\bcdedit.exe'
+    CommandLine|contains: 'recoveryenabled no'
+  condition: 1 of selection_*
+falsepositives:
+  - Backup software rotating its own snapshots (verify the parent process)
+level: critical

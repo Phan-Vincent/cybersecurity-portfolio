@@ -1,0 +1,26 @@
+title: PowerShell With An Encoded Command
+id: 1855e797-83f7-4e12-af3f-b99905a30acb
+name: win_powershell_encoded_command
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: PowerShell launched with -EncodedCommand or one of its abbreviations, which hides the script from command-line logging.
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  selection_flag:
+    CommandLine|re: '(?i)\s[-/]e(c|n|nc|nco|ncod|ncode|ncoded|ncodedc|ncodedco|ncodedcom|ncodedcomm|ncodedcomma|ncodedcomman|ncodedcommand)?\s+[A-Za-z0-9+/=]{16,}'
+  condition: selection_image and selection_flag
+falsepositives:
+  - Some software deployment and RMM tools encode their scripts (baseline and exclude by parent)
+level: high

@@ -1,0 +1,24 @@
+title: SSH Brute Force From One Source
+id: 3e8d3a21-87be-4bad-82fa-8b164e2ebf76
+name: ssh_bruteforce
+status: test
+author: Vincent Phan
+date: 2026-11-03
+description: Eight or more failed SSH logins from the same source address within five minutes.
+references:
+  - https://attack.mitre.org/techniques/T1110/001/
+tags:
+  - attack.credential-access
+  - attack.t1110.001
+correlation:
+  type: event_count
+  rules:
+    - ssh_auth_failure
+  group-by:
+    - source_ip
+  timespan: 5m
+  condition:
+    gte: 8
+falsepositives:
+  - A misconfigured service account retrying with an old password
+level: high

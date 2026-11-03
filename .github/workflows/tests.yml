@@ -19,6 +19,7 @@ jobs:
           - aws-iam-least-privilege-audit
           - clinic-network-segmentation
           - credential-hygiene-auditor
+          - detection-engineering-lab
           - hipaa-security-rule-gap-assessment
           - nmap-vuln-scanner-wrapper
           - openclaw-home-lab
