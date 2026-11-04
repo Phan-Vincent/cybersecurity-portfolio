@@ -1,0 +1,2 @@
+// LSASS Memory Dump (059f0f9a-89a8-443f-b467-a50bdc53e367)
+from * metadata _id, _index, _version | where CommandLine like "*comsvcs*" and CommandLine like "*MiniDump*" or (ends_with(Image, "\\procdump.exe") or ends_with(Image, "\\procdump64.exe")) and CommandLine like "*lsass*"

@@ -1,0 +1,2 @@
+// PHI Uploaded To Personal Cloud Storage (257cd182-ba58-4c4e-94c2-90bc3ddd39a4)
+from * metadata _id, _index, _version | where (http_method in ("POST", "PUT")) and url_category=="personal_cloud_storage" and (dlp_match like "*ssn*" or dlp_match like "*mrn*" or dlp_match like "*dob*")

@@ -1,0 +1,2 @@
+// Cron Job Created Or Replaced (3bc1b8c8-1102-495c-b232-a74d38a00b15)
+from * metadata _id, _index, _version | where ends_with(Image, "/crontab") and not CommandLine like "* -l*" or CommandLine like "*/etc/cron.d/*" and CommandLine like "*echo*" and CommandLine like "*>*"

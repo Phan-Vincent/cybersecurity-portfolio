@@ -1,0 +1,4 @@
+// SSH Brute Force From One Source (3e8d3a21-87be-4bad-82fa-8b164e2ebf76)
+from * metadata _id, _index, _version | where action=="login" and outcome=="failure"
+| eval timebucket=date_trunc(5minutes, @timestamp) | stats event_count=count() by timebucket, source_ip
+| where event_count >= 8

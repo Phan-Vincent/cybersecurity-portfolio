@@ -1,0 +1,2 @@
+// Successful SSH Login As Root (900f8710-4be2-497f-adb1-91e64d16de53)
+from * metadata _id, _index, _version | where action=="login" and outcome=="success" and user=="root"

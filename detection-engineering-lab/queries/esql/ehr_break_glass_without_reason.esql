@@ -1,0 +1,2 @@
+// EHR Break-The-Glass Without Justification (718c999a-ec78-4e5b-9aad-7b977a1653ad)
+from * metadata _id, _index, _version | where action=="break_glass" and (justification is null or justification=="")

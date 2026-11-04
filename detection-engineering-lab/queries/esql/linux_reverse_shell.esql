@@ -1,0 +1,2 @@
+// Linux Reverse Shell Command Line (a263e17e-6383-43ce-b2de-027b53dbde1d)
+from * metadata _id, _index, _version | where CommandLine like "*/dev/tcp/*" or CommandLine like "*/dev/udp/*" or CommandLine like "*nc -e *" or CommandLine like "*ncat -e *" or CommandLine like "*socat exec:*" or CommandLine like "*pty.spawn(*"

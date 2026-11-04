@@ -1,0 +1,2 @@
+// EHR VIP Record Opened Without A Care Relationship (38cfa623-e2f9-4b08-b5f3-eae3aa09fcd7)
+from * metadata _id, _index, _version | where action=="record_view" and patient_flags like "*vip*" and not care_relationship==true

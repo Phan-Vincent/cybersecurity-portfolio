@@ -1,0 +1,2 @@
+// PowerShell With An Encoded Command (1855e797-83f7-4e12-af3f-b99905a30acb)
+from * metadata _id, _index, _version | where (ends_with(Image, "\\powershell.exe") or ends_with(Image, "\\pwsh.exe")) and (CommandLine like "* -e *" or CommandLine like "* -ec *" or CommandLine like "* -en *" or CommandLine like "* -enc *" or CommandLine like "* -enco*" or CommandLine like "* /e *" or CommandLine like "* /enc *")
