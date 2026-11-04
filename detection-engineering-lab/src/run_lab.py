@@ -26,8 +26,9 @@ RULES = ROOT / "rules"
 DATA = ROOT / "data"
 COVERAGE = ROOT / "docs" / "coverage.md"
 TECHNIQUE = re.compile(r"^attack\.(t\d{4}(?:\.\d{3})?)$")
+# Enterprise tactics as of ATT&CK v20 (Defense Evasion became Stealth and Defense Impairment)
 TACTICS = {"reconnaissance", "resource-development", "initial-access", "execution", "persistence",
-           "privilege-escalation", "defense-evasion", "credential-access", "discovery", "lateral-movement",
+           "privilege-escalation", "stealth", "defense-impairment", "credential-access", "discovery", "lateral-movement",
            "collection", "command-and-control", "exfiltration", "impact"}
 
 

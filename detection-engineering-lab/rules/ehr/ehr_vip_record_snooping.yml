@@ -6,10 +6,10 @@ author: Vincent Phan
 date: 2026-11-03
 description: A chart flagged VIP (celebrity, employee, public figure) opened by someone outside the patient's care team.
 references:
-  - https://attack.mitre.org/techniques/T1078/
+  - https://attack.mitre.org/techniques/T1213/
 tags:
   - attack.collection
-  - attack.t1078
+  - attack.t1213
 logsource:
   product: ehr
   service: audit
