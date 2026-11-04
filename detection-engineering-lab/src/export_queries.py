@@ -39,6 +39,15 @@ def sigma(*args: str) -> str:
     return result.stdout
 
 
+def sort_stanzas(conf: str) -> str:
+    """Order saved searches by title. sigma-cli emits them in directory-listing order,
+    which differs between filesystems, so sorting keeps the export reproducible."""
+    blocks = [b.strip("\n") for b in conf.split("\n\n") if b.strip()]
+    head = [b for b in blocks if b.startswith("[default]")]
+    rest = sorted((b for b in blocks if not b.startswith("[default]")), key=lambda b: b.split("\n", 1)[0])
+    return "\n\n".join(head + rest) + "\n"
+
+
 def build() -> dict[str, str]:
     """Return {relative path: content} for every generated query file."""
     rules = load_rules(RULES)
@@ -47,7 +56,7 @@ def build() -> dict[str, str]:
     with tempfile.TemporaryDirectory() as tmp:
         conf = Path(tmp) / "savedsearches.conf"
         sigma("-t", "splunk", "-f", "savedsearches", "-o", str(conf), str(RULES))
-        out["splunk/savedsearches.conf"] = conf.read_text(encoding="utf-8")
+        out["splunk/savedsearches.conf"] = sort_stanzas(conf.read_text(encoding="utf-8"))
     for rule in sorted(rules, key=lambda r: r.name):
         if rule.level == "informational":
             continue  # building blocks: converted as part of their correlation
