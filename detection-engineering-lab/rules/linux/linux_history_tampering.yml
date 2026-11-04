@@ -8,7 +8,7 @@ description: Commands that wipe or stop recording shell history, which attackers
 references:
   - https://attack.mitre.org/techniques/T1070/003/
 tags:
-  - attack.defense-evasion
+  - attack.stealth
   - attack.t1070.003
 logsource:
   product: linux

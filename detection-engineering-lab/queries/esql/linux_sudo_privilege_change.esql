@@ -1,0 +1,2 @@
+// User Granted Sudo Rights Or Sudoers Modified (2642cb8a-5593-4bb9-ad87-5f89f76ce049)
+from * metadata _id, _index, _version | where (ends_with(Image, "/usermod") or ends_with(Image, "/gpasswd")) and (CommandLine like "* sudo*" or CommandLine like "* wheel*") or CommandLine like "*/etc/sudoers*" and (CommandLine like "*>>*" or CommandLine like "*tee *" or CommandLine like "*sed -i*")

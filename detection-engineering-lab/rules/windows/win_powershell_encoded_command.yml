@@ -19,7 +19,14 @@ detection:
       - '\powershell.exe'
       - '\pwsh.exe'
   selection_flag:
-    CommandLine|re: '(?i)\s[-/]e(c|n|nc|nco|ncod|ncode|ncoded|ncodedc|ncodedco|ncodedcom|ncodedcomm|ncodedcomma|ncodedcomman|ncodedcommand)?\s+[A-Za-z0-9+/=]{16,}'
+    CommandLine|contains:
+      - ' -e '
+      - ' -ec '
+      - ' -en '
+      - ' -enc '
+      - ' -enco'
+      - ' /e '
+      - ' /enc '
   condition: selection_image and selection_flag
 falsepositives:
   - Some software deployment and RMM tools encode their scripts (baseline and exclude by parent)

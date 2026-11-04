@@ -59,3 +59,11 @@ def test_committed_datasets_match_the_generator():
 def test_coverage_doc_is_up_to_date():
     expected = coverage_markdown(RULESET, list(RESULTS.values()))
     assert COVERAGE.read_text(encoding="utf-8") == expected, "run python src/run_lab.py --write-docs"
+
+
+def test_every_alerting_rule_has_exported_siem_queries():
+    """queries/ is produced by sigma-cli (src/export_queries.py, checked in CI)."""
+    conf = (ROOT / "queries" / "splunk" / "savedsearches.conf").read_text(encoding="utf-8")
+    for rule in (r for r in RULESET if r.level != "informational"):
+        assert f"[{rule.title}]" in conf, f"no Splunk saved search for {rule.name}"
+        assert (ROOT / "queries" / "esql" / f"{rule.name}.esql").is_file(), f"no ES|QL query for {rule.name}"

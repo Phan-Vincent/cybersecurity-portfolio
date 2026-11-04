@@ -64,7 +64,7 @@ pip install -r requirements.txt
 python src/run_lab.py                 # run every rule on every scenario; exit 1 on a miss or false positive
 python src/run_lab.py --write-docs    # also regenerate docs/coverage.md
 python data/generate.py               # regenerate the scenario datasets
-pytest -q                             # 94 tests
+pytest -q                             # 95 tests
 ```
 
 Example output:
@@ -76,6 +76,32 @@ Example output:
 ...
 [PASS] benign_baseline.jsonl: 0 alert(s) from 0 rule(s)
 ```
+
+## SIEM Export (official Sigma toolchain)
+
+The rules are also validated and converted with the official
+[sigma-cli](https://github.com/SigmaHQ/sigma-cli) / pySigma toolchain, so they are proven
+outside this lab's own evaluator. CI runs `sigma check` (schema, conditions and ATT&CK
+tags) and regenerates the exports below, failing if the committed copies are stale:
+
+- [`queries/splunk/savedsearches.conf`](queries/splunk/savedsearches.conf): one Splunk
+  saved search per alerting rule; correlations become `bin`/`stats` searches.
+- [`queries/esql/`](queries/esql/): one Elastic ES|QL query per rule.
+
+```bash
+pip install -r requirements-sigma.txt
+sigma check rules/
+python src/export_queries.py          # add --check to verify instead of write
+```
+
+Converting to ES|QL caught a portability bug: two rules first used regular expressions
+with `\s` and `(?i)`, which ES|QL's Lucene-based `rlike` doesn't support and which it
+matches against the whole value. Both were rewritten with `contains`/`endswith`
+modifiers that convert cleanly to every backend, and the scenarios showed identical
+detections before and after. No field-mapping pipeline is applied, so the queries use
+the rules' own field names. Also, ES|QL's `like` is case-sensitive, whereas Sigma
+matching isn't. A deployment would add its SIEM's field mapping and case handling as a
+pySigma pipeline.
 
 ## Project Structure
 
@@ -90,6 +116,7 @@ detection-engineering-lab/
 │   ├── scenarios.yml       # scenario → expected detections
 │   └── scenarios/*.jsonl   # generated events
 ├── docs/coverage.md        # generated ATT&CK coverage and results
+├── queries/                # Splunk and ES|QL exports from sigma-cli
 └── tests/                  # rule schema, evaluator, end-to-end scenario tests
 ```
 

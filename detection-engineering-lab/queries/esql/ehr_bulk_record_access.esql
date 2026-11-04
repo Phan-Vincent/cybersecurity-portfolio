@@ -1,0 +1,4 @@
+// EHR Bulk Patient Record Access (b75dac51-6763-4168-ab5f-228b3b8e7578)
+from * metadata _id, _index, _version | where action=="record_view"
+| eval timebucket=date_trunc(1hours, @timestamp) | stats value_count=count_distinct(patient_id) by timebucket, user
+| where value_count >= 40

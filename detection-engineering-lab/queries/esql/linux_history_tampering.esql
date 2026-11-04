@@ -1,0 +1,2 @@
+// Shell History Cleared Or Disabled (b2eb83e0-525d-4949-b5f4-5160e6c6fe92)
+from * metadata _id, _index, _version | where CommandLine like "*history -c*" or CommandLine like "*unset HISTFILE*" or CommandLine like "*HISTFILE=/dev/null*" or CommandLine like "*rm ~/.bash_history*" or CommandLine like "*rm -f ~/.bash_history*" or CommandLine like "*/dev/null ~/.bash_history*"

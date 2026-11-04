@@ -1,0 +1,2 @@
+// Shadow Copies Deleted Or Recovery Disabled (83856fc8-a319-4733-a531-94c09e1399f6)
+from * metadata _id, _index, _version | where ends_with(Image, "\\vssadmin.exe") and CommandLine like "*delete*" and CommandLine like "*shadows*" or ends_with(Image, "\\wmic.exe") and CommandLine like "*shadowcopy*" and CommandLine like "*delete*" or ends_with(Image, "\\bcdedit.exe") and CommandLine like "*recoveryenabled no*"

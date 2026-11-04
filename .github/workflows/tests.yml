@@ -43,6 +43,24 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+  detection-lab-sigma:
+    # Official Sigma toolchain: schema/ATT&CK validation and SIEM query export
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: detection-engineering-lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install sigma-cli and backends
+        run: pip install -r requirements.txt -r requirements-sigma.txt
+      - name: Validate rules with sigma check
+        run: sigma check --fail-on-issues rules/
+      - name: Exported Splunk and ES|QL queries are up to date
+        run: python src/export_queries.py --check
+
   linux-hardening-toolkit:
     runs-on: ubuntu-latest
     defaults:
